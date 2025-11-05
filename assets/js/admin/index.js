@@ -41,6 +41,20 @@ function mostrarToast(icon, titulo, msj) {
 function cargarFormSmall(metodo) {
 	$.post(metodo, function (data) {
 		$("#modal-small").html(data);
+		// Initialize and show Bootstrap 5 modal
+		const modalElement = document.getElementById('small');
+		if (modalElement) {
+			// Check if modal instance already exists, if so use it, otherwise create new
+			let modalInstance = bootstrap.Modal.getInstance(modalElement);
+			if (!modalInstance) {
+				modalInstance = new bootstrap.Modal(modalElement, {
+					backdrop: true,
+					keyboard: true,
+					focus: true
+				});
+			}
+			modalInstance.show();
+		}
 	}).fail(ajaxErrors);
 }
 

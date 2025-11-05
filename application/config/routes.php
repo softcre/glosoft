@@ -67,3 +67,9 @@ $route[ADMIN_PATH . '/logout']['post'] = 'Index_controller/logout';
 
 // DASHBOARD
 $route[DASHBOARD_PATH]  = 'admin/Dashboard_controller';
+
+// PERFIL DE USUARIO EN SESION
+$route[PERFIL_PATH . '/editarPerfil'] = 'admin/Perfil_controller/frmEditarPerfil';
+$route[PERFIL_PATH . '/frmEditarContrasena'] = 'admin/Perfil_controller/frmEditarContrasena';
+$route[PERFIL_PATH . '/actualizarPerfil'] = 'admin/Perfil_controller/actualizarPerfil';
+$route[PERFIL_PATH . '/actualizarContrasena'] = 'admin/Perfil_controller/actualizarContrasena';

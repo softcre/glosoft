@@ -15,4 +15,14 @@
 </div>
 <!--end::App Wrapper-->
 
+<!--begin::Modal Small-->
+<div class="modal fade" id="small" tabindex="-1" aria-labelledby="smallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" id="modal-small">
+      <!-- Content will be loaded here dynamically -->
+    </div>
+  </div>
+</div>
+<!--end::Modal Small-->
+
 <?php $this->load->view('admin/components/_scripts', ['log' => true]); ?>

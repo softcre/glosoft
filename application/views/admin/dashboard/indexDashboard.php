@@ -36,3 +36,4 @@
 <!--end::App Main-->
 
 <?php $this->load->view('admin/components/footer'); ?>
+<script src="<?= base_url('assets/js/admin/index.js'); ?>"></script>

@@ -35,7 +35,7 @@
                 <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
                 Accediendo...
               </div>
-              <span>Acceder</span>
+              <span><i class="bi bi-box-arrow-in-right me-2"></i>Acceder</span>
             </button>
           </div>
         </form>
