@@ -113,7 +113,10 @@ define('LOGIN_PATH', ADMIN_PATH . '/login');
 //defined('USUARIO_MODEL')        OR define('USUARIO_MODEL', 'Usuario_model');
 define('USUARIOS_MODEL', ADMIN_PATH . '/Usuarios_model');
 define('USUARIOS_TIPO_MODEL', ADMIN_PATH . '/Usuarios_tipo_model');
-
+define('AFILIACIONES_MODEL', ADMIN_PATH . '/Afiliaciones_model');
+define('EMPLEADORES_MODEL', ADMIN_PATH . '/Empleadores_model');
+define('INSPECCIONES_MODEL', ADMIN_PATH . '/Inspecciones_model');
+define('TRABAJADORES_ENCONTRADOS_MODEL', ADMIN_PATH . '/Trabajadores_encontrados_model');
 
 // IMAGEN DEFAULTS
 defined('IMG_DEFAULT_USUARIOS') OR define('IMG_DEFAULT_USUARIOS', 'nofoto.png');
