@@ -100,13 +100,19 @@ defined('ADMIN_PLUGINS')        OR define('ADMIN_PLUGINS', 'assets/admin/plugins
 defined('UPLOADS')              OR define('UPLOADS', 'assets/uploads');
 
 // RUTAS ADMIN
-defined('ADMIN_PATH')           OR define('ADMIN_PATH', 'sc-admin');
+defined('ADMIN_PATH')           OR define('ADMIN_PATH', 'admin');
 defined('DASHBOARD_PATH')       OR define('DASHBOARD_PATH', ADMIN_PATH . '/dashboard');
 defined('PERFIL_PATH')          OR define('PERFIL_PATH', ADMIN_PATH . '/perfil');
 defined('USUARIOS_PATH')        OR define('USUARIOS_PATH', ADMIN_PATH . '/usuarios');
 
+// LOGIN
+define('LOGIN_PATH', ADMIN_PATH . '/login');
+
 // MODEL
-defined('USUARIO_MODEL')        OR define('USUARIO_MODEL', 'Usuario_model');
+//defined('USUARIO_MODEL')        OR define('USUARIO_MODEL', 'Usuario_model');
+define('USUARIOS_MODEL', ADMIN_PATH . '/Usuarios_model');
+define('USUARIOS_TIPO_MODEL', ADMIN_PATH . '/Usuarios_tipo_model');
+
 
 // IMAGEN DEFAULTS
 defined('IMG_DEFAULT_USUARIOS') OR define('IMG_DEFAULT_USUARIOS', 'nofoto.png');

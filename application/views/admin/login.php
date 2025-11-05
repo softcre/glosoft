@@ -10,26 +10,33 @@
 
       <div class="card-body pt-1 login-card-body">
         <p class="login-box-msg py-2">Inicie sesión</p>
-        <form action="../index3.html" method="post">
+        <form id="form_login" action="../index3.html" method="post" onsubmit="login(event)">
           <div class="input-group mb-1">
             <div class="form-floating">
-              <input id="loginEmail" type="email" class="form-control" value="" placeholder="" />
+              <input id="loginEmail" name="email" type="email" class="form-control" value="" placeholder="" />
               <label for="loginEmail">Email</label>
             </div>
             <div class="input-group-text"><span class="bi bi-envelope"></span></div>
           </div>
           <div class="input-group mb-1">
             <div class="form-floating">
-              <input id="loginPassword" type="password" class="form-control" placeholder="" />
-              <label for="loginPassword">Password</label>
+              <input id="loginPassword" name="pass" type="password" class="form-control" placeholder="" />
+              <label for="loginPassword">Contraseña</label>
             </div>
             <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
           </div>
 
           <div class="mt-3 text-center d-grid gap-2">
-            <a href="#" class="btn btn-success">
+          <!--   <a href="#" class="btn btn-success">
               <i class="bi bi-box-arrow-in-right me-2"></i> Acceder
-            </a>
+            </a> -->
+            <button type="submit" id="btnFormLogin" class="btn btn-success" name="button">
+              <div class="d-none">
+                <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
+                Accediendo...
+              </div>
+              <span>Acceder</span>
+            </button>
           </div>
         </form>
         <!-- /.social-auth-links -->

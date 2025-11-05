@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+setlocale(LC_TIME,'spanish');
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -23,7 +24,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME']."/glosoft/";
+// Automatically detect base URL with fallback for REQUEST_SCHEME
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+            (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) 
+            ? 'https' : 'http';
+
+// Use REQUEST_SCHEME if available, otherwise use the detected protocol
+$scheme = isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : $protocol;
+$host = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost';
+
+$config['base_url'] = $scheme."://".$host."/glosoft/";
 
 /*
 |--------------------------------------------------------------------------
@@ -225,7 +235,7 @@ $config['allow_get_array'] = TRUE;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 3;
 
 /*
 |--------------------------------------------------------------------------

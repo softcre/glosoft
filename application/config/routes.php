@@ -55,4 +55,15 @@ $route['translate_uri_dashes'] = FALSE;
 
 
 // DASHBOARD
+//$route[DASHBOARD_PATH]  = 'admin/Dashboard_controller';
+// INDEX
+$route[ADMIN_PATH] = 'Index_controller';
+
+$route[ADMIN_PATH . '/login']['post'] = 'Index_controller/login';
+$route[ADMIN_PATH . '/salir'] = 'Index_controller/frmSalir';
+$route[ADMIN_PATH . '/logout']['post'] = 'Index_controller/logout';
+
+
+
+// DASHBOARD
 $route[DASHBOARD_PATH]  = 'admin/Dashboard_controller';
