@@ -31,11 +31,10 @@ class Usuarios_model extends CI_Model
 
 	public function get($id_usuario)
 	{
-        $this->db->select('u.*, ut.*,me.*');
+        $this->db->select('u.*, ut.*');
         //$this->db->select('u.*, ut.tipo_usuario');
         $this->db->from($this->table . ' u');
         $this->db->join($this->tableUsuariosTipo . ' ut', 'u.usuario_tipo_id = ut.id_tipo_usuario', 'left');
-        $this->db->join($this->tableMedicoEspecialidad . ' me', 'u.medico_especialidad_id = me.id_medico_especialidad', 'left');
         $this->db->where('u.id_usuario', $id_usuario);
 		    return $this->db->get()->row();
 	}
