@@ -28,11 +28,11 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
       crossorigin="anonymous"
     />
-    <link 
+   <!--  <link 
       rel="stylesheet" 
       href="<?= base_url('assets/bootstrap-icons/bootstrap-icons.css'); ?>"
     >
-
+ -->
 
 	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
 	<!-- <link rel="stylesheet" href="<?= base_url(ADMIN_FONTS . '/fontSansPro.css'); ?>">
