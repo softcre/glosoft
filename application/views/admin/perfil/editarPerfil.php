@@ -12,6 +12,9 @@
 					<div class="card-title">Editar Perfil</div>
 				</div>
 				<div class="card-body">
+          <div class="alert alert-warning py-1">
+            <small>Los cambios se verán reflejados en el proximo inicio de sesión</small>
+          </div>
 					<form id="form_editPerfil" enctype="multipart/form-data" name="Perfil" method="post" action="<?=base_url(PERFIL_PATH . '/actualizarPerfil');?>" onsubmit="altaUpdate(event)">
 						<div class="row align-items-center justify-content-center">
 							<div class="col-md-5">
