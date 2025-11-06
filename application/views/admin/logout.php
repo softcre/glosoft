@@ -1,20 +1,18 @@
-<div class="modal-header bg-primary py-2">
+<div class="modal-header text-bg-success py-2">
 	<h5 class="modal-title">Está a punto de salir!</h5>
-	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	</button>
+	<button type="button" id="cerrarModal" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
 <div class="modal-body py-4">
 	A continuación se cerrará la sesión de <strong><?= $_SESSION['apellido'] . ' ' . $_SESSION['nombre']; ?></strong>. ¿Continuar?
 </div>
-<!-- <div class="modal-footer bg-gradient-dark py-1"> -->
-<div class="modal-footer bg-gradient-dark py-1">
-	<button type="button" class="btn bg-gradient-secondary" data-dismiss="modal">
-		<i class="fas fa-times fa-fw"></i>Cerrar
+
+<div class="modal-footer bg-light mt-0 py-1">
+	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+		<i class="bi bi-x-circle me-1"></i>Cerrar
 	</button>
-	<form action="<?= base_url('admin/logout'); ?>" method="POST">
-		<button type="submit" class="btn bg-gradient-primary">
-			<i class="fas fa-sign-out-alt fa-fw"></i> Cerrar sesión
-		</button>
-	</form>
+<form action="<?= base_url(ADMIN_PATH . '/logout'); ?>" method="POST">
+	<button type="submit" class="btn btn-success" name="button">
+		<i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
+	</button>
 </div>

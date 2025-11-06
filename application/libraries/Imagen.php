@@ -3,6 +3,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Imagen
 {
+  /**
+   * Genera la URL pública de una imagen subida.
+   *
+   * Si el archivo no existe o está vacío, devuelve una imagen por defecto.
+   *
+   * @param string $archivo Nombre del archivo (ej. 'imagen1.jpg')
+   * @param string $carpeta Subcarpeta donde se encuentra (ej. 'usuarios')
+   * @param string $por_defecto Imagen por defecto si el archivo no existe
+   * 
+   * @return string URL pública accesible
+   */
+  public function obtener_url($archivo, $tipo = 'usuarios', $por_defecto = IMG_DEFAULT_USUARIOS)
+  {
+    // $ruta = FCPATH . "assets/uploads/{$tipo}/{$archivo}";
+    $ruta = UPLOADS . "/{$tipo}/{$archivo}";
+
+    if (!file_exists($ruta) || empty($archivo)) {
+      $ruta = UPLOADS . "/{$tipo}/{$por_defecto}";
+      return base_url($ruta);
+    }
+
+    return base_url($ruta);
+  }
 
   /**
    * Obtiene la url del archivo indicado

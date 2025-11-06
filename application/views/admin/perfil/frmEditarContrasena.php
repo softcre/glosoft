@@ -57,14 +57,4 @@
 	// $('.modal').on('shown.bs.modal', function() {
 	// 	$('#pass_actual').focus();
 	// });
-
-	const miModal = document.getElementById('large');
-
-	if (miModal) {
-		miModal.addEventListener('shown.bs.modal', function() {
-			setTimeout(function() {
-				document.getElementById('pass_actual').focus();
-			}, 100);
-		});
-	}
 </script>

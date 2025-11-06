@@ -6,7 +6,7 @@
     <a href="./index.html" class="brand-link">
       <!--begin::Brand Image-->
       <img
-        src="<?=base_url(ADMIN_IMG. '/logo-glosoft.png');?>"
+        src="<?=base_url(APP_IMG. '/logo-glosoft.png');?>"
         alt="Logo"
         class="brand-image opacity-75 shadow" />
       <!--end::Brand Image-->

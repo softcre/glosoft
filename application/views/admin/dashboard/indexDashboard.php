@@ -27,7 +27,7 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid text-center">
-      <!-- <img src="<?= base_url(ADMIN_IMG . '/logoSoftcre.jpg') ?>" alt="Logo Principal" class="img-fluid" style="max-height: 500px; background-color: white;"> -->
+      <!-- <img src="<?= base_url(APP_IMG . '/logoSoftcre.jpg') ?>" alt="Logo Principal" class="img-fluid" style="max-height: 500px; background-color: white;"> -->
     </div>
     <!--/. container-fluid -->
   </section>
@@ -36,4 +36,3 @@
 <!--end::App Main-->
 
 <?php $this->load->view('admin/components/footer'); ?>
-<script src="<?= base_url('assets/js/admin/index.js'); ?>"></script>
