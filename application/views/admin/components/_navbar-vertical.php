@@ -29,28 +29,38 @@
         data-accordion="false"
         id="navigation">
         
-        <li class="nav-header">LABELS</li>
+        <li class="nav-header">ETIQUETAS</li>
 
         <li class="nav-item menu-open">
           <a href="#" class="nav-link active">
-            <i class="nav-icon bi bi-clipboard-fill"></i>
+            <!-- <i class="nav-icon bi bi-clipboard-fill"></i> -->
+            <i class="nav-icon bi bi-person-fill-gear"></i>
             <p>
-              Layout Options
-              <span class="nav-badge badge text-bg-secondary me-3">6</span>
+              GESTION DE USUARIOS
+              <span class="nav-badge badge text-bg-secondary me-3"></span>
               <i class="nav-arrow bi bi-chevron-right"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="./layout/unfixed-sidebar.html" class="nav-link active">
-                <i class="nav-icon bi bi-circle"></i>
-                <p>Default Sidebar</p>
+                <!-- <i class="nav-icon bi bi-circle"></i> -->
+                <i class="nav-icon bi bi-person"></i>
+                <p>Inspector</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="./layout/unfixed-sidebar.html" class="nav-link">
-                <i class="nav-icon bi bi-circle"></i>
-                <p>Otra cosa</p>
+                <!-- <i class="nav-icon bi bi-circle"> -->
+                <i class="nav-icon bi bi-person"></i>
+                <p>Verificador</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="./layout/unfixed-sidebar.html" class="nav-link">
+                <!-- <i class="nav-icon bi bi-circle"></i> -->
+                <i class="nav-icon bi bi-person"></i>
+                <p>Liquidador</p>
               </a>
             </li>
           </ul>
