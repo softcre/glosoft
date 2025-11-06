@@ -11,12 +11,12 @@
 
 <div class="modal-footer  bg-gradient py-2 justify-content-center">
 	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-		<i class="fas fa-times fa-fw me-1"></i>Cerrar
+		<i class="fas fa-times fa-fw me-1"><i class="bi bi-x-circle me-1"></i></i>Cancelar
 	</button>
 
 	<form action="<?= base_url('admin/logout'); ?>" method="POST" class="m-0">
 		<button type="submit" class="btn btn-primary">
-			<i class="fas fa-sign-out-alt fa-fw me-1"></i>Cerrar sesión
+			<i class="fas fa-sign-out-alt fa-fw me-1"></i><i class="bi bi-box-arrow-right  me-1"></i>Cerrar sesión
 		</button>
 	</form>
 </div>
