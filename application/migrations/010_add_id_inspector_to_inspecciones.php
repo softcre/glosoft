@@ -7,7 +7,7 @@ class Migration_add_id_inspector_to_inspecciones extends CI_Migration
     {
         // Add required (non-nullable) field for assigned inspector
         $fields = [
-            'id_inspector' => [
+            'inspector_id' => [
                 'type'       => 'BIGINT',
                 'unsigned'   => TRUE,
                 'null'       => FALSE,
@@ -21,7 +21,7 @@ class Migration_add_id_inspector_to_inspecciones extends CI_Migration
         $this->db->query('
             ALTER TABLE `inspecciones`
             ADD CONSTRAINT `fk_inspecciones_inspector`
-            FOREIGN KEY (`id_inspector`)
+            FOREIGN KEY (`inspector_id`)
             REFERENCES `usuarios`(`id_usuario`)
             ON DELETE RESTRICT
             ON UPDATE CASCADE
@@ -32,6 +32,6 @@ class Migration_add_id_inspector_to_inspecciones extends CI_Migration
     {
         // Drop constraint and column
         $this->db->query('ALTER TABLE `inspecciones` DROP FOREIGN KEY `fk_inspecciones_inspector`');
-        $this->dbforge->drop_column('inspecciones', 'id_inspector');
+        $this->dbforge->drop_column('inspecciones', 'inspector_id');
     }
 }
