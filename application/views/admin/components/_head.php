@@ -42,4 +42,6 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="<?= base_url(APP_FAVICON . '/favicon-16x16.png'); ?>">
 	<link rel="stylesheet" href="<?= base_url(ADMIN_CSS . '/template/adminlte.min.css'); ?>">
 	<link rel="stylesheet" href="<?= base_url(ADMIN_CSS . '/index.css'); ?>">
+
+  
 </head>

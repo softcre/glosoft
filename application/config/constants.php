@@ -105,6 +105,7 @@ defined('DASHBOARD_PATH')       or define('DASHBOARD_PATH', ADMIN_PATH . '/dashb
 defined('PERFIL_PATH')          or define('PERFIL_PATH', ADMIN_PATH . '/perfil');
 defined('USUARIOS_PATH')        or define('USUARIOS_PATH', ADMIN_PATH . '/usuarios');
 //define('PERFIL_PATH', ADMIN_PATH . '/perfil');
+define('INSPECTORES_PATH', ADMIN_PATH . '/inspectores');
 
 // LOGIN
 define('LOGIN_PATH', ADMIN_PATH . '/login');

@@ -31,8 +31,10 @@
         
         <li class="nav-header">ETIQUETAS</li>
 
-        <li class="nav-item menu-open">
-          <a href="#" class="nav-link active">
+        <!-- <li class="nav-item menu-open">
+          <a href="#" class="nav-link active"> -->
+        <li class="nav-item has-treeview <?= ($desplegado == 'users') ? 'menu-is-opening menu-open' : ''; ?>">
+          <a href="#" class="nav-link <?= ($desplegado == 'users') ? 'active' : ''; ?>">
             <!-- <i class="nav-icon bi bi-clipboard-fill"></i> -->
             <i class="nav-icon bi bi-person-fill-gear"></i>
             <p>
@@ -43,7 +45,8 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="./layout/unfixed-sidebar.html" class="nav-link active">
+             <!--  <a href="./layout/unfixed-sidebar.html" class="nav-link active"> -->
+                <a href="<?= base_url(INSPECTORES_PATH); ?>" class="nav-link <?= ($act == 'insp') ? 'active' : '' ?>">
                 <!-- <i class="nav-icon bi bi-circle"></i> -->
                 <i class="nav-icon bi bi-person"></i>
                 <p>Inspector</p>

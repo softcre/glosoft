@@ -26,8 +26,17 @@ class Usuarios_model extends CI_Model
 		$this->db->where('u.deleted_at', null);
 		return $this->db->get()->result();
 	}
+  //--------------------------------------------------------------
+	public function get_all_inspectores()
+	{
+		$this->db->from($this->table . ' u');
+    $this->db->join($this->tableUsuariosTipo . ' ut', 'u.usuario_tipo_id = ut.id_tipo_usuario', 'left');
+		$this->db->where('u.usuario_tipo_id', 3);
+		$this->db->where('u.deleted_at', null);
+		return $this->db->get()->result();
+	}
 
-//------------------------------------------------
+  //------------------------------------------------
 
 	public function get($id_usuario)
 	{

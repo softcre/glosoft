@@ -73,3 +73,12 @@ $route[PERFIL_PATH . '/editarPerfil'] = 'admin/Perfil_controller/frmEditarPerfil
 $route[PERFIL_PATH . '/frmEditarContrasena'] = 'admin/Perfil_controller/frmEditarContrasena';
 $route[PERFIL_PATH . '/actualizarPerfil'] = 'admin/Perfil_controller/actualizarPerfil';
 $route[PERFIL_PATH . '/actualizarContrasena'] = 'admin/Perfil_controller/actualizarContrasena';
+
+//CREAR USUARIOS
+$route[INSPECTORES_PATH]  = 'admin/Inspector_controller';
+$route[INSPECTORES_PATH . '/frmNueva']  = 'admin/Inspector_controller/frmNueva';
+$route[INSPECTORES_PATH . '/frmEditar/(:num)']  = 'admin/Inspector_controller/frmEditar/$1';
+$route[INSPECTORES_PATH . '/frmVer/(:num)']  = 'admin/Inspector_controller/frmVer/$1';
+$route[INSPECTORES_PATH . '/crear']  = 'admin/Inspector_controller/crear';
+$route[INSPECTORES_PATH . '/actualizar']  = 'admin/Inspector_controller/actualizar';
+$route[INSPECTORES_PATH . '/eliminar/(:num)']  = 'admin/Inspector_controller/eliminar/$1';
