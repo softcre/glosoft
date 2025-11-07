@@ -33,7 +33,7 @@
           <a href="<?= base_url(PERFIL_PATH . '/editarPerfil') ?>" class="dropdown-item">
             <i class="bi bi-person-fill me-2"></i> Mi Perfil
           </a>
-          <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#large" data-url="<?= base_url(PERFIL_PATH . '/frmEditarContrasena') ?>">
+          <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#small" data-url="<?= base_url(PERFIL_PATH . '/frmEditarContrasena') ?>">
             <i class="bi bi-key-fill me-2"></i> Cambiar contraseña
           </button>
           <div class="dropdown-divider"></div>
