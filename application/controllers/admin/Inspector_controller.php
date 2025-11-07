@@ -42,17 +42,16 @@ class Inspector_controller extends CI_Controller
     verificarConsulAjax();
     //$id_evento_deportivo = $this->session->userdata('id_evento_deportivo');
 
-    $data['title'] = 'AdminGamerSport';
-    $data['act'] = 'admigs';
-    //$data['desplegado'] = 'gestion';
-    $data['desplegado'] = 'gestionAdmin';
+    $data['title'] = 'Inspector';
+    $data['act'] = 'insp';
+    $data['desplegado'] = 'users';
 
   
-     $data['usuarios'] = $this->usuarios->get_all_adminGamer();
+     $data['usuarios'] = $this->usuarios->get_all_inspectores();
 
     
 
-    $this->load->view(ADMIN_GAMERSPORT_PATH . '/frmNuevoAdminGamerSport', $data);
+    $this->load->view(INSPECTORES_PATH . '/frmNuevoInspector', $data);
   }
   //--------------------------------------------------------------
   public function frmEditar($id_usuario)

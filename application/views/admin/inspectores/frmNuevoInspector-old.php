@@ -15,10 +15,10 @@
 </div>
 
 <div class="modal-body">
-	<form id="form_adminGamerSport" name="adminGamerSport" method="post" action="<?= base_url(ADMIN_GAMERSPORT_PATH . '/crear'); ?>" onsubmit="altaUpdate(event)">
-    <input type="hidden" name="idTipoUsuario" value = "6"> <!-- cambiar a tipo usuario administrador -->
+	<form id="form_inspector" name="inspector" method="post" action="<?= base_url(INSPECTORES_PATH . '/crear'); ?>" onsubmit="altaUpdate(event)">
+    <input type="hidden" name="idTipoUsuario" value = "3"> <!-- cambiar a tipo usuario administrador -->
 
-		<?php $this->load->view(ADMIN_GAMERSPORT_PATH . '/_formularioAdminGamerSport'); ?>
+		<?php $this->load->view(INSPECTORES_PATH . '/_formularioInspector'); ?>
 	</form>
 </div>
 
@@ -27,7 +27,7 @@
 		<i class="fas fa-times fa-fw"></i>Cerrar
 	</button>
 
-	<button type="submit" id="btnFormadminGamerSport" form="form_adminGamerSport" class="btn btn-primary" name="button">
+	<button type="submit" id="btnForminspector" form="form_inspector" class="btn btn-primary" name="button">
 		<div class="d-none">
 			<span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
 			Registrando...
