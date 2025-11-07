@@ -30,6 +30,8 @@ class Index_controller extends CI_Controller {
 
     if (isset($_SESSION['usuario_tipo_id']) && $_SESSION['usuario_tipo_id'] == 3) {
 			//redirect(DASHBOARD_MEDICO_PATH);
+			redirect(DASHBOARD_PATH);
+
 		} 
 
     if (isset($_SESSION['usuario_tipo_id']) && $_SESSION['usuario_tipo_id'] == 4) {
@@ -60,7 +62,7 @@ class Index_controller extends CI_Controller {
 			if ($user && password_verify($pass, $user->password)) {
 				
 
-        if ($user->usuario_tipo_id == 2 ) {
+        if ($user->usuario_tipo_id == 2 || $user->usuario_tipo_id == 3 || $user->usuario_tipo_id == 4 || $user->usuario_tipo_id == 5) {
           $dataUser = [
             'id'							=> $user->id_usuario,
             'usuario_tipo_id'	=> $user->usuario_tipo_id,
@@ -80,14 +82,14 @@ class Index_controller extends CI_Controller {
         } 
         if ($user->usuario_tipo_id == 3) {
           //$data['url'] = base_url(DASHBOARD_PATH);
-          $data['url'] = base_url(LISTA_ENTRADAS_PATH);
+          $data['url'] = base_url(DASHBOARD_PATH);
         } 
         if ($user->usuario_tipo_id == 4) {
           //$data['url'] = base_url(DASHBOARD_MEDICO_PATH);
-          $data['url'] = base_url(JUGADORES_MEDICO_PATH);//para que al loguear el medico qeude seleccionada la lista de jugadores
+          $data['url'] = base_url(DASHBOARD_PATH);//para que al loguear el medico qeude seleccionada la lista de jugadores
         } 
         if ($user->usuario_tipo_id == 5) {//CLUB
-          $data['url'] = base_url(EQUIPOSA_PATH);
+          $data['url'] = base_url(DASHBOARD_PATH);
         } 
        
 				//$data['url'] = base_url(DASHBOARD_PATH);
