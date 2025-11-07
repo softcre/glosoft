@@ -53,7 +53,7 @@ class Perfil_controller extends CI_Controller
       ];
 
       if (!empty($_FILES['file']['name'])) {
-        $user['foto'] = $this->imagen->subirImagen('file', 'usuarios', 'no-user.jpg');
+        $user['foto'] = $this->imagen->subirImagen('file', 'usuarios', 'no-user.png');
       }
 
       $resp = $this->usuarios->actualizar($this->session->id, $user); // se hace un update en bd
