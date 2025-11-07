@@ -1,52 +1,89 @@
-<table id="tblInspectores" class="table table-sm table-hover">
+<table id="tblInspectores" class="table table-sm table-hover align-middle">
   <thead>
     <tr class="text-center">
-      <!-- <th scope="col">DNI</th> -->
-      
       <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Nombre</th>
       <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Apellido</th>
-      <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Telefono</th>
+      <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Teléfono</th>
       <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Acciones</th>
     </tr>
   </thead>
+
   <tbody>
-    <?php foreach ($usuarios as $usuario) : ?>
+    <?php foreach ($usuarios as $usuario): ?>
       <tr>
-        
-        <td class="text-center">
-          <?= $usuario->nombre; ?>
-        </td>
-        <td class="text-center">
-          <?= $usuario->apellido; ?>
-        </td>
-        <td class="text-center">
-          <?= $usuario->telefono; ?>
-        </td>
+        <td class="text-center"><?= $usuario->nombre; ?></td>
+        <td class="text-center"><?= $usuario->apellido; ?></td>
+        <td class="text-center"><?= $usuario->telefono; ?></td>
         <td class="text-center">
 
-           <!-- Nuevo Grupo de Botones con Collapse -->
-           <div class="btn-group btn-group-sm">
-            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseButtonsMedico<?= $usuario->id_usuario ?>" aria-expanded="false" aria-controls="collapseButtonsMedico<?= $usuario->id_usuario ?>">
-              <i class="fas fa-cog"></i>
+          <div class="d-inline-flex align-items-center justify-content-center gap-2">
+            <!-- Toggle (horizontal dots for “more”) -->
+            <button
+              class="btn btn-primary btn-sm toggle-more"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseButtonsMedico<?= $usuario->id_usuario ?>"
+              aria-expanded="false"
+              aria-controls="collapseButtonsMedico<?= $usuario->id_usuario ?>">
+              <i class="bi bi-three-dots"></i>
             </button>
-            <div class="collapse" id="collapseButtonsMedico<?= $usuario->id_usuario ?>">
-              <!-- Contenido del Collapse con Botones -->
-              <div class="d-flex">
-                <button type="button" class="btn btn-info btn-sm mr-2" title="Ver" data-toggle="modal" data-target="#small" onclick="cargarFormSmall('<?= base_url(ADMIN_GAMERSPORT_PATH . '/frmVer/' . $usuario->id_usuario); ?>')">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button type="button" class="btn btn-warning btn-sm mr-2" title="Editar" data-toggle="modal" data-target="#small" onclick="cargarFormSmall('<?= base_url(ADMIN_GAMERSPORT_PATH . '/frmEditar/' . $usuario->id_usuario); ?>')">
-                  <i class="fas fa-pen text-white"></i>
-                </button>
+
+            <!-- Collapsible Button Group (inline, horizontal) -->
+            <div class="collapse collapse-horizontal" id="collapseButtonsMedico<?= $usuario->id_usuario ?>">
+              <div class="d-inline-flex align-items-center gap-2 ms-2">
                 
-                <button type="button" class="btn btn-danger btn-sm" title="Eliminar" data-url="<?= base_url(ADMIN_GAMERSPORT_PATH . '/eliminar/' . $usuario->id_usuario); ?>" data-name="<?= $usuario->nombre.' '.$usuario->apellido; ?>" onclick="eliminarAdminGamerSport(this)">
-                  <i class="fas fa-trash-alt"></i>
+                <!-- Ver -->
+                <button
+                  type="button"
+                  class="btn btn-info btn-sm"
+                  title="Ver"
+                  data-bs-toggle="modal"
+                  data-bs-target="#small"
+                  onclick="cargarFormSmall('<?= base_url(INSPECTORES_PATH . '/frmVer/' . $usuario->id_usuario); ?>')">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+
+                <!-- Editar -->
+                <button
+                  type="button"
+                  class="btn btn-warning btn-sm"
+                  title="Editar"
+                  data-bs-toggle="modal"
+                  data-bs-target="#small"
+                  onclick="cargarFormSmall('<?= base_url(INSPECTORES_PATH . '/frmEditar/' . $usuario->id_usuario); ?>')">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+
+                <!-- Eliminar -->
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  title="Eliminar"
+                  data-url="<?= base_url(INSPECTORES_PATH . '/eliminar/' . $usuario->id_usuario); ?>"
+                  data-name="<?= $usuario->nombre . ' ' . $usuario->apellido; ?>"
+                  onclick="eliminarUser(this)">
+                  <i class="bi bi-trash-fill"></i>
                 </button>
               </div>
             </div>
           </div>
+
         </td>
       </tr>
     <?php endforeach; ?>
   </tbody>
 </table>
+
+<style>
+.toggle-more i {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.toggle-more[aria-expanded="true"] i {
+  transform: rotate(90deg);
+}
+.collapse-horizontal {
+  transition: width 0.25s ease;
+}
+</style>

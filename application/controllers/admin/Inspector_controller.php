@@ -62,7 +62,7 @@ class Inspector_controller extends CI_Controller
     $data['usuarios'] = $this->usuarios->get($id_usuario);
     
 
-    $this->load->view(ADMIN_GAMERSPORT_PATH . '/frmEditarAdminGamerSport', $data);
+    $this->load->view(INSPECTORES_PATH . '/frmEditarInspector', $data);
   }
 
 
@@ -76,27 +76,12 @@ class Inspector_controller extends CI_Controller
 
 
 
-    $this->load->view(ADMIN_GAMERSPORT_PATH . '/frmVerAdminGamerSport', $data);
+    $this->load->view(INSPECTORES_PATH . '/frmVerInspector', $data);
   }
 
   
   //--------------------------------------------------------------
-  
-  //--------------------------------------------------------------
-
-//nueva vista de permisos
-  
-
-
-  //--------------------------------------------------------------
-
-
-
-//---------------------------------------------------------------------------------
-//--------------------------------------------------------------
  
-    
-//--------------------------------------------------------------
 
 
   //--------------------------------------------------------------
@@ -109,8 +94,8 @@ class Inspector_controller extends CI_Controller
     //$this->form_validation->set_rules('dni_personal', 'DNI', 'trim|required|min_length[7]|max_length[10]');
     $this->form_validation->set_rules('nombre', 'Nombre', 'required|min_length[3]|trim');
     $this->form_validation->set_rules('apellido', 'Apellido', 'required|min_length[3]|trim');
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email|trim');
-    $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[8]|trim');
+    $this->form_validation->set_rules('user_email', 'Email', 'required|valid_email|trim');
+    $this->form_validation->set_rules('user_pass', 'contraseña', 'required|min_length[8]|trim');
     $this->form_validation->set_rules('telefono', 'Teléfono', 'required|min_length[6]|trim');
 
     
@@ -124,24 +109,24 @@ class Inspector_controller extends CI_Controller
       }
       $pass = $this->input->post('password');
       $url = base_url(ADMIN_PATH);
-      $usuario_gamer = [
+      $usuario_inspector = [
           'usuario_tipo_id' => (int)$id_tipo_usuario,
           //'medico_especialidad_id' => $this->input->post('medico_especialidad_id'),
           'nombre' => $this->input->post('nombre'),
           'apellido' => $this->input->post('apellido'),
           'telefono' => $this->input->post('telefono'),
-          'foto' => 'no-user.jpg',
-          'email' => $this->input->post('email'),
-          'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+          'foto' => 'no-user.png',
+          'email' => $this->input->post('user_email'),
+          'password' => password_hash($this->input->post('user_pass'), PASSWORD_DEFAULT),
           //'matricula_usuario' => $this->input->post('matricula_usuario'),
       ];
 
-      $resp = $this->usuarios->crear($usuario_gamer); // se inserta en bd
+      $resp = $this->usuarios->crear($usuario_inspector); // se inserta en bd
       
       if ($resp) {
         /* se envia mail de confirmación */
         $nuevoUsuario = $this->usuarios->get($resp);// se recupera el nuevo usuario
-        $datosDeEnvio = array(
+        /* $datosDeEnvio = array(
 				'de'      => 'server.email@tresolqa.com',
 				'titulo'  => $nuevoUsuario->nombre.' Bienvenido/a a TresolQA! ',
 				'para'    => $nuevoUsuario->email,
@@ -159,42 +144,26 @@ class Inspector_controller extends CI_Controller
 						</a> 
 					  </span>
 					</footer>",
-			  );
+			  ); */
 
-		    $this->email($datosDeEnvio);//se envia email de confirmacion
+		   // $this->email($datosDeEnvio);//se envia email de confirmacion
       /*  */
         //$id_director_salvado = $this->db->insert_id();
        // $data['url'] = base_url(ADMIN_PATH);
-        $data['selector'] = 'AdminGamerSport';
-        $data['view'] = $this->getAdminGamerSport();
+        $data['selector'] = 'Inspectores';
+        $data['view'] = $this->getInspectores();
 
-        return $this->response->ok('Nuevo Usuario Administrador agregado con Existo!', $data);
+        return $this->response->ok('Nuevo Usuario Inspector agregado con Existo!', $data);
       } else {
 
-        return $this->response->error('Ooops.. error!', 'No se pudo agregar el Usuario Administrador. Intente más tarde!');
+        return $this->response->error('Ooops.. error!', 'No se pudo agregar el Usuario Inspector. Intente más tarde!');
       }
     endif;
 
     return $this->response->error('Ooops.. controle!', $this->form_validation->error_array());
   } // fin de metodo crear
   //--------------------------------------------------------------
-  // Callback function to validate the 'personal_id' field
-  public function validate_personal_id($id_personal,$id_evento_deportivo) {
-      if ($id_personal === '0') {
-          $this->form_validation->set_message('validate_personal_id', 'Ingrese un personal válido.');
-          return false;
-      }
-
-      // Check if the selected $personal_id already exists in your table personal_eventos associated with $id_evento_deportivo
-      $personalExist = $this->personal_eventos->get_by_personal_evento($id_personal,$id_evento_deportivo);
-
-      if ($personalExist) {
-          $this->form_validation->set_message('validate_personal_id', 'El Personal ya se encuentra afectado al evento.');
-          return false;
-      }
-
-      return true;
-  }
+  
   //--------------------------------------------------------------
   public function actualizar()
   {
@@ -204,8 +173,8 @@ class Inspector_controller extends CI_Controller
     // Set validation rules for personal fields
     $this->form_validation->set_rules('nombre', 'Nombre', 'required|min_length[3]|trim');
     $this->form_validation->set_rules('apellido', 'Apellido', 'required|min_length[3]|trim');
-    $this->form_validation->set_rules('email', 'Email', 'required|valid_email|trim');
-    $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[8]|trim');
+    $this->form_validation->set_rules('user_email', 'Email', 'required|valid_email|trim');
+    $this->form_validation->set_rules('user_pass', 'contraseña', 'required|min_length[8]|trim');
     $this->form_validation->set_rules('telefono', 'Teléfono', 'required|min_length[6]|trim');
 
   
@@ -213,30 +182,30 @@ class Inspector_controller extends CI_Controller
     
     if ($this->form_validation->run()) :
       $id_usuario = $this->input->post('idUsuario');
-      $id_tipo_usuario = 6;
-      $usuario_gamer = [
+      $id_tipo_usuario = 3;
+      $usuario_inspector = [
         'usuario_tipo_id' => (int)$id_tipo_usuario,
           //'medico_especialidad_id' => $this->input->post('medico_especialidad_id'),
           'nombre' => $this->input->post('nombre'),
           'apellido' => $this->input->post('apellido'),
           'telefono' => $this->input->post('telefono'),
           //'foto' => 'no-user.jpg',
-          'email' => $this->input->post('email'),
-          'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+          'email' => $this->input->post('user_email'),
+          'password' => password_hash($this->input->post('user_pass'), PASSWORD_DEFAULT),
       ];
 
-      $resp = $this->usuarios->actualizar($id_usuario,$usuario_gamer); // se actualiza en bd
+      $resp = $this->usuarios->actualizar($id_usuario,$usuario_inspector); // se actualiza en bd
 
       if ($resp) {
         //$id_director_salvado = $this->db->insert_id();
        // $data['url'] = base_url(MEDICOS_ADMIN_PATH);
-       $data['selector'] = 'AdminGamerSport';
-       $data['view'] = $this->getAdminGamerSport();
+       $data['selector'] = 'inspectores';
+       $data['view'] = $this->getInspectores();
 
-        return $this->response->ok('Administrador actualizado!', $data);
+        return $this->response->ok('Inspector actualizado!', $data);
       } else {
 
-        return $this->response->error('Ooops.. error!', 'No se pudo modificar el Administrador. Intente más tarde!');
+        return $this->response->error('Ooops.. error!', 'No se pudo modificar el Inspector. Intente más tarde!');
       }
     endif;
 
@@ -251,10 +220,10 @@ class Inspector_controller extends CI_Controller
     $resp = $this->usuarios->actualizar($id_usuario, ['deleted_at' => date('Y-m-d')]);
 
     if ($resp) {
-      return $this->response->ok('Administrador eliminado!');
+      return $this->response->ok('Inspector eliminado!');
     }
 
-    return $this->response->error('Ooops.. error!', 'No se pudo eliminar el Administrador. Intente más tarde!');
+    return $this->response->error('Ooops.. error!', 'No se pudo eliminar el Inspector. Intente más tarde!');
   }
 
   //--------------------------------------------------------------
@@ -293,13 +262,13 @@ class Inspector_controller extends CI_Controller
     return $this->email->send();
   }
   //--------------------------------------------------------------
-  private function getAdminGamerSport()
+  private function getInspectores()
   {
        
-    $data['usuarios'] = $this->usuarios->get_all_adminGamer();
+    $data['usuarios'] = $this->usuarios->get_all_inspectores();
 
 
-    return $this->load->view(ADMIN_GAMERSPORT_PATH . '/_tblAdminGamerSport', $data, TRUE);
+    return $this->load->view(INSPECTORES_PATH . '/_tblInspectores', $data, TRUE);
   }
   ///
   

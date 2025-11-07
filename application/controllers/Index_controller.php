@@ -1,14 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/**
- * @property Usuarios_model $usuarios Optional description
- * @property CI_Form_validation $form_validation Optional description
- * @property CI_Input $input Optional description
- * @property CI_Session $session Optional description
- * @property Imagen $imagen Optional description
- * @property Response $response Optional description
- */
 class Index_controller extends CI_Controller {
   //--------------------------------------------------------------
 	public function __construct()
