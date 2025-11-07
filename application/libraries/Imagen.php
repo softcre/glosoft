@@ -33,7 +33,7 @@ class Imagen
    * @param string $file Nombre archivo
    */
   function getUrlImg($folder, $file) {
-    $filename = 'assets/img/' . $folder . '/' . $file;
+    $filename = 'assets/uploads/' . $folder . '/' . $file;
     
     if (file_exists($filename)) {
       return base_url($filename);
@@ -52,7 +52,7 @@ class Imagen
   {
     $CI = &get_instance();
     $tipos  = array('image/jpeg', 'image/pjpeg', 'image/bmp', 'image/png', 'imagen/x-png');
-    $destino = 'assets/img/' . $carpeta . '/';
+    $destino = 'assets/uploads/' . $carpeta . '/';
 
     if (isset($_FILES[$nombre]['name'])) {
       $mime  =  get_mime_by_extension($_FILES[$nombre]['name']); //obtiene la extension del file
