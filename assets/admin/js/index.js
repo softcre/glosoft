@@ -1,8 +1,12 @@
 const BASE_URL =
-	location.origin +
-	(location.hostname == "localhost" ? "/glosoft/" : "/");
+	location.origin + (location.hostname == "localhost" ? "/glosoft/" : "/");
 
-const CARGANDO_HTML = `<div class="text-center text-primary my-4"><i class="fas fa-spinner fa-pulse fa-3x mb-3"></i><h6><b>Cargando ...</b></h6></div>`;
+const CARGANDO_HTML = `<div class="text-center text-bg-success py-3">
+  <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+	<h6 class="mt-2"><b>Cargando ...</b></h6>
+</div>`;
 
 // DEFINICION DE TOAST (alert)
 const Toast = Swal.mixin({
@@ -38,24 +42,41 @@ function mostrarToast(icon, titulo, msj) {
 	});
 }
 
+//---------------ENCARGADO DE ABRIR CUALQUIER MODAL---------------
+$(".modal").on("show.bs.modal", function (event) {
+	// $(this) es el modal padre que se está abriendo (ej. #small, #large, #xl)
+	const $modalPadre = $(this);
+
+	// Obtiene el ID del modal padre (ej. 'small', 'large', 'xl')
+	const modalId = $modalPadre.attr("id");
+
+	// Genera el selector del contenedor de contenido basado en la convención: #modal- + ID
+	const CONTENT_SELECTOR = `#modal-${modalId}`;
+	const $contentContainer = $(CONTENT_SELECTOR);
+
+	// Obtiene el botón y la URL
+	const button = $(event.relatedTarget);
+	const urlMetodo = button.data("url");
+
+	// Muestra mensaje de cargando.
+	$contentContainer.html(CARGANDO_HTML);
+
+	if (urlMetodo) {
+		$.post(urlMetodo, function (data) {
+			$contentContainer.html(data);
+		}).fail(ajaxErrors);
+	} else {
+		// En caso de error
+		$contentContainer.html(
+			'<div class="alert alert-danger m-0">Error: URL de carga no definida.</div>'
+		);
+	}
+});
+
 //-------------CARGA VISTA MODAL DE FORMULARIO (small)------------
 function cargarFormSmall(metodo) {
 	$.post(metodo, function (data) {
 		$("#modal-small").html(data);
-		// // Initialize and show Bootstrap 5 modal
-		// const modalElement = document.getElementById('small');
-		// if (modalElement) {
-		// 	// Check if modal instance already exists, if so use it, otherwise create new
-		// 	let modalInstance = bootstrap.Modal.getInstance(modalElement);
-		// 	if (!modalInstance) {
-		// 		modalInstance = new bootstrap.Modal(modalElement, {
-		// 			backdrop: true,
-		// 			keyboard: true,
-		// 			focus: true
-		// 		});
-		// 	}
-		// 	modalInstance.show();
-		// }
 	}).fail(ajaxErrors);
 }
 

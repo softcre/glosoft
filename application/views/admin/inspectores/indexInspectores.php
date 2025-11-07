@@ -14,7 +14,7 @@
           class="btn btn-primary" 
           data-bs-toggle="modal" 
           data-bs-target="#small" 
-          onclick="cargarFormSmall('<?= base_url(INSPECTORES_PATH . '/frmNueva') ?>')" 
+          data-url="<?= base_url(INSPECTORES_PATH . '/frmNueva') ?>" 
           title="Nuevo Inspector">
           <!-- <i class="bi bi-plus-circle me-1"> --></i><i class="bi bi-person-fill-add me-1"></i> Agregar Inspector
         </button>

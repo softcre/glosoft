@@ -17,12 +17,32 @@
 
 <!--begin::Modal Small-->
 <div class="modal fade" id="small" tabindex="-1" aria-labelledby="smallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog">
     <div class="modal-content" id="modal-small">
       <!-- Content will be loaded here dynamically -->
     </div>
   </div>
 </div>
 <!--end::Modal Small-->
+
+<!--begin::Modal Large-->
+<div class="modal fade" id="large" tabindex="-1" aria-labelledby="largeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" id="modal-large">
+      <!-- Content will be loaded here dynamically -->
+    </div>
+  </div>
+</div>
+<!--end::Modal Large-->
+
+<!--begin::Modal Extra Large-->
+<div class="modal fade" id="extra-large" tabindex="-1" aria-labelledby="extraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" id="modal-extra-large">
+      <!-- Content will be loaded here dynamically -->
+    </div>
+  </div>
+</div>
+<!--end::Modal Extra Large-->
 
 <?php $this->load->view('admin/components/_scripts', ['log' => true]); ?>
