@@ -63,8 +63,6 @@ $route[ADMIN_PATH . '/login']['post'] = 'Index_controller/login';
 $route[ADMIN_PATH . '/salir'] = 'Index_controller/frmSalir';
 $route[ADMIN_PATH . '/logout']['post'] = 'Index_controller/logout';
 
-
-
 // DASHBOARD
 $route[DASHBOARD_PATH]  = 'admin/Dashboard_controller';
 
@@ -82,3 +80,12 @@ $route[INSPECTORES_PATH . '/frmVer/(:num)']  = 'admin/Inspector_controller/frmVe
 $route[INSPECTORES_PATH . '/crear']  = 'admin/Inspector_controller/crear';
 $route[INSPECTORES_PATH . '/actualizar']  = 'admin/Inspector_controller/actualizar';
 $route[INSPECTORES_PATH . '/eliminar/(:num)']  = 'admin/Inspector_controller/eliminar/$1';
+
+// INSPECCIONES (Actas)
+$route[INSPECCIONES_PATH]  = 'admin/Inspecciones_controller';
+$route[INSPECCIONES_PATH . '/frmNueva']  = 'admin/Inspecciones_controller/frmNueva';
+$route[INSPECCIONES_PATH . '/frmEditar/(:num)']  = 'admin/Inspecciones_controller/frmEditar/$1';
+$route[INSPECCIONES_PATH . '/frmVer/(:num)']  = 'admin/Inspecciones_controller/frmVer/$1';
+$route[INSPECCIONES_PATH . '/crear']  = 'admin/Inspecciones_controller/crear';
+$route[INSPECCIONES_PATH . '/actualizar']  = 'admin/Inspecciones_controller/actualizar';
+$route[INSPECCIONES_PATH . '/eliminar/(:num)']  = 'admin/Inspecciones_controller/eliminar/$1';

@@ -26,7 +26,7 @@ class Inspecciones_model extends CI_Model
         $this->db->from($this->table . ' i');
         $this->db->join($this->tableEstados . ' e', 'i.estado_id = e.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
-        $this->db->where('i.deleted_at', null);
+        // $this->db->where('i.deleted_at', null);
         $this->db->order_by('i.created_at', 'DESC');
         return $this->db->get()->result();
     }

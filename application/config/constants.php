@@ -104,7 +104,7 @@ defined('ADMIN_PATH')           or define('ADMIN_PATH', 'admin');
 defined('DASHBOARD_PATH')       or define('DASHBOARD_PATH', ADMIN_PATH . '/dashboard');
 defined('PERFIL_PATH')          or define('PERFIL_PATH', ADMIN_PATH . '/perfil');
 defined('USUARIOS_PATH')        or define('USUARIOS_PATH', ADMIN_PATH . '/usuarios');
-//define('PERFIL_PATH', ADMIN_PATH . '/perfil');
+defined('INSPECCIONES_PATH')    or define('INSPECCIONES_PATH', ADMIN_PATH . '/inspecciones');
 define('INSPECTORES_PATH', ADMIN_PATH . '/inspectores');
 
 // LOGIN

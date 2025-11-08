@@ -195,6 +195,38 @@ function colorEstadoPago($estado)
   return $color;
 }
 
+/**
+ * Indica el color correspondiente para el estado de la inspeccion
+ * 
+ * @param int $estado_id Estado de la inspeccion
+ * 
+ * @return string Color perteneciente al estado
+ */
+function colorEstadoInspeccion($estado)
+{
+  switch ($estado) {
+    case 'INICIADO':
+      $color = 'text-bg-secondary';
+      break;
+    case 'INSPECCION':
+      $color = 'text-bg-primary';
+      break;
+    case 'VERIFICACION':
+      $color = 'text-bg-warning';
+      break;
+    case 'LIQUIDACION':
+      $color = 'text-bg-success';
+      break;
+    case 'CIERRE':
+      $color = 'text-bg-success';
+      break;
+    default:
+      $color = '';
+      break;
+  }
+  return $color;
+}
+
 function textoEstadoPago($estado)
 {
   switch ($estado) {
