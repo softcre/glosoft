@@ -32,8 +32,8 @@
     </label>
     <input type="email"
            class="form-control"
-           id="email"
-           name="email"
+           id="user_email"
+           name="user_email"
            placeholder="Email"
            value="<?= isset($usuarios->email) ? $usuarios->email : ''; ?>"
            required
@@ -47,8 +47,8 @@
     <div class="input-group">
       <input type="password"
              class="form-control"
-             id="password"
-             name="password"
+             id="user_pass"
+             name="user_pass"
              placeholder="Contraseña"
              value="<?= isset($usuarios->password) ? $usuarios->password : ''; ?>"
              autocomplete="off"
