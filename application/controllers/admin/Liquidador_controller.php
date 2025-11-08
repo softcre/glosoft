@@ -6,7 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property CI_Input $input Optional description
  * @property Response $response Optional description
  */
-class Inspector_controller extends CI_Controller
+class Liquidador_controller extends CI_Controller
 {
   //--------------------------------------------------------------
   public function __construct()
@@ -26,14 +26,14 @@ class Inspector_controller extends CI_Controller
   {
     //unset($_SESSION['arrEquipos']);
     //$id_evento_deportivo = $this->session->userdata('id_evento_deportivo');
-    $data['title'] = 'Inspector';
-    $data['act'] = 'insp';
+    $data['title'] = 'Liquidador';
+    $data['act'] = 'liqu';
     $data['desplegado'] = 'users';
  
-    $data['usuarios'] = $this->usuarios->get_all_inspectores();
+    $data['usuarios'] = $this->usuarios->get_all_liquidadores();
     
 
-    $this->load->view(INSPECTORES_PATH . '/indexInspectores', $data);
+    $this->load->view(LIQUIDADORES_PATH . '/indexLiquidadores', $data);
   }
 
   //--------------------------------------------------------------
@@ -42,16 +42,16 @@ class Inspector_controller extends CI_Controller
     verificarConsulAjax();
     //$id_evento_deportivo = $this->session->userdata('id_evento_deportivo');
 
-    $data['title'] = 'Inspector';
-    $data['act'] = 'insp';
+    $data['title'] = 'Liquidador';
+    $data['act'] = 'liqu';
     $data['desplegado'] = 'users';
 
   
-     $data['usuarios'] = $this->usuarios->get_all_inspectores();
+     $data['usuarios'] = $this->usuarios->get_all_liquidadores();
 
     
 
-    $this->load->view(INSPECTORES_PATH . '/frmNuevoInspector', $data);
+    $this->load->view(LIQUIDADORES_PATH . '/frmNuevoLiquidador', $data);
   }
   //--------------------------------------------------------------
   public function frmEditar($id_usuario)
@@ -62,7 +62,7 @@ class Inspector_controller extends CI_Controller
     $data['usuarios'] = $this->usuarios->get($id_usuario);
     
 
-    $this->load->view(INSPECTORES_PATH . '/frmEditarInspector', $data);
+    $this->load->view(LIQUIDADORES_PATH . '/frmEditarLiquidador', $data);
   }
 
 
@@ -76,7 +76,7 @@ class Inspector_controller extends CI_Controller
 
 
 
-    $this->load->view(INSPECTORES_PATH . '/frmVerInspector', $data);
+    $this->load->view(LIQUIDADORES_PATH . '/frmVerLiquidador', $data);
   }
 
   
@@ -109,7 +109,7 @@ class Inspector_controller extends CI_Controller
       }
       $pass = $this->input->post('password');
       $url = base_url(ADMIN_PATH);
-      $usuario_inspector = [
+      $usuario_liquidador = [
           'usuario_tipo_id' => (int)$id_tipo_usuario,
           //'medico_especialidad_id' => $this->input->post('medico_especialidad_id'),
           'nombre' => $this->input->post('nombre'),
@@ -121,7 +121,7 @@ class Inspector_controller extends CI_Controller
           //'matricula_usuario' => $this->input->post('matricula_usuario'),
       ];
 
-      $resp = $this->usuarios->crear($usuario_inspector); // se inserta en bd
+      $resp = $this->usuarios->crear($usuario_liquidador); // se inserta en bd
       
       if ($resp) {
         /* se envia mail de confirmación */
@@ -150,13 +150,13 @@ class Inspector_controller extends CI_Controller
       /*  */
         //$id_director_salvado = $this->db->insert_id();
        // $data['url'] = base_url(ADMIN_PATH);
-        $data['selector'] = 'Inspectores';
-        $data['view'] = $this->getInspectores();
+        $data['selector'] = 'liquidadores';
+        $data['view'] = $this->getLiquidadores();
 
-        return $this->response->ok('Nuevo Usuario Inspector agregado con Existo!', $data);
+        return $this->response->ok('Nuevo Usuario Liquidador agregado con Existo!', $data);
       } else {
 
-        return $this->response->error('Ooops.. error!', 'No se pudo agregar el Usuario Inspector. Intente más tarde!');
+        return $this->response->error('Ooops.. error!', 'No se pudo agregar el Usuario Liquidador. Intente más tarde!');
       }
     endif;
 
@@ -182,8 +182,8 @@ class Inspector_controller extends CI_Controller
     
     if ($this->form_validation->run()) :
       $id_usuario = $this->input->post('idUsuario');
-      $id_tipo_usuario = 3;
-      $usuario_inspector = [
+      $id_tipo_usuario = 5;
+      $usuario_liquidador = [
         'usuario_tipo_id' => (int)$id_tipo_usuario,
           //'medico_especialidad_id' => $this->input->post('medico_especialidad_id'),
           'nombre' => $this->input->post('nombre'),
@@ -194,18 +194,18 @@ class Inspector_controller extends CI_Controller
           //'password' => password_hash($this->input->post('user_pass'), PASSWORD_DEFAULT),
       ];
 
-      $resp = $this->usuarios->actualizar($id_usuario,$usuario_inspector); // se actualiza en bd
+      $resp = $this->usuarios->actualizar($id_usuario,$usuario_liquidador); // se actualiza en bd
 
       if ($resp) {
         //$id_director_salvado = $this->db->insert_id();
        // $data['url'] = base_url(MEDICOS_ADMIN_PATH);
-       $data['selector'] = 'inspectores';
-       $data['view'] = $this->getInspectores();
+       $data['selector'] = 'liquidadores';
+       $data['view'] = $this->getLiquidadores();
 
-        return $this->response->ok('Inspector actualizado!', $data);
+        return $this->response->ok('Liquidador actualizado!', $data);
       } else {
 
-        return $this->response->error('Ooops.. error!', 'No se pudo modificar el Inspector. Intente más tarde!');
+        return $this->response->error('Ooops.. error!', 'No se pudo modificar el Liquidador. Intente más tarde!');
       }
     endif;
 
@@ -220,10 +220,10 @@ class Inspector_controller extends CI_Controller
     $resp = $this->usuarios->actualizar($id_usuario, ['deleted_at' => date('Y-m-d')]);
 
     if ($resp) {
-      return $this->response->ok('Inspector eliminado!');
+      return $this->response->ok('Liquidador eliminado!');
     }
 
-    return $this->response->error('Ooops.. error!', 'No se pudo eliminar el Inspector. Intente más tarde!');
+    return $this->response->error('Ooops.. error!', 'No se pudo eliminar el Liquidador. Intente más tarde!');
   }
 
   //--------------------------------------------------------------
@@ -262,13 +262,13 @@ class Inspector_controller extends CI_Controller
     return $this->email->send();
   }
   //--------------------------------------------------------------
-  private function getInspectores()
+  private function getLiquidadores()
   {
        
-    $data['usuarios'] = $this->usuarios->get_all_inspectores();
+    $data['usuarios'] = $this->usuarios->get_all_liquidadores();
 
 
-    return $this->load->view(INSPECTORES_PATH . '/_tblInspectores', $data, TRUE);
+    return $this->load->view(LIQUIDADORES_PATH . '/_tblLiquidadores', $data, TRUE);
   }
   ///
   

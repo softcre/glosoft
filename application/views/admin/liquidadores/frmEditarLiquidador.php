@@ -8,7 +8,7 @@
 
 <!-- Modal header -->
 <div class="modal-header bg-primary py-2 text-white">
-  <h5 class="modal-title mb-0">Actualizar Inspector</h5>
+  <h5 class="modal-title mb-0">Actualizar Liquidador</h5>
   <button type="button"
           id="cerrarModal"
           class="btn-close btn-close-white"
@@ -18,15 +18,15 @@
 
 <!-- Modal body -->
 <div class="modal-body">
-  <form id="form_inspector"
-        name="inspector"
+  <form id="form_liquidador"
+        name="liquidador"
         method="post"
-        action="<?= base_url(INSPECTORES_PATH . '/actualizar'); ?>"
+        action="<?= base_url(LIQUIDADORES_PATH . '/actualizar'); ?>"
         onsubmit="altaUpdate(event)">
         
     <input type="hidden" name="idUsuario" value="<?= $usuarios->id_usuario; ?>">
 
-    <?php $this->load->view(INSPECTORES_PATH . '/_formularioEditarInspector'); ?>
+    <?php $this->load->view(LIQUIDADORES_PATH . '/_formularioEditarLiquidador'); ?>
   </form>
 </div>
 
@@ -39,8 +39,8 @@
   </button>
 
   <button type="submit"
-          id="btnForminspector"
-          form="form_inspector"
+          id="btnFormliquidador"
+          form="form_liquidador"
           class="btn btn-primary"
           name="button">
     <div class="d-none">

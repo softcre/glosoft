@@ -8,7 +8,7 @@
 
 <!-- Modal header -->
 <div class="modal-header bg-primary py-2 text-white">
-  <h5 class="modal-title mb-0">Actualizar Inspector</h5>
+  <h5 class="modal-title mb-0">Actualizar Verificador</h5>
   <button type="button"
           id="cerrarModal"
           class="btn-close btn-close-white"
@@ -18,15 +18,15 @@
 
 <!-- Modal body -->
 <div class="modal-body">
-  <form id="form_inspector"
-        name="inspector"
+  <form id="form_verificador"
+        name="verificador"
         method="post"
-        action="<?= base_url(INSPECTORES_PATH . '/actualizar'); ?>"
+        action="<?= base_url(VERIFICADORES_PATH . '/actualizar'); ?>"
         onsubmit="altaUpdate(event)">
         
     <input type="hidden" name="idUsuario" value="<?= $usuarios->id_usuario; ?>">
 
-    <?php $this->load->view(INSPECTORES_PATH . '/_formularioEditarInspector'); ?>
+    <?php $this->load->view(VERIFICADORES_PATH . '/_formularioEditarVerificador'); ?>
   </form>
 </div>
 
@@ -39,8 +39,8 @@
   </button>
 
   <button type="submit"
-          id="btnForminspector"
-          form="form_inspector"
+          id="btnFormverificador"
+          form="form_verificador"
           class="btn btn-primary"
           name="button">
     <div class="d-none">

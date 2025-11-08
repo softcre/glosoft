@@ -106,6 +106,8 @@ defined('PERFIL_PATH')          or define('PERFIL_PATH', ADMIN_PATH . '/perfil')
 defined('USUARIOS_PATH')        or define('USUARIOS_PATH', ADMIN_PATH . '/usuarios');
 defined('INSPECCIONES_PATH')    or define('INSPECCIONES_PATH', ADMIN_PATH . '/inspecciones');
 define('INSPECTORES_PATH', ADMIN_PATH . '/inspectores');
+define('VERIFICADORES_PATH', ADMIN_PATH . '/verificadores');
+define('LIQUIDADORES_PATH', ADMIN_PATH . '/liquidadores');
 
 // LOGIN
 define('LOGIN_PATH', ADMIN_PATH . '/login');

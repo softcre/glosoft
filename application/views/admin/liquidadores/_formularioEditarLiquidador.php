@@ -40,7 +40,7 @@
            autocomplete="off">
   </div>
 
- <!--  <div class="col-md-6">
+  <!-- <div class="col-md-6">
     <label for="password" class="form-label" title="Obligatorio">
       Contraseña <span class="text-danger" title="Obligatorio">*</span>
     </label>

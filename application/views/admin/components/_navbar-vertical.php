@@ -53,14 +53,16 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="./layout/unfixed-sidebar.html" class="nav-link">
+              <!-- <a href="./layout/unfixed-sidebar.html" class="nav-link"> -->
+              <a href="<?= base_url(VERIFICADORES_PATH); ?>" class="nav-link <?= ($act == 'veri') ? 'active' : '' ?>">
                 <!-- <i class="nav-icon bi bi-circle"> -->
                 <i class="nav-icon bi bi-person"></i>
                 <p>Verificador</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="./layout/unfixed-sidebar.html" class="nav-link">
+              <!-- <a href="./layout/unfixed-sidebar.html" class="nav-link"> -->
+                <a href="<?= base_url(LIQUIDADORES_PATH); ?>" class="nav-link <?= ($act == 'liqu') ? 'active' : '' ?>">
                 <!-- <i class="nav-icon bi bi-circle"></i> -->
                 <i class="nav-icon bi bi-person"></i>
                 <p>Liquidador</p>
@@ -68,7 +70,7 @@
             </li>
           </ul>
         </li>
-
+        <br>
         <li class="nav-item has-treeview <?= ($desplegado == 'exp') ? 'menu-is-opening menu-open' : ''; ?>">
           <a href="#" class="nav-link <?= ($desplegado == 'exp') ? 'active' : ''; ?>">
             <!-- <i class="nav-icon bi bi-clipboard-fill"></i> -->

@@ -14,7 +14,7 @@
 </style>
 
 <div class="modal-header text-bg-primary py-2">
-  <h5 class="modal-title">Info Inspector</h5>
+  <h5 class="modal-title">Info Liquidador</h5>
   <button type="button" id="cerrarModal" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 

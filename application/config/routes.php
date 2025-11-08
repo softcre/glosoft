@@ -73,13 +73,32 @@ $route[PERFIL_PATH . '/actualizarPerfil'] = 'admin/Perfil_controller/actualizarP
 $route[PERFIL_PATH . '/actualizarContrasena'] = 'admin/Perfil_controller/actualizarContrasena';
 
 //CREAR USUARIOS
-$route[INSPECTORES_PATH]  = 'admin/Inspector_controller';
-$route[INSPECTORES_PATH . '/frmNueva']  = 'admin/Inspector_controller/frmNueva';
-$route[INSPECTORES_PATH . '/frmEditar/(:num)']  = 'admin/Inspector_controller/frmEditar/$1';
-$route[INSPECTORES_PATH . '/frmVer/(:num)']  = 'admin/Inspector_controller/frmVer/$1';
-$route[INSPECTORES_PATH . '/crear']  = 'admin/Inspector_controller/crear';
-$route[INSPECTORES_PATH . '/actualizar']  = 'admin/Inspector_controller/actualizar';
-$route[INSPECTORES_PATH . '/eliminar/(:num)']  = 'admin/Inspector_controller/eliminar/$1';
+  //INSPECTOR
+  $route[INSPECTORES_PATH]  = 'admin/Inspector_controller';
+  $route[INSPECTORES_PATH . '/frmNueva']  = 'admin/Inspector_controller/frmNueva';
+  $route[INSPECTORES_PATH . '/frmEditar/(:num)']  = 'admin/Inspector_controller/frmEditar/$1';
+  $route[INSPECTORES_PATH . '/frmVer/(:num)']  = 'admin/Inspector_controller/frmVer/$1';
+  $route[INSPECTORES_PATH . '/crear']  = 'admin/Inspector_controller/crear';
+  $route[INSPECTORES_PATH . '/actualizar']  = 'admin/Inspector_controller/actualizar';
+  $route[INSPECTORES_PATH . '/eliminar/(:num)']  = 'admin/Inspector_controller/eliminar/$1';
+
+  //VERIFICADOR
+  $route[VERIFICADORES_PATH]  = 'admin/Verificador_controller';
+  $route[VERIFICADORES_PATH . '/frmNueva']  = 'admin/Verificador_controller/frmNueva';
+  $route[VERIFICADORES_PATH . '/frmEditar/(:num)']  = 'admin/Verificador_controller/frmEditar/$1';
+  $route[VERIFICADORES_PATH . '/frmVer/(:num)']  = 'admin/Verificador_controller/frmVer/$1';
+  $route[VERIFICADORES_PATH . '/crear']  = 'admin/Verificador_controller/crear';
+  $route[VERIFICADORES_PATH . '/actualizar']  = 'admin/Verificador_controller/actualizar';
+  $route[VERIFICADORES_PATH . '/eliminar/(:num)']  = 'admin/Verificador_controller/eliminar/$1';
+
+   //LIQUIDADOR
+  $route[LIQUIDADORES_PATH]  = 'admin/Liquidador_controller';
+  $route[LIQUIDADORES_PATH . '/frmNueva']  = 'admin/Liquidador_controller/frmNueva';
+  $route[LIQUIDADORES_PATH . '/frmEditar/(:num)']  = 'admin/Liquidador_controller/frmEditar/$1';
+  $route[LIQUIDADORES_PATH . '/frmVer/(:num)']  = 'admin/Liquidador_controller/frmVer/$1';
+  $route[LIQUIDADORES_PATH . '/crear']  = 'admin/Liquidador_controller/crear';
+  $route[LIQUIDADORES_PATH . '/actualizar']  = 'admin/Liquidador_controller/actualizar';
+  $route[LIQUIDADORES_PATH . '/eliminar/(:num)']  = 'admin/Liquidador_controller/eliminar/$1';
 
 // INSPECCIONES (Actas)
 $route[INSPECCIONES_PATH]  = 'admin/Inspecciones_controller';
