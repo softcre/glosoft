@@ -5,7 +5,7 @@
 
 <div class="mb-3">
   <label for="ubicacion" class="form-label mb-0" title="Obligatorio">Ubicación <span class="text-danger" title="Obligatorio">*</span></label>
-  <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ingrese la ubicación">
+  <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ingrese la ubicación" value="<?= isset($inspeccion) ? $inspeccion->ubicacion : ''; ?>">
 </div>
 
 <div class="mb-3">
@@ -13,7 +13,7 @@
   <select class="form-select" id="inspector" name="inspector_id">
     <option value="" disabled selected>Seleccione un inspector</option>
     <?php foreach ($inspectores as $ins) : ?>
-      <?php $s = (isset($inspeccion)) ? (($inspeccion->carrera_id == $ins->id_usuario) ? 'selected' : '') : ''; ?>
+      <?php $s = (isset($inspeccion)) ? (($inspeccion->inspector_id == $ins->id_usuario) ? 'selected' : '') : ''; ?>
       <option value="<?= $ins->id_usuario; ?>" <?= $s ?>>
         <?= $ins->apellido . ' ' . $ins->nombre; ?>
       </option>

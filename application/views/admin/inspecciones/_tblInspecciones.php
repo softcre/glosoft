@@ -20,9 +20,13 @@
           </td>
           <td>
             <div class="btn-group btn-group-sm" role="group">
-              <button type="button" class="btn btn-info" title="Ver inspección"><i class="bi bi-eye"></i></button>
-              <button type="button" class="btn btn-warning" title="Editar"><i class="bi bi-pencil"></i></button>
-              <button type="button" class="btn btn-danger" title="Eliminar"><i class="bi bi-trash-fill"></i></button>
+              <button type="button" class="btn btn-info" title="Ver inspección" data-bs-toggle="modal" data-bs-target="#small" data-url="<?= base_url(INSPECCIONES_PATH . '/frmVer/' . $inspeccion->id_inspeccion) ?>">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button type="button" class="btn btn-warning" title="Editar" data-bs-toggle="modal" data-bs-target="#small" data-url="<?= base_url(INSPECCIONES_PATH . '/frmEditar/' . $inspeccion->id_inspeccion) ?>">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <!-- <button type="button" class="btn btn-danger" title="Eliminar"><i class="bi bi-trash-fill"></i></button> -->
             </div>
           </td>
         </tr>

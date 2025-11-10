@@ -40,7 +40,7 @@ class Inspecciones_model extends CI_Model
         $this->db->join($this->tableEstados . ' e', 'i.estado_id = e.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
         $this->db->where('i.id_inspeccion', $id_inspeccion);
-        $this->db->where('i.deleted_at', null);
+        // $this->db->where('i.deleted_at', null);
         return $this->db->get()->row();
     }
 
