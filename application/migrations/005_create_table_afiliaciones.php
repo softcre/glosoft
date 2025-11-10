@@ -99,6 +99,11 @@ class Migration_create_table_afiliaciones extends CI_Migration {
             ],
             'created_at datetime not null default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at' => [
+                'type' => 'DATE',
+                'default' => NULL,
+                'null' => TRUE,
+            ],
         ]);
 
         $this->dbforge->add_key('id_afiliacion', TRUE);

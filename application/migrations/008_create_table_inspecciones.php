@@ -10,12 +10,12 @@ class Migration_create_table_inspecciones extends CI_Migration {
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE,
             ],
-            'numero_acta' => [
+            /* 'numero_acta' => [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
                 'unique' => TRUE,
                 'null' => FALSE,
-            ],
+            ], */
             'fecha_inspeccion' => [
                 'type' => 'DATE',
                 'null' => TRUE,
@@ -78,6 +78,11 @@ class Migration_create_table_inspecciones extends CI_Migration {
             ],
             'created_at datetime not null default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at' => [
+                'type' => 'DATE',
+                'default' => NULL,
+                'null' => TRUE,
+            ],
         ]);
 
         $this->dbforge->add_key('id_inspeccion', TRUE);
@@ -86,9 +91,7 @@ class Migration_create_table_inspecciones extends CI_Migration {
         $this->db->query('ALTER TABLE inspecciones 
                           ADD CONSTRAINT FK_inspeccion_empleador 
                           FOREIGN KEY (empleador_id) REFERENCES empleadores(id_empleador)');
-        $this->db->query('ALTER TABLE inspecciones 
-                          ADD CONSTRAINT FK_inspeccion_estado 
-                          FOREIGN KEY (estado_id) REFERENCES inspecciones_estados(id_estado)');
+       
     }
 
     public function down() {

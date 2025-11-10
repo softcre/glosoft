@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_Create_table_inspecciones_estados extends CI_Migration
+class Migration_Create_table_expedientes_estados extends CI_Migration
 {
     public function up()
     {
@@ -23,10 +23,15 @@ class Migration_Create_table_inspecciones_estados extends CI_Migration
             ],
             'created_at datetime not null default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at' => [
+                'type' => 'DATE',
+                'default' => NULL,
+                'null' => TRUE,
+            ],
         ]);
 
         $this->dbforge->add_key('id_estado', TRUE);
-        $this->dbforge->create_table('inspecciones_estados', TRUE);
+        $this->dbforge->create_table('expedientes_estados', TRUE);
 
        /*  // Insert default statuses
         $data = [
