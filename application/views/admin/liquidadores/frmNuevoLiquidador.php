@@ -36,7 +36,7 @@
   <button type="button"
           class="btn btn-secondary"
           data-bs-dismiss="modal">
-    <i class="fas fa-times fa-fw"></i> Cerrar
+    <i class="bi bi-x-circle me-1"></i> Cerrar
   </button>
 
   <button type="submit"
@@ -48,7 +48,7 @@
       <span class="spinner-grow spinner-grow-sm me-1" role="status" aria-hidden="true"></span>
       Registrando...
     </div>
-    <span><i class="fas fa-save me-2"></i>Registrar</span>
+    <span><i class="bi bi-floppy2-fill me-1"></i>Crear</span>
   </button>
 </div>
 
