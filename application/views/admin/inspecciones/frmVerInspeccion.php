@@ -12,7 +12,7 @@
     <dd class="col-sm-7 text-end"><?= $inspeccion->ubicacion; ?></dd>
 
     <dt class="col-sm-5 fw-bold text-muted">Inspector a Cargo:</dt>
-    <dd class="col-sm-7 text-end"><?= $inspeccion->inspector_apellido . ' ' . $inspeccion->inspector_nombre; ?></dd>
+    <dd class="col-sm-7 text-end"><?= concatenar($inspeccion->inspector_apellido, $inspeccion->inspector_nombre); ?></dd>
   </dl>
 </div>
 

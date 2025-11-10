@@ -153,6 +153,23 @@ function formatearCantidad($cantidad, $decimales = 2)
   }
 }
 
+/**
+ * Concatena dos cadenas de texto (strings) con un separador opcional.
+ *
+ * Esta función es ideal para unir elementos como Nombre y Apellido,
+ * o cualquier par de cadenas donde se necesite un formato de separación específico.
+ *
+ * @param string $texto1 La primera cadena de texto a concatenar (ej. Nombre).
+ * @param string $texto2 La segunda cadena de texto a concatenar (ej. Apellido).
+ * @param string $separador El carácter o cadena que actuará como separador entre $texto1 y $texto2.
+ * Nota: El retorno siempre añade un espacio después del separador,
+ * por lo que el valor por defecto (',') resulta en una separación de ", ".
+ * @return string La cadena resultante de la concatenación, por ejemplo: "Nombre, Apellido".
+ */
+function concatenar($texto1, $texto2, $separador = ',')
+{
+  return "{$texto1}{$separador} {$texto2}";
+}
 
 /**
  * Indica el color correspondiente para el estado de la observacion
