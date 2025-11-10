@@ -5,14 +5,14 @@
 
 <div class="modal-body">
   <dl class="row mb-0 align-items-center">
-    <dt class="col-sm-5 fw-bold text-muted">Número de Acta:</dt>
-    <dd class="col-sm-7 fs-5 text-primary text-end"><?= $inspeccion->numero_acta; ?></dd>
+    <dt class="col-sm-4 fw-bold text-muted">Número de Acta:</dt>
+    <dd class="col-sm-8 fs-5 text-primary text-end"><?= $inspeccion->numero_acta; ?></dd>
 
-    <dt class="col-sm-5 fw-bold text-muted">Ubicación:</dt>
-    <dd class="col-sm-7 text-end"><?= $inspeccion->ubicacion; ?></dd>
+    <dt class="col-sm-4 fw-bold text-muted">Ubicación:</dt>
+    <dd class="col-sm-8 text-end"><?= $inspeccion->ubicacion; ?></dd>
 
-    <dt class="col-sm-5 fw-bold text-muted">Inspector a Cargo:</dt>
-    <dd class="col-sm-7 text-end"><?= concatenar($inspeccion->inspector_apellido, $inspeccion->inspector_nombre); ?></dd>
+    <dt class="col-sm-4 fw-bold text-muted">Inspector a Cargo:</dt>
+    <dd class="col-sm-8 text-end"><?= concatenar($inspeccion->inspector_apellido, $inspeccion->inspector_nombre); ?></dd>
   </dl>
 </div>
 
