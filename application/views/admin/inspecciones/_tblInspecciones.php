@@ -14,7 +14,7 @@
         <tr>
           <td><?= $inspeccion->numero_acta; ?></td>
           <td><?= $inspeccion->ubicacion; ?></td>
-          <td><?= $inspeccion->inspector_apellido . ' ' . $inspeccion->inspector_nombre; ?></td>
+          <td><?= concatenar($inspeccion->inspector_apellido, $inspeccion->inspector_nombre); ?></td>
           <td>
             <span class="badge <?= colorEstadoInspeccion($inspeccion->nombre_estado); ?>"><?= $inspeccion->nombre_estado; ?></span>
           </td>

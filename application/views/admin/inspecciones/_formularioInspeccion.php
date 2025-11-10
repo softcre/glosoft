@@ -15,7 +15,7 @@
     <?php foreach ($inspectores as $ins) : ?>
       <?php $s = (isset($inspeccion)) ? (($inspeccion->inspector_id == $ins->id_usuario) ? 'selected' : '') : ''; ?>
       <option value="<?= $ins->id_usuario; ?>" <?= $s ?>>
-        <?= $ins->apellido . ' ' . $ins->nombre; ?>
+        <?= concatenar($ins->apellido, $ins->nombre); ?>
       </option>
     <?php endforeach; ?>
   </select>
