@@ -5,7 +5,7 @@ class Inspecciones_model extends CI_Model
 {
     private $table;
     private $tableEstados;
-    private $tableUsuarios; // if inspectors are users
+    //private $tableUsuarios; // if inspectors are users
 
     //--------------------------------------------------------------
     public function __construct()
@@ -14,7 +14,7 @@ class Inspecciones_model extends CI_Model
         $this->load->database();
 
         $this->table = 'inspecciones';
-        $this->tableEstados = 'inspecciones_estados';
+        //$this->tableEstados = 'inspecciones_estados';
         $this->tableUsuarios = 'usuarios'; // optional, only if you link inspectors to usuarios
     }
 
@@ -22,10 +22,11 @@ class Inspecciones_model extends CI_Model
     // List all inspections
     public function get_all()
     {
-        $this->db->select('i.*, e.nombre_estado, e.descripcion as estado_descripcion, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
+        //$this->db->select('i.*, e.nombre_estado, e.descripcion as estado_descripcion, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
+        $this->db->select('i.*');
         $this->db->from($this->table . ' i');
-        $this->db->join($this->tableEstados . ' e', 'i.estado_id = e.id_estado', 'left');
-        $this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
+        //$this->db->join($this->tableEstados . ' e', 'i.estado_id = e.id_estado', 'left');
+        //$this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
         // $this->db->where('i.deleted_at', null);
         $this->db->order_by('i.created_at', 'DESC');
         return $this->db->get()->result();
@@ -35,10 +36,11 @@ class Inspecciones_model extends CI_Model
     // Get single inspection by ID
     public function get($id_inspeccion)
     {
-        $this->db->select('i.*, e.nombre_estado, e.descripcion as estado_descripcion, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
+        //$this->db->select('i.*, e.nombre_estado, e.descripcion as estado_descripcion, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
+        $this->db->select('i.*');
         $this->db->from($this->table . ' i');
-        $this->db->join($this->tableEstados . ' e', 'i.estado_id = e.id_estado', 'left');
-        $this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
+        //$this->db->join($this->tableEstados . ' e', 'i.estado_id = e.id_estado', 'left');
+        //$this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
         $this->db->where('i.id_inspeccion', $id_inspeccion);
         // $this->db->where('i.deleted_at', null);
         return $this->db->get()->row();
@@ -46,7 +48,7 @@ class Inspecciones_model extends CI_Model
 
     //--------------------------------------------------------------
     // Get inspections filtered by state
-    public function get_by_estado($estado_id)
+    /* public function get_by_estado($estado_id)
     {
         $this->db->select('i.*, e.nombre_estado, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
         $this->db->from($this->table . ' i');
@@ -56,7 +58,7 @@ class Inspecciones_model extends CI_Model
         $this->db->where('i.deleted_at', null);
         $this->db->order_by('i.created_at', 'DESC');
         return $this->db->get()->result();
-    }
+    } */
 
     //--------------------------------------------------------------
     // Create inspection
@@ -90,18 +92,18 @@ class Inspecciones_model extends CI_Model
 
     //--------------------------------------------------------------
     // Change status by ID
-    public function cambiar_estado($id_inspeccion, $estado_id)
+    /* public function cambiar_estado($id_inspeccion, $estado_id)
     {
         $this->db->where('id_inspeccion', $id_inspeccion);
         return $this->db->update($this->table, [
             'estado_id' => $estado_id,
             'updated_at' => date('Y-m-d H:i:s')
         ]);
-    }
+    } */
 
     //--------------------------------------------------------------
     // Change status by status name
-    public function cambiar_estado_nombre($id_inspeccion, $nombre_estado)
+    /* public function cambiar_estado_nombre($id_inspeccion, $nombre_estado)
     {
         $estado = $this->db
             ->select('id_estado')
@@ -112,11 +114,11 @@ class Inspecciones_model extends CI_Model
         if (!$estado) return false;
 
         return $this->cambiar_estado($id_inspeccion, $estado->id_estado);
-    }
+    } */
 
     //--------------------------------------------------------------
     // List available statuses
-    public function get_estados()
+   /*  public function get_estados()
     {
         return $this->db
             ->select('id_estado, nombre_estado, descripcion')
@@ -124,5 +126,5 @@ class Inspecciones_model extends CI_Model
             ->get($this->tableEstados)
             ->result();
     }
-
+ */
 }
