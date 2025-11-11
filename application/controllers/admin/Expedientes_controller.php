@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
+ * @property Expedientes_model $expedientes Optional description
  * @property Inspecciones_model $inspecciones Optional description
  * @property Usuarios_model $inspectores Optional description
  * @property CI_Form_validation $form_validation Optional description
@@ -10,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @property Imagen $imagen Optional description
  * @property Response $response Optional description
  */
-class Inspecciones_controller extends CI_Controller
+class Expedientes_controller extends CI_Controller
 {
   //--------------------------------------------------------------
   public function __construct()
@@ -19,6 +20,7 @@ class Inspecciones_controller extends CI_Controller
     verificarSesion();
 
     $this->load->model(array(
+      EXPEDIENTES_MODEL => 'expedientes',
       INSPECCIONES_MODEL => 'inspecciones',
       USUARIOS_MODEL => 'inspectores'
     ));
@@ -27,46 +29,46 @@ class Inspecciones_controller extends CI_Controller
   //--------------------------------------------------------------
   public function index()
   {
-    $data['title'] = 'Inspecciones';
-    $data['act'] = 'acta';
+    $data['title'] = 'Expedientes';
+    $data['act'] = 'expe';
     $data['desplegado'] = 'exp';
 
-    $data['inspecciones'] = $this->inspecciones->get_all();
+    $data['expedientes'] = $this->expedientes->get_all();
 
 
-    $this->load->view('admin/inspecciones/indexInspecciones', $data);
+    $this->load->view('admin/expedientes/indexExpedientes', $data);
   }
 
   //--------------------------------------------------------------
-  public function frmNueva()
+  public function frmNuevo()
   {
     verificarConsulAjax();
 
     $data['inspectores'] = $this->inspectores->get_all_inspectores();
 
-    $this->load->view('admin/inspecciones/frmNuevaInspeccion', $data);
+    $this->load->view('admin/expedientes/frmNuevoExpediente', $data);
   }
 
   //--------------------------------------------------------------
-  public function frmEditar($id_inspeccion)
+  public function frmEditar($id_expediente)
   {
     verificarConsulAjax();
 
-    $data['inspeccion'] = $this->inspecciones->get($id_inspeccion);
+    $data['expediente'] = $this->expedientes->get($id_expediente);
     $data['inspectores'] = $this->inspectores->get_all_inspectores();
 
 
-    $this->load->view('admin/inspecciones/frmEditarInspeccion', $data);
+    $this->load->view('admin/expedientes/frmEditarExpediente', $data);
   }
 
   //--------------------------------------------------------------
-  public function frmVer($id_inspeccion)
+  public function frmVer($id_expediente)
   {
     verificarConsulAjax();
 
-    $data['inspeccion'] = $this->inspecciones->get($id_inspeccion);
+    $data['expediente'] = $this->expedientes->get($id_expediente);
 
-    $this->load->view('admin/inspecciones/frmVerInspeccion', $data);
+    $this->load->view('admin/expedientes/frmVerExpediente', $data);
   }
 
   //--------------------------------------------------------------
@@ -74,27 +76,32 @@ class Inspecciones_controller extends CI_Controller
   {
     verificarConsulAjax();
 
-    $this->form_validation->set_rules('numero_acta', 'Número de Acta', 'required|min_length[3]|trim');
     $this->form_validation->set_rules('ubicacion', 'Ubicación', 'required|min_length[3]|trim');
     $this->form_validation->set_rules('inspector_id', 'Inspector', 'required|trim');
 
     if ($this->form_validation->run()) :
-      $inspeccion = [
-        'inspector_id' => $this->input->post('inspector_id'),
-        'numero_acta' => $this->input->post('numero_acta'),
-        'ubicacion' => $this->input->post('ubicacion')
+      $expediente = [
+        'fecha_expediente' => fechaHoraHoy('Y-m-d'),
+        'ubicacion' => $this->input->post('ubicacion'),
+        'inspector_id' => $this->input->post('inspector_id')
       ];
 
-      $resp = $this->inspecciones->crear($inspeccion); // se inserta en bd
+      $expendiente_id = $this->expedientes->crear($expediente); // se inserta en bd
 
-      if ($resp) {
-        $data['selector'] = 'Inspecciones';
-        $data['view'] = $this->getInspecciones();
+      if ($expendiente_id) {
+        //crea la inspeccion
+        $inspeccion = [
+          'ubicacion' => $this->input->post('ubicacion')
+        ];
+        $this->inspecciones->crear($inspeccion);
 
-        return $this->response->ok('Acta de inspección creada!', $data);
+        $data['selector'] = 'Expedientes';
+        $data['view'] = $this->getExpedientes();
+
+        return $this->response->ok('Expediente creado!', $data);
       } else {
 
-        return $this->response->error('Ooops.. error!', 'No se pudo crear el acta de inspección. Intente más tarde!');
+        return $this->response->error('Ooops.. error!', 'No se pudo crear el expediente. Intente más tarde!');
       }
     endif;
 
@@ -107,47 +114,45 @@ class Inspecciones_controller extends CI_Controller
   {
     verificarConsulAjax();
 
-    $this->form_validation->set_rules('numero_acta', 'Número de Acta', 'required|min_length[3]|trim');
     $this->form_validation->set_rules('ubicacion', 'Ubicación', 'required|min_length[3]|trim');
     $this->form_validation->set_rules('inspector_id', 'Inspector', 'required|trim');
 
     if ($this->form_validation->run()) :
-      $id_inspeccion = $this->input->post('id_inspeccion');
-      $inspeccion = [
-        'numero_acta' => $this->input->post('numero_acta'),
+      $id_expediente = $this->input->post('id_expediente');
+      $expediente = [
         'ubicacion' => $this->input->post('ubicacion'),
         'inspector_id' => $this->input->post('inspector_id')
       ];
 
-      $resp = $this->inspecciones->actualizar($id_inspeccion, $inspeccion); // se actualiza en bd
+      $resp = $this->expedientes->actualizar($id_expediente, $expediente); // se actualiza en bd
 
       if ($resp) {
-        $data['selector'] = 'Inspecciones';
-        $data['view'] = $this->getInspecciones();
+        $data['selector'] = 'Expedientes';
+        $data['view'] = $this->getExpedientes();
 
-        return $this->response->ok('Acta de inspección actualizada!', $data);
+        return $this->response->ok('Expediente actualizado!', $data);
       } else {
 
-        return $this->response->error('Ooops.. error!', 'No se pudo modificar el acta de inspección. Intente más tarde!');
+        return $this->response->error('Ooops.. error!', 'No se pudo modificar el expediente. Intente más tarde!');
       }
     endif;
 
     return $this->response->error('Ooops.. controle!', $this->form_validation->error_array());
   } // fin de metodo actualizar
 
-  //--------------------------------------------------------------
-  // public function eliminar($id_inspeccion)
-  // {
-  //   verificarConsulAjax();
+  // --------------------------------------------------------------
+  public function eliminar($id_expediente)
+  {
+    verificarConsulAjax();
 
-  //   $resp = $this->inspecciones->actualizar($id_inspeccion, ['deleted_at' => date('Y-m-d')]);
+    $resp = $this->expedientes->actualizar($id_expediente, ['deleted_at' => date('Y-m-d')]);
 
-  //   if ($resp) {
-  //     return $this->response->ok('Inspector eliminado!');
-  //   }
+    if ($resp) {
+      return $this->response->ok('Expediente eliminado!');
+    }
 
-  //   return $this->response->error('Ooops.. error!', 'No se pudo eliminar el Inspector. Intente más tarde!');
-  // }
+    return $this->response->error('Ooops.. error!', 'No se pudo eliminar el expediente. Intente más tarde!');
+  }
 
   /**
    * 
@@ -156,9 +161,9 @@ class Inspecciones_controller extends CI_Controller
    */
 
   //--------------------------------------------------------------
-  private function getInspecciones()
+  private function getExpedientes()
   {
-    $data['inspecciones'] = $this->inspecciones->get_all();
-    return $this->load->view('admin/inspecciones/_tblInspecciones', $data, TRUE);
+    $data['expedientes'] = $this->expedientes->get_all();
+    return $this->load->view('admin/expedientes/_tblExpedientes', $data, TRUE);
   }
 }

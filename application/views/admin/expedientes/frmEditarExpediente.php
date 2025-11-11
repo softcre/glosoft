@@ -1,12 +1,12 @@
 <div class="modal-header text-bg-success py-2">
-  <h5 class="modal-title">Editar inspección</h5>
+  <h5 class="modal-title">Editar expediente</h5>
   <button type="button" id="cerrarModal" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
-  <form id="form_editarInspeccion" name="Inspeccion" method="post" action="<?= base_url(INSPECCIONES_PATH . '/actualizar'); ?>" onsubmit="altaUpdate(event)">
-    <input type="hidden" name="id_inspeccion" value="<?= $inspeccion->id_inspeccion; ?>">
-    <?php $this->load->view('admin/inspecciones/_formularioInspeccion'); ?>
+  <form id="form_editarExpediente" name="Expediente" method="post" action="<?= base_url(EXPEDIENTES_PATH . '/actualizar'); ?>" onsubmit="altaUpdate(event)">
+    <input type="hidden" name="id_expediente" value="<?= $expediente->id_expediente; ?>">
+    <?php $this->load->view('admin/expedientes/_formularioExpediente'); ?>
   </form>
 </div>
 
@@ -15,7 +15,7 @@
     <i class="bi bi-x-circle me-1"></i>Cerrar
   </button>
 
-  <button type="submit" id="btnFormInspeccion" form="form_editarInspeccion" class="btn btn-success" name="button">
+  <button type="submit" id="btnFormExpediente" form="form_editarExpediente" class="btn btn-success" name="button">
     <div class="d-none">
       <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
       Actualizando...
