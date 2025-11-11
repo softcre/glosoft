@@ -50,13 +50,19 @@
         <!-- === Inspecciones Section (Green Theme) === -->
         <li class="nav-item has-treeview <?= ($desplegado == 'exp') ? 'menu-is-opening menu-open' : ''; ?>" data-menu="exp">
           <a href="#" class="nav-link d-flex justify-content-between align-items-center <?= ($desplegado == 'exp') ? 'active' : ''; ?>">
-            <span><i class="nav-icon bi bi-binoculars-fill me-2"></i> Inspecciones</span>
+            <span><i class="nav-icon bi bi-folder me-2"></i> Expedientes</span>
             <i class="bi bi-chevron-right nav-arrow"></i>
           </a>
           <ul class="nav nav-treeview list-unstyled ps-0">
             <li class="nav-item">
+              <a href="<?= base_url(EXPEDIENTES_PATH); ?>" class="nav-link <?= ($act == 'expe') ? 'active' : ''; ?>">
+                <i class="bi bi-folder2-open me-2"></i> Expedientes
+              </a>
+            </li>
+
+            <li class="nav-item">
               <a href="<?= base_url(INSPECCIONES_PATH); ?>" class="nav-link <?= ($act == 'acta') ? 'active' : ''; ?>">
-                <i class="bi bi-search me-2"></i> Inspecciones
+                <i class="bi bi-binoculars-fill me-2"></i> Inspecciones
               </a>
             </li>
           </ul>

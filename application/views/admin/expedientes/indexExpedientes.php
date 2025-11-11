@@ -2,7 +2,7 @@
 
 <!--begin::App Main-->
 <main class="app-main">
-  <?php $this->load->view('admin/inspecciones/_headerInspecciones'); ?>
+  <?php $this->load->view('admin/expedientes/_headerExpedientes'); ?>
 
   <!-- Main content -->
   <section class="content">
@@ -11,18 +11,18 @@
         class="btn btn-success mb-3"
         data-bs-toggle="modal"
         data-bs-target="#small"
-        data-url="<?= base_url(INSPECCIONES_PATH . '/frmNueva') ?>"
-        title="Nueva Inspección">
-        <i class="bi bi-binoculars-fill me-1"></i> Crear Inspección
+        data-url="<?= base_url(EXPEDIENTES_PATH . '/frmNuevo') ?>"
+        title="Nuevo expediente">
+        <i class="bi bi-binoculars-fill me-1"></i> Crear Expediente
       </button>
 
       <div class="card card-success border-success">
         <div class="card-header">
-          <h3 class="card-title">Listado de Inspecciones</h3>
+          <h3 class="card-title">Listado de Expedientes</h3>
         </div>
         <!-- /.card-header -->
-        <div id="inspecciones-main" class="card-body">
-          <?php $this->load->view('admin/inspecciones/_tblInspecciones'); ?>
+        <div id="expedientes-main" class="card-body">
+          <?php $this->load->view('admin/expedientes/_tblExpedientes'); ?>
         </div>
         <!-- /.card-body -->
       </div>
@@ -35,4 +35,4 @@
 <!--end::App Main-->
 
 <?php $this->load->view('admin/components/footer'); ?>
-<script src="<?= base_url(ADMIN_JS . '/inspecciones.js'); ?>"></script>
+<script src="<?= base_url(ADMIN_JS . '/expedientes.js'); ?>"></script>
