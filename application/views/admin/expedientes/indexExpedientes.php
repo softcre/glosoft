@@ -13,7 +13,7 @@
         data-bs-target="#small"
         data-url="<?= base_url(EXPEDIENTES_PATH . '/frmNuevo') ?>"
         title="Nuevo expediente">
-        <i class="bi bi-binoculars-fill me-1"></i> Crear Expediente
+        <i class="bi bi-folder me-1"></i> Crear Expediente
       </button>
 
       <div class="card card-success border-success">

@@ -80,7 +80,17 @@ class Expedientes_controller extends CI_Controller
     $this->form_validation->set_rules('inspector_id', 'Inspector', 'required|trim');
 
     if ($this->form_validation->run()) :
+      //crea la inspeccion
+      $inspeccion = [
+        'ubicacion' => $this->input->post('ubicacion')
+      ];
+      $inspeccion_id = $this->inspecciones->crear($inspeccion);
+      if (!$inspeccion_id) {
+        return $this->response->error('Ooops.. error!', 'No se pudo crear el expediente. Intente más tarde!');
+      }
+
       $expediente = [
+        'inspeccion_id' => $inspeccion_id,
         'fecha_expediente' => fechaHoraHoy('Y-m-d'),
         'ubicacion' => $this->input->post('ubicacion'),
         'inspector_id' => $this->input->post('inspector_id')
@@ -89,12 +99,6 @@ class Expedientes_controller extends CI_Controller
       $expendiente_id = $this->expedientes->crear($expediente); // se inserta en bd
 
       if ($expendiente_id) {
-        //crea la inspeccion
-        $inspeccion = [
-          'ubicacion' => $this->input->post('ubicacion')
-        ];
-        $this->inspecciones->crear($inspeccion);
-
         $data['selector'] = 'Expedientes';
         $data['view'] = $this->getExpedientes();
 
