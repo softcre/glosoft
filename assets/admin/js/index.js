@@ -320,7 +320,34 @@ function bajaRegistro(e, metodo, titulo, msj) {
 		}
 	});
 }
-
+//----------------CAMBIA EL ESTADO DE UN REGISTRO----------------
+function restauraRegistro(e, metodo, titulo, msj) {
+	Swal.fire({
+		title: "¿" + titulo + "?",
+		text: msj,
+		icon: "question",
+		showCancelButton: true,
+		confirmButtonColor: "#2c9faf",
+		cancelButtonColor: "#d33",
+		confirmButtonText: "Sí!",
+		cancelButtonText: "Cancelar",
+	}).then((result) => {
+		if (result.value) {
+			$.post(
+				metodo,
+				function (data) {
+					if (data.status === "ok") {
+						mostrarToast("success", data.title, data.msj);
+						$(e).closest("tr").fadeOut(1200);
+					} else {
+						mostrarErrors(data.title, data.errors);
+					}
+				},
+				"json"
+			).fail(ajaxErrors);
+		}
+	});
+}
 //----------------CAMBIA EL ESTADO DE UN PAGO HECHO EN PUERTA----------------
 function registrarPago(e, metodo, titulo, msj) {
 	Swal.fire({

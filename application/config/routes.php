@@ -100,6 +100,10 @@ $route[PERFIL_PATH . '/actualizarContrasena'] = 'admin/Perfil_controller/actuali
   $route[LIQUIDADORES_PATH . '/actualizar']  = 'admin/Liquidador_controller/actualizar';
   $route[LIQUIDADORES_PATH . '/eliminar/(:num)']  = 'admin/Liquidador_controller/eliminar/$1';
 
+  //USERS ELIMINADOS
+  $route[USERS_ELIMINADOS_PATH]  = 'admin/User_eliminado_controller';
+  $route[USERS_ELIMINADOS_PATH . '/restaurar/(:num)']  = 'admin/User_eliminado_controller/restaurar/$1';
+
 // EXPEDIENTES
 $route[EXPEDIENTES_PATH]  = 'admin/Expedientes_controller';
 $route[EXPEDIENTES_PATH . '/frmNuevo']  = 'admin/Expedientes_controller/frmNuevo';

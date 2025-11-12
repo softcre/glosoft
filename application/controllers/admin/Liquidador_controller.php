@@ -102,7 +102,7 @@ class Liquidador_controller extends CI_Controller
     if ($this->form_validation->run()) :
 
       //check por mail duplicado
-      $email = $this->input->post('email');
+      $email = $this->input->post('user_email');
       $errorDuplicado = $this->controlDuplicado($email);
       if (!empty($errorDuplicado)) {
         return $this->response->error('Ooops.. controle!', $errorDuplicado);
@@ -273,13 +273,43 @@ class Liquidador_controller extends CI_Controller
   ///
   
   
+//------------------------------------------------------- 
   private function controlDuplicado($email)
   {
       $errorDuplicado = null;
-      $resp = $this->usuarios->get_user_correo($email);
+
+      // if email is null/empty skip lookup and return null (no error)
+      if (empty($email)) {
+          return $errorDuplicado;
+      }
+
+      // normalize
+      $email = trim(strtolower($email));
+
+      // lookup
+      $resp = $this->usuarios->get_user_correo_full($email);
+
       if ($resp) {
-          $errorDuplicado[$email] = 'Este correo electrónico ya está asociado a otra cuenta. Por favor, utiliza una dirección de correo diferente.';
-      } 
+          // Normalize the db email for comparison (in case DB stores mixed case or whitespace)
+          $dbEmail = isset($resp->email) ? trim(strtolower($resp->email)) : '';
+
+          // If they differ (unlikely) still treat as duplicate since query found a row
+          // Check deleted_at variants: null, empty string, or MySQL zero datetime
+          $deletedAt = isset($resp->deleted_at) ? $resp->deleted_at : null;
+          $isDeleted = !(
+              $deletedAt === null ||
+              $deletedAt === '' ||
+              $deletedAt === '0000-00-00' ||
+              $deletedAt === '0000-00-00 00:00:00'
+          );
+
+          if ($isDeleted) {
+              $errorDuplicado[$email] = 'Este correo electrónico pertenece a un usuario eliminado. Debes restaurar la cuenta o usar un correo diferente.';
+          } else {
+              $errorDuplicado[$email] = 'Este correo electrónico ya está asociado a otra cuenta. Por favor, utiliza una dirección de correo diferente.';
+          }
+      }
+
       return $errorDuplicado;
   }
 

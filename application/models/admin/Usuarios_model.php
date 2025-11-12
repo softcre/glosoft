@@ -53,6 +53,15 @@ class Usuarios_model extends CI_Model
 		$this->db->where('u.deleted_at', null);
 		return $this->db->get()->result();
 	}
+  //--------------------------------------------------------------
+  public function get_all_deleted()
+  {
+      $this->db->from($this->table . ' u');
+      $this->db->join($this->tableUsuariosTipo . ' ut', 'u.usuario_tipo_id = ut.id_tipo_usuario', 'left');
+      // Optional: $this->db->where('u.usuario_tipo_id', 5);
+      $this->db->where('u.deleted_at IS NOT NULL', null, false); // only soft-deleted users
+      return $this->db->get()->result();
+  }
   //------------------------------------------------
 
 	public function get($id_usuario)
@@ -69,6 +78,13 @@ class Usuarios_model extends CI_Model
 	{
 		$this->db->where('email', $correo);
 		$this->db->where('deleted_at', null);
+		return $this->db->get($this->table)->row();
+	}
+  //--------------------------------------------------------------
+	public function get_user_correo_full($correo)
+	{
+		$this->db->where('email', $correo);
+		//$this->db->where('deleted_at', null);
 		return $this->db->get($this->table)->row();
 	}
   //--------------------------------------------------------------

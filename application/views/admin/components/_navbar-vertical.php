@@ -29,17 +29,22 @@
           <ul class="nav nav-treeview list-unstyled ps-0">
             <li class="nav-item">
               <a href="<?= base_url(INSPECTORES_PATH); ?>" class="nav-link <?= ($act == 'insp') ? 'active' : ''; ?>">
-                <i class="bi bi-person me-2"></i> Inspector
+               <!--  <i class="bi bi-person me-2"></i> --><i class="bi bi-person-fill me-2"></i> Inspector
               </a>
             </li>
             <li class="nav-item">
               <a href="<?= base_url(VERIFICADORES_PATH); ?>" class="nav-link <?= ($act == 'veri') ? 'active' : ''; ?>">
-                <i class="bi bi-person me-2"></i> Verificador
+                <!--  <i class="bi bi-person me-2"></i> --><i class="bi bi-person-fill me-2"></i> Verificador
               </a>
             </li>
             <li class="nav-item">
               <a href="<?= base_url(LIQUIDADORES_PATH); ?>" class="nav-link <?= ($act == 'liqu') ? 'active' : ''; ?>">
-                <i class="bi bi-person me-2"></i> Liquidador
+                <!--  <i class="bi bi-person me-2"></i> --><i class="bi bi-person-fill me-2"></i> Liquidador
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url(USERS_ELIMINADOS_PATH); ?>" class="nav-link <?= ($act == 'elim') ? 'active' : ''; ?>">
+                <i class="bi bi-person-fill-x me-2"></i>Eliminados
               </a>
             </li>
           </ul>
