@@ -23,7 +23,10 @@ function fechaHoraHoy($format = 'Y-m-d H:i:s')
  */
 function formatearFecha($fecha, $format = 'd/m/Y')
 {
-  return date($format, strtotime($fecha));
+  if ($fecha)
+    return date($format, strtotime($fecha));
+  else
+    return;
 }
 
 /**
