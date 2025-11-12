@@ -446,3 +446,54 @@ function textoEstadoTorneo($tipo)
   }
   return $texto;
 }
+
+function colorTiposusuario($tipo)
+{
+    if ($tipo === null || $tipo === '') {
+        return 'badge bg-secondary';
+    }
+
+    switch (strtolower($tipo)) {
+        case 'superadmin':
+            $color = 'badge bg-warning text-dark';
+            break;
+        case 'admin':
+            $color = 'badge bg-info text-dark';
+            break;
+        case 'inspector':
+            $color = 'badge bg-success';
+            break;
+        case 'verificador':
+            $color = 'badge bg-secondary';
+            break;
+        case 'liquidador':
+            $color = 'badge bg-warning text-dark';
+            break;
+        default:
+            $color = 'badge bg-secondary';
+            break;
+    }
+    return $color;
+}
+
+function textoTipoUsuario($tipo)
+{
+    if ($tipo === null || $tipo === '') {
+        return 'SIN ROL';
+    }
+
+    switch (strtolower($tipo)) {
+        case 'superadmin':
+            return 'SUPERADMIN';
+        case 'admin':
+            return 'ADMIN';
+        case 'inspector':
+            return 'INSPECTOR';
+        case 'verificador':
+            return 'VERIFICADOR';
+        case 'liquidador':
+            return 'LIQUIDADOR';
+        default:
+            return strtoupper($tipo);
+    }
+}

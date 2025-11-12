@@ -4,6 +4,7 @@
       <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Nombre</th>
       <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Apellido</th>
       <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Teléfono</th>
+      <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Rol</th>
       <th class="border-bottom border-primary bg-secondary text-light text-center" scope="col">Acciones</th>
     </tr>
   </thead>
@@ -14,6 +15,9 @@
         <td class="text-center"><?= $usuario->nombre; ?></td>
         <td class="text-center"><?= $usuario->apellido; ?></td>
         <td class="text-center"><?= $usuario->telefono; ?></td>
+        <td class="text-center">
+          <p class="m-0"><span class="badge <?= colorTiposusuario($usuario->tipo_usuario); ?>"><?= textoTipoUsuario($usuario->tipo_usuario); ?></span></p>
+        </td>
         <td class="text-center">
 
           <div class="d-inline-flex align-items-center justify-content-center gap-2">

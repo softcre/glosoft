@@ -44,7 +44,7 @@
             </li>
             <li class="nav-item">
               <a href="<?= base_url(USERS_ELIMINADOS_PATH); ?>" class="nav-link <?= ($act == 'elim') ? 'active' : ''; ?>">
-                <i class="bi bi-person-fill-x me-2"></i>Eliminado
+                <i class="bi bi-person-fill-x me-2"></i>Eliminados
               </a>
             </li>
           </ul>
