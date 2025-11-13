@@ -9,17 +9,17 @@ PD: sacar "!" de los isset una vez que el get traiga datos del empleador
 -->
 <input type="hidden" name="empleador_id" value="<?= !isset($inspeccion) ? $inspeccion->empleador_id : ''; ?>">
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-4 mb-2">
     <label for="empleador_cuit" class="form-label mb-0">CUIT</label>
     <input type="text" class="form-control" id="empleador_cuit" name="empleador_cuit" placeholder="Ingrese el cuit" value="<?= !isset($inspeccion) ? $inspeccion->cuit : ''; ?>">
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-4 mb-2">
     <label for="empleador_razon_social" class="form-label mb-0">Razón social</label>
     <input type="text" class="form-control" id="empleador_razon_social" name="empleador_razon_social" value="<?= !isset($inspeccion) ? $inspeccion->razon_social : ''; ?>" readonly>
   </div>
 
-  <div class="col-md-2">
+  <div class="col-md-2 mb-2">
     <button type="button" class="btn btn-primary">Agregar</button>
   </div>
 </div>

@@ -16,6 +16,11 @@
           <form id="form_editarInspeccion" name="Inspeccion" method="post" action="<?= base_url(INSPECCIONES_PATH . '/actualizar'); ?>" onsubmit="altaUpdate(event)">
             <input type="hidden" name="id_inspeccion" value="<?= $inspeccion->id_inspeccion; ?>">
             <?php $this->load->view('admin/inspecciones/_formularioMainInspeccion'); ?>
+
+            <div class="text-end mt-2">
+              <button type="submit" class="btn btn-primary" name="btnGuardar">Guardar</button>
+              <button type="submit" class="btn btn-success" name="btnVerificar">Enviar a verificar</button>
+            </div>
           </form>
         </div>
         <!-- /.card-body -->

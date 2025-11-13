@@ -33,7 +33,7 @@ class Trabajadores_encontrados_model extends CI_Model
     // Obtener trabajadores por ID de inspección
     public function get_by_inspeccion($id_inspeccion)
     {
-        $this->db->select('t.*, a.numero_acta, a.fecha_acta');
+        $this->db->select('t.*, a.actividad, a.oficio');
         $this->db->from($this->table . ' t');
         $this->db->join($this->tableAfiliaciones . ' a', 't.afiliacion_id = a.id_afiliacion', 'left');
         $this->db->where('t.inspeccion_id', $id_inspeccion);

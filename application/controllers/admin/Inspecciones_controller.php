@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * @property Inspecciones_model $inspecciones Optional description
+ * @property Trabajadores_encontrados_model $empleados Optional description
  * @property Usuarios_model $inspectores Optional description
  * @property CI_Form_validation $form_validation Optional description
  * @property CI_Input $input Optional description
@@ -20,6 +21,7 @@ class Inspecciones_controller extends CI_Controller
 
     $this->load->model(array(
       INSPECCIONES_MODEL => 'inspecciones',
+      TRABAJADORES_ENCONTRADOS_MODEL => 'empleados',
       USUARIOS_MODEL => 'inspectores'
     ));
   }
@@ -55,6 +57,7 @@ class Inspecciones_controller extends CI_Controller
     $data['desplegado'] = 'exp';
 
     $data['inspeccion'] = $this->inspecciones->get($id_inspeccion);
+    $data['empleados'] = $this->empleados->get_by_inspeccion($id_inspeccion);
 
 
     $this->load->view('admin/inspecciones/indexEditarInspeccion', $data);
