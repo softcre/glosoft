@@ -23,7 +23,10 @@
               <button type="button" class="btn btn-info" title="Ver inspeccion" data-bs-toggle="modal" data-bs-target="#small" data-url="<?= base_url(INSPECCIONES_PATH . '/frmVer/' . $inspeccion->id_inspeccion) ?>">
                 <i class="bi bi-eye"></i>
               </button>
-              <a href="<?= base_url(INSPECCIONES_PATH . '/edicion/' . $inspeccion->id_inspeccion) ?>" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+              <a href="<?= base_url(INSPECCIONES_PATH . '/edicion/' . $inspeccion->id_inspeccion) ?>" class="btn btn-warning"><i class="bi bi-pencil" title="Editar"></i></a>
+              <a class="btn btn-outline-danger btn-sm" href="<?= base_url(INSPECCIONES_PATH . '/pdf_ver/' . $inspeccion->id_inspeccion); ?>" target="_blank" title="Acta en PDF">
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+              </a>
               <button type="button" class="btn btn-danger" title="Eliminar" data-url="<?= base_url(INSPECCIONES_PATH . '/eliminar/' . $inspeccion->id_inspeccion) ?>" data-name="<?= $inspeccion->id_inspeccion; ?>" onclick="eliminar(this)">
                 <i class="bi bi-trash-fill"></i>
               </button>

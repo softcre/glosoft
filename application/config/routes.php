@@ -121,3 +121,4 @@ $route[INSPECCIONES_PATH . '/frmVer/(:num)']  = 'admin/Inspecciones_controller/f
 // $route[INSPECCIONES_PATH . '/crear']  = 'admin/Inspecciones_controller/crear';
 $route[INSPECCIONES_PATH . '/actualizar']  = 'admin/Inspecciones_controller/actualizar';
 $route[INSPECCIONES_PATH . '/eliminar/(:num)']  = 'admin/Inspecciones_controller/eliminar/$1';
+$route[INSPECCIONES_PATH . '/pdf_ver/(:num)'] = 'Pdf_inspeccion_controller/pdf_ver/$1';
