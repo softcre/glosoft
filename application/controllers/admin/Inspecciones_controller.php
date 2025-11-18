@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
+ * @property Afiliaciones_model $afiliaciones Optional description
  * @property Inspecciones_model $inspecciones Optional description
  * @property Trabajadores_encontrados_model $empleados Optional description
  * @property Usuarios_model $inspectores Optional description
@@ -20,6 +21,7 @@ class Inspecciones_controller extends CI_Controller
     verificarSesion();
 
     $this->load->model(array(
+      AFILIACIONES_MODEL => 'afiliaciones',
       INSPECCIONES_MODEL => 'inspecciones',
       TRABAJADORES_ENCONTRADOS_MODEL => 'empleados',
       USUARIOS_MODEL => 'inspectores'
@@ -40,13 +42,34 @@ class Inspecciones_controller extends CI_Controller
   }
 
   //--------------------------------------------------------------
-  public function frmNuevo()
+  public function searchAfiliacion()
+  {
+    verificarConsulAjax();
+    $inspeccion_id = $this->input->post('inspeccion_id');
+    $dni = $this->input->post('dni');
+    $afiliacion = $this->afiliaciones->get_by_dni($dni);
+    $dataView['inspeccion_id'] = $inspeccion_id;
+    $data['isAfiliado'] = false;
+    $data['msj'] = 'No se encuentra afiliado el trabajador con dni: ' . $dni;
+    $data['dni'] = $dni;
+
+    if ($afiliacion) {
+      $dataView['afiliacion'] = $afiliacion;
+      $data['isAfiliado'] = true;
+    }
+
+    $data['view'] = $this->load->view('admin/inspecciones/_formularioAfiliacion', $dataView, true);
+    return $this->response->ok('Revision!', $data);
+  }
+
+  //--------------------------------------------------------------
+  public function frmNuevaAfiliacion($inspeccion_id)
   {
     verificarConsulAjax();
 
-    $data['inspectores'] = $this->inspectores->get_all_inspectores();
+    $data['inspeccion_id'] = $inspeccion_id;
 
-    $this->load->view('admin/inspecciones/frmNuevaInspeccion', $data);
+    $this->load->view('admin/inspecciones/frmNuevaAfiliacion', $data);
   }
 
   //--------------------------------------------------------------

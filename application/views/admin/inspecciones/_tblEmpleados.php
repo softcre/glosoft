@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12 text-end mb-1">
-    <button type="button" class="btn btn-primary btn-sm"><i class="bi bi-person-add me-1"></i>Agregar</button>
+    <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#large" data-url="<?= base_url(INSPECCIONES_PATH . '/frmNuevaAfiliacion/' . $inspeccion->id_inspeccion) ?>"><i class="bi bi-person-add me-1"></i>Agregar</button>
   </div>
 </div>
 

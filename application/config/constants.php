@@ -106,6 +106,7 @@ defined('PERFIL_PATH')          or define('PERFIL_PATH', ADMIN_PATH . '/perfil')
 defined('USUARIOS_PATH')        or define('USUARIOS_PATH', ADMIN_PATH . '/usuarios');
 defined('EXPEDIENTES_PATH')     or define('EXPEDIENTES_PATH', ADMIN_PATH . '/expedientes');
 defined('INSPECCIONES_PATH')    or define('INSPECCIONES_PATH', ADMIN_PATH . '/inspecciones');
+defined('AFILIACIONES_PATH')       or define('AFILIACIONES_PATH', ADMIN_PATH . '/afiliados');
 define('INSPECTORES_PATH', ADMIN_PATH . '/inspectores');
 define('VERIFICADORES_PATH', ADMIN_PATH . '/verificadores');
 define('LIQUIDADORES_PATH', ADMIN_PATH . '/liquidadores');

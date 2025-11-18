@@ -34,6 +34,14 @@ class Afiliaciones_model extends CI_Model
     }
 
     //--------------------------------------------------------------
+    public function get_by_dni($dni)
+    {
+        $this->db->where('nro_doc', $dni);
+        $this->db->where('deleted_at', null);
+        return $this->db->get($this->table)->row();
+    }
+
+    //--------------------------------------------------------------
     public function get_by_cuil($cuil)
     {
         $this->db->where('cuil', $cuil);

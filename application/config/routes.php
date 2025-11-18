@@ -115,7 +115,8 @@ $route[EXPEDIENTES_PATH . '/eliminar/(:num)']  = 'admin/Expedientes_controller/e
 
 // INSPECCIONES (Actas)
 $route[INSPECCIONES_PATH]  = 'admin/Inspecciones_controller';
-// $route[INSPECCIONES_PATH . '/frmNueva']  = 'admin/Inspecciones_controller/frmNueva';
+$route[INSPECCIONES_PATH . '/searchAfiliacion']  = 'admin/Inspecciones_controller/searchAfiliacion';
+$route[INSPECCIONES_PATH . '/frmNuevaAfiliacion/(:num)']  = 'admin/Inspecciones_controller/frmNuevaAfiliacion/$1';
 $route[INSPECCIONES_PATH . '/edicion/(:num)']  = 'admin/Inspecciones_controller/frmEditar/$1';
 $route[INSPECCIONES_PATH . '/frmVer/(:num)']  = 'admin/Inspecciones_controller/frmVer/$1';
 // $route[INSPECCIONES_PATH . '/crear']  = 'admin/Inspecciones_controller/crear';
