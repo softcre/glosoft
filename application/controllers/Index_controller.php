@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use League\OAuth2\Client\Provider\Google;
+
+
 class Index_controller extends CI_Controller {
   //--------------------------------------------------------------
 	public function __construct()
@@ -118,6 +121,185 @@ class Index_controller extends CI_Controller {
     $this->session->sess_destroy();
     redirect('');
   }
+  //-------------------------------------------------
+  public function googleLogin()
+  {
+      $provider = $this->getGoogleProvider();
+
+      $authUrl = $provider->getAuthorizationUrl([
+          'scope' => ['openid', 'profile', 'email']
+      ]);
+
+      $this->session->set_userdata('oauth2state', $provider->getState());
+
+      redirect($authUrl);
+  }
+  //---------------------------------------------------------
+  //sin creador de usuario
+  public function googleCallback()
+{
+    if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+    }
+    
+    $provider = $this->getGoogleProvider();
+    
+
+
+    if ($this->input->get('state') !== $this->session->userdata('oauth2state')) {
+        $this->session->unset_userdata('oauth2state');
+        show_error('Estado OAuth inválido', 400);
+    }
+
+    try {
+
+        $token = $provider->getAccessToken('authorization_code', [
+            'code' => $this->input->get('code')
+        ]);
+
+        $googleUser = $provider->getResourceOwner($token);
+
+        // Datos de Google
+        $email   = $googleUser->getEmail();
+        $gid     = $googleUser->getId();
+        $nombre  = $googleUser->getName();
+        $avatar  = $googleUser->getAvatar(); // usarems CSS, no modificamos la URL
+
+        // -------------------------------
+        // 1) BUSCAR POR GOOGLE_ID
+        // -------------------------------
+        $user = $this->usuarios->getByGoogleId($gid);
+
+        if (!$user) {
+
+            // -------------------------------
+            // 2) BUSCAR POR EMAIL (fallback)
+            // -------------------------------
+            $user = $this->usuarios->get_user_correo($email);
+
+            if (!$user) {
+                // No crear usuario → tu lógica actual
+                $this->session->set_flashdata('error', 'Este correo no está registrado en el sistema.');
+                redirect(base_url());
+                return;
+            }
+
+            // Si el usuario existe sin google_id → actualizarlo
+            if (empty($user->google_id)) {
+                $this->usuarios->updateGoogleId($user->id_usuario, $gid);
+            }
+        }
+
+        // -------------------------------
+        // 3) CREAR SESIÓN NORMAL
+        // -------------------------------
+        $dataUser = [
+            'id'             => $user->id_usuario,
+            'usuario_tipo_id'=> $user->usuario_tipo_id,
+            'nombre'         => $user->nombre,
+            'apellido'       => $user->apellido,
+            'telefono'       => $user->telefono,
+            'foto'           => $user->foto,  // tu sistema decide cuál usar
+            //'foto'           => $avatar,
+            'email'          => $user->email,
+            'google_id'      => $gid,
+            'login'          => TRUE
+        ];
+
+        $this->session->set_userdata($dataUser);
+
+        // -------------------------------
+        // 4) REDIRECCIÓN SEGÚN TIPO
+        // -------------------------------
+        redirect(DASHBOARD_PATH);
+
+    } catch (Exception $e) {
+        show_error('Error en Google Login: ' . $e->getMessage(), 500);
+    }
+}
+
+  //---------------------------------------------------------
+  //con creador de usuario
+  /* public function googleCallback()
+  {
+      $provider = $this->getGoogleProvider();
+
+      if ($this->input->get('state') !== $this->session->userdata('oauth2state')) {
+          $this->session->unset_userdata('oauth2state');
+          show_error('Estado OAuth inválido', 400);
+      }
+
+      try {
+          $token = $provider->getAccessToken('authorization_code', [
+              'code' => $this->input->get('code')
+          ]);
+
+          $googleUser = $provider->getResourceOwner($token);
+
+          // Datos básicos
+          $email   = $googleUser->getEmail();
+          $gid     = $googleUser->getId();
+          $nombre  = $googleUser->getName();
+          $avatar  = $googleUser->getAvatar();
+
+          // Buscar usuario por email
+          $user = $this->usuarios->get_user_correo($email);
+
+          if (!$user) {
+              // Si no existe, lo podés registrar automáticamente o mostrar error
+              // Aquí lo creo como tipo usuario 5 (club) o 4 o lo que decidas
+              $dataInsert = [
+                  'nombre'         => $nombre,
+                  'apellido'       => '',
+                  'email'          => $email,
+                  'foto'           => $avatar,
+                  'usuario_tipo_id'=> 5, // cambiar si querés
+                  'google_id'      => $gid,
+                  'password'       => '', // no necesita
+              ];
+
+              $this->db->insert('usuarios', $dataInsert);
+              $user_id = $this->db->insert_id();
+
+              $user = $this->usuarios->get_user($user_id);
+          }
+
+          // Sesión normal de tu login
+          $dataUser = [
+              'id'             => $user->id_usuario,
+              'usuario_tipo_id'=> $user->usuario_tipo_id,
+              'nombre'         => $user->nombre,
+              'apellido'       => $user->apellido,
+              'telefono'       => $user->telefono,
+              'foto'           => $user->foto,
+              'email'          => $user->email,
+              'login'          => TRUE
+          ];
+
+          $this->session->set_userdata($dataUser);
+
+          // Redirección según tipo
+          if ($user->usuario_tipo_id == 2) {
+              redirect(DASHBOARD_PATH);
+          }
+          if ($user->usuario_tipo_id == 3) {
+              redirect(DASHBOARD_PATH);
+          }
+          if ($user->usuario_tipo_id == 4) {
+              redirect(DASHBOARD_PATH);
+          }
+          if ($user->usuario_tipo_id == 5) {
+              redirect(DASHBOARD_PATH);
+          }
+
+          // fallback
+          redirect(DASHBOARD_PATH);
+
+      } catch (Exception $e) {
+          show_error('Error en Google Login: ' . $e->getMessage(), 500);
+      }
+  }
+ */
 	//--------------------------------------------------------------
 	// public function login()
 	// {
@@ -182,4 +364,20 @@ class Index_controller extends CI_Controller {
 		$data['title'] = 'Acceso';
 		$this->load->view('admin/login', $data);
 	}
+  //--------------------------------------------------------
+  private function getGoogleProvider()
+  {
+      // cargar config (si no está cargada ya)
+      $this->config->load('googlelogin', TRUE);
+
+      $clientId     = $this->config->item('google_client_id', 'googlelogin');
+      $clientSecret = $this->config->item('google_client_secret', 'googlelogin');
+      $redirectUri  = $this->config->item('google_redirect_uri', 'googlelogin');
+
+      return new Google([
+          'clientId'     => $clientId,
+          'clientSecret' => $clientSecret,
+          'redirectUri'  => $redirectUri,
+      ]);
+  }
 }

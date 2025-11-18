@@ -2,6 +2,21 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 setlocale(LC_TIME,'spanish');
+
+// ---- CARGAR .env (vlucas/phpdotenv) ----
+$composerAutoload = FCPATH . 'vendor/autoload.php';
+if (file_exists($composerAutoload)) {
+    require_once $composerAutoload;
+
+    try {
+        $dotenv = Dotenv\Dotenv::createImmutable(FCPATH);
+        $dotenv->safeLoad(); // safeLoad() no lanza error si no existe .env
+    } catch (Exception $e) {
+        // opcional: log_message('error', 'Dotenv load error: ' . $e->getMessage());
+    }
+}
+// ----------------------------------------
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -148,7 +163,9 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+//$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
+
 
 /*
 |--------------------------------------------------------------------------
