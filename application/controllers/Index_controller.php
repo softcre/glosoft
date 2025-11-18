@@ -137,74 +137,80 @@ class Index_controller extends CI_Controller {
   //---------------------------------------------------------
   //sin creador de usuario
   public function googleCallback()
-  {
-      $provider = $this->getGoogleProvider();
+{
+    $provider = $this->getGoogleProvider();
 
-      if ($this->input->get('state') !== $this->session->userdata('oauth2state')) {
-          $this->session->unset_userdata('oauth2state');
-          show_error('Estado OAuth inválido', 400);
-      }
+    if ($this->input->get('state') !== $this->session->userdata('oauth2state')) {
+        $this->session->unset_userdata('oauth2state');
+        show_error('Estado OAuth inválido', 400);
+    }
 
-      try {
-          $token = $provider->getAccessToken('authorization_code', [
-              'code' => $this->input->get('code')
-          ]);
+    try {
 
-          $googleUser = $provider->getResourceOwner($token);
+        $token = $provider->getAccessToken('authorization_code', [
+            'code' => $this->input->get('code')
+        ]);
 
-          // Datos básicos
-          $email   = $googleUser->getEmail();
-          $gid     = $googleUser->getId();
-          $nombre  = $googleUser->getName();
-          //$avatar  = $googleUser->getAvatar();
-          $avatar = $googleUser->getAvatar() . '=s150-c';
+        $googleUser = $provider->getResourceOwner($token);
 
+        // Datos de Google
+        $email   = $googleUser->getEmail();
+        $gid     = $googleUser->getId();
+        $nombre  = $googleUser->getName();
+        $avatar  = $googleUser->getAvatar(); // usarems CSS, no modificamos la URL
 
-          // Buscar usuario por email
-          $user = $this->usuarios->get_user_correo($email);
+        // -------------------------------
+        // 1) BUSCAR POR GOOGLE_ID
+        // -------------------------------
+        $user = $this->usuarios->getByGoogleId($gid);
 
-          if (!$user) {
-              // ❌ No crear usuario, solo mostrar error
-              $this->session->set_flashdata('error', 'Este correo no está registrado en el sistema.');
-              redirect(base_url()); // o viewLogin()
-              return;
-          }
+        if (!$user) {
 
-          // Sesión normal de tu login
-          $dataUser = [
-              'id'             => $user->id_usuario,
-              'usuario_tipo_id'=> $user->usuario_tipo_id,
-              'nombre'         => $user->nombre,
-              'apellido'       => $user->apellido,
-              'telefono'       => $user->telefono,
-              'foto'           => $user->foto,
-              'email'          => $user->email,
-              'login'          => TRUE
-          ];
+            // -------------------------------
+            // 2) BUSCAR POR EMAIL (fallback)
+            // -------------------------------
+            $user = $this->usuarios->get_user_correo($email);
 
-          $this->session->set_userdata($dataUser);
+            if (!$user) {
+                // No crear usuario → tu lógica actual
+                $this->session->set_flashdata('error', 'Este correo no está registrado en el sistema.');
+                redirect(base_url());
+                return;
+            }
 
-          // Redirección según tipo
-          if ($user->usuario_tipo_id == 2) {
-              redirect(DASHBOARD_PATH);
-          }
-          if ($user->usuario_tipo_id == 3) {
-              redirect(DASHBOARD_PATH);
-          }
-          if ($user->usuario_tipo_id == 4) {
-              redirect(DASHBOARD_PATH);
-          }
-          if ($user->usuario_tipo_id == 5) {
-              redirect(DASHBOARD_PATH);
-          }
+            // Si el usuario existe sin google_id → actualizarlo
+            if (empty($user->google_id)) {
+                $this->usuarios->updateGoogleId($user->id_usuario, $gid);
+            }
+        }
 
-          // fallback
-          redirect(DASHBOARD_PATH);
+        // -------------------------------
+        // 3) CREAR SESIÓN NORMAL
+        // -------------------------------
+        $dataUser = [
+            'id'             => $user->id_usuario,
+            'usuario_tipo_id'=> $user->usuario_tipo_id,
+            'nombre'         => $user->nombre,
+            'apellido'       => $user->apellido,
+            'telefono'       => $user->telefono,
+            'foto'           => $user->foto,  // tu sistema decide cuál usar
+            //'foto'           => $avatar,
+            'email'          => $user->email,
+            'google_id'      => $gid,
+            'login'          => TRUE
+        ];
 
-      } catch (Exception $e) {
-          show_error('Error en Google Login: ' . $e->getMessage(), 500);
-      }
-  }
+        $this->session->set_userdata($dataUser);
+
+        // -------------------------------
+        // 4) REDIRECCIÓN SEGÚN TIPO
+        // -------------------------------
+        redirect(DASHBOARD_PATH);
+
+    } catch (Exception $e) {
+        show_error('Error en Google Login: ' . $e->getMessage(), 500);
+    }
+}
 
   //---------------------------------------------------------
   //con creador de usuario
