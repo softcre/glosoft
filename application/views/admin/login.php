@@ -39,6 +39,26 @@
             </button>
           </div>
         </form>
+        <!-- Separador -->
+        <div class="d-flex align-items-center my-3">
+            <hr class="flex-grow-1">
+            <span class="px-3 text-muted fw-bold">o</span>
+            <hr class="flex-grow-1">
+        </div>
+
+        <!-- Botón Google -->
+        <div class="mt-3 text-center">
+            <a href="<?= base_url('google/login'); ?>"
+              class="btn btn-light border d-flex align-items-center justify-content-center gap-2 py-2">
+
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                    width="22" height="22" alt="Google">
+
+                <span class="fw-semibold">Ingresar con Google</span>
+            </a>
+        </div>
+
+
         <!-- /.social-auth-links -->
         <!-- <p class="mb-1"><a href="forgot-password.html">I forgot my password</a></p> -->
       </div>

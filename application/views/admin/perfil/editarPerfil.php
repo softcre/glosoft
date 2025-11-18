@@ -71,3 +71,30 @@
 	}
   
 </script>
+<style>
+  /* --- Estilos exclusivos para la imagen del perfil en la página de editar perfil --- */
+/* Selector por ID (#foto) para no tocar .user-image del menú */
+#foto {
+  width: 150px !important;
+  height: 150px !important;
+  max-width: 150px !important;
+  max-height: 150px !important;
+  display: block;
+  object-fit: cover;       /* recorta y centra */
+  object-position: center;
+  border-radius: 50% !important;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 rgba(0,0,0,0); /* no afecta sombras del resto */
+}
+
+/* Responsive: tamaño algo menor en pantallas muy chicas */
+@media (max-width: 576px) {
+  #foto {
+    width: 120px !important;
+    height: 120px !important;
+    max-width: 120px !important;
+    max-height: 120px !important;
+  }
+}
+
+</style>
