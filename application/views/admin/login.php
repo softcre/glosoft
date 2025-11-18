@@ -57,6 +57,7 @@
                 <span class="fw-semibold">Ingresar con Google</span>
             </a>
         </div>
+        
 
 
         <!-- /.social-auth-links -->

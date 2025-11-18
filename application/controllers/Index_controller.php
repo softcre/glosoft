@@ -138,7 +138,13 @@ class Index_controller extends CI_Controller {
   //sin creador de usuario
   public function googleCallback()
 {
+    if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+    }
+    
     $provider = $this->getGoogleProvider();
+    
+
 
     if ($this->input->get('state') !== $this->session->userdata('oauth2state')) {
         $this->session->unset_userdata('oauth2state');
@@ -361,12 +367,17 @@ class Index_controller extends CI_Controller {
   //--------------------------------------------------------
   private function getGoogleProvider()
   {
-      $this->config->load('googlelogin'); // carga config/googlelogin.php
+      // cargar config (si no está cargada ya)
+      $this->config->load('googlelogin', TRUE);
+
+      $clientId     = $this->config->item('google_client_id', 'googlelogin');
+      $clientSecret = $this->config->item('google_client_secret', 'googlelogin');
+      $redirectUri  = $this->config->item('google_redirect_uri', 'googlelogin');
 
       return new Google([
-          'clientId'     => $this->config->item('google_client_id'),
-          'clientSecret' => $this->config->item('google_client_secret'),
-          'redirectUri'  => $this->config->item('google_redirect_uri')
+          'clientId'     => $clientId,
+          'clientSecret' => $clientSecret,
+          'redirectUri'  => $redirectUri,
       ]);
   }
 }
