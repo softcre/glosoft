@@ -2,6 +2,65 @@ window.onload = function () {
 	formatoTabla("tblInspecciones");
 };
 
+function searchEmpleador(e) {
+	const cuit = document.getElementById("empleador_cuit").value;
+	const inspeccionId = document.getElementById("inspeccion_id").value;
+	const div = document.getElementById("div_searchEmpleador");
+
+	if (!cuit) {
+		mostrarToast("error", "Error", "Por favor, ingrese el CUIT.");
+		return;
+	}
+
+	const url = div.getAttribute("data-action");
+	const btn = document.getElementById("btnFormSearchEmpleador");
+
+	const data = {
+		cuit: cuit,
+		inspeccion_id: inspeccionId,
+	};
+
+	$.ajax({
+		url: url,
+		method: "POST",
+		data: data,
+		beforeSend: function () {
+			btn.disabled = true;
+			btn.children[0].classList.remove("d-none");
+			btn.children[1].classList.add("d-none");
+		},
+		success: function (resp) {
+			let data = JSON.parse(resp);
+
+			if (data.status === "ok") {
+				const modalElement = document.getElementById("large");
+				$("#modal-large").html(data.data.view);
+				$(modalElement).data("content-loaded", true);
+
+				const empleadorModal = new bootstrap.Modal(modalElement);
+				empleadorModal.show();
+			} else {
+				mostrarErrors(data.title, data.errors);
+			}
+		},
+		error: ajaxErrors,
+		complete: function () {
+			btn.disabled = false;
+			btn.children[0].classList.add("d-none");
+			btn.children[1].classList.remove("d-none");
+		},
+	});
+}
+
+function setEmpleadorData(empleador) {
+	$('#empleador_id').val(empleador.id_empleador); 
+	$('#empleador_cuit').val(empleador.cuit);
+	$('#empleador_razon_social').val(empleador.razon_social);
+	$('#empleador_domicilio').val(empleador.domicilio);
+	
+	//$('#empleador_cuit').prop('readonly', true); // ver luego
+}
+
 function searchAfiliacion(e) {
 	// 1. Recolectar datos y configuración
 	const dni = document.getElementById("input_dni").value;
@@ -37,21 +96,11 @@ function searchAfiliacion(e) {
 
 			if (data.status === "ok") {
 				const modalElement = document.getElementById("large");
-
-				// 1. Inyecta el contenido (la vista) en el cuerpo del modal
 				$("#modal-large").html(data.data.view);
 				$(modalElement).data("content-loaded", true);
-				// 2. Muestra el modal utilizando la API de JS de Bootstrap 5
+
 				const afiliacionModal = new bootstrap.Modal(modalElement);
 				afiliacionModal.show();
-				// $("#btnFormAfiliacion").removeClass("d-none");
-				// $("#form_newAfiliacion").removeClass("d-none");
-				// $("#form_newAfiliacion").html(data.data.view);
-				// if (!data.data.isAfiliado) {
-				// 	$("#nro_doc").val(data.data.dni);
-				// 	$("#nro_doc").prop("readonly", true);
-				// 	mostrarToast("error", "Error", data.data.msj);
-				// }
 			} else {
 				mostrarErrors(data.title, data.errors);
 			}
@@ -63,55 +112,6 @@ function searchAfiliacion(e) {
 			btn.children[1].classList.remove("d-none");
 		},
 	});
-	// }
-	// 	e.preventDefault();
-	// 	const formData = new FormData(e.target);
-	// 	const btnName = "btnForm" + e.target.name;
-	// 	const btn = document.getElementById(btnName);
-
-	// 	$.ajax({
-	// 		url: e.target.action,
-	// 		method: "POST",
-	// 		data: formData,
-	// 		cache: false,
-	// 		contentType: false,
-	// 		processData: false,
-	// 		beforeSend: function () {
-	// 			btn.disabled = true;
-	// 			btn.children[0].classList.remove("d-none");
-	// 			btn.children[1].classList.add("d-none");
-	// 		},
-	// 		success: function (resp) {
-	// 			let data = JSON.parse(resp);
-
-	// 			if (data.status === "ok") {
-	// 				const modalElement = document.getElementById('large');
-
-	//         // 1. Inyecta el contenido (la vista) en el cuerpo del modal
-	//         $('#modal-large').html(data.data.view);
-
-	//         // 2. Muestra el modal utilizando la API de JS de Bootstrap 5
-	//         const afiliacionModal = new bootstrap.Modal(modalElement);
-	//         afiliacionModal.show();
-	// 				// $("#btnFormAfiliacion").removeClass("d-none");
-	// 				// $("#form_newAfiliacion").removeClass("d-none");
-	// 				// $("#form_newAfiliacion").html(data.data.view);
-	// 				// if (!data.data.isAfiliado) {
-	// 				// 	$("#nro_doc").val(data.data.dni);
-	// 				// 	$("#nro_doc").prop("readonly", true);
-	// 				// 	mostrarToast("error", "Error", data.data.msj);
-	// 				// }
-	// 			} else {
-	// 				mostrarErrors(data.title, data.errors);
-	// 			}
-	// 		},
-	// 		error: ajaxErrors,
-	// 		complete: function () {
-	// 			btn.disabled = false;
-	// 			btn.children[0].classList.add("d-none");
-	// 			btn.children[1].classList.remove("d-none");
-	// 		},
-	// 	});
 }
 
 //-------------------ELIMINA UNA INSPECCION-------------------

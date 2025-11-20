@@ -6,7 +6,8 @@ class Inspecciones_model extends CI_Model
     private $table;
     private $tableEstados;
     private $tableExpedientes;
-    //private $tableUsuarios; // if inspectors are users
+    private $tableEmpleadores;
+    private $tableUsuarios; // if inspectors are users
 
     //--------------------------------------------------------------
     public function __construct()
@@ -17,6 +18,7 @@ class Inspecciones_model extends CI_Model
         $this->table = 'inspecciones';
         $this->tableExpedientes = 'expedientes';
         $this->tableEstados = 'expedientes_estados';
+        $this->tableEmpleadores = 'empleadores';
         $this->tableUsuarios = 'usuarios'; // optional, only if you link inspectors to usuarios
     }
 
@@ -41,8 +43,9 @@ class Inspecciones_model extends CI_Model
     public function get($id_inspeccion)
     {
         //$this->db->select('i.*, e.nombre_estado, e.descripcion as estado_descripcion, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
-        $this->db->select('i.*');
+        $this->db->select('i.*, e.razon_social, e.cuit, e.domicilio, e.responsable_nombre');
         $this->db->from($this->table . ' i');
+        $this->db->join($this->tableEmpleadores . ' e', 'e.id_empleador = i.empleador_id', 'left');
         //$this->db->join($this->tableEstados . ' e', 'i.estado_id = e.id_estado', 'left');
         //$this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
         $this->db->where('i.id_inspeccion', $id_inspeccion);

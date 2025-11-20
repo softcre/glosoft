@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * @property Afiliaciones_model $afiliaciones Optional description
+ * @property Empleadores_model $empleadores Optional description
  * @property Inspecciones_model $inspecciones Optional description
  * @property Trabajadores_encontrados_model $trabajadores Optional description
  * @property Usuarios_model $inspectores Optional description
@@ -22,6 +23,7 @@ class Inspecciones_controller extends CI_Controller
 
     $this->load->model(array(
       AFILIACIONES_MODEL => 'afiliaciones',
+      EMPLEADORES_MODEL => 'empleadores',
       INSPECCIONES_MODEL => 'inspecciones',
       TRABAJADORES_ENCONTRADOS_MODEL => 'trabajadores',
       USUARIOS_MODEL => 'inspectores'
@@ -40,6 +42,91 @@ class Inspecciones_controller extends CI_Controller
 
     $this->load->view('admin/inspecciones/indexInspecciones', $data);
   }
+
+
+  //--------------------------------------------------------------
+  public function frmEditar($id_inspeccion)
+  {
+    $data['title'] = 'Inspecciones';
+    $data['act'] = 'edi_insp';
+    $data['desplegado'] = 'exp';
+
+    $data['inspeccion'] = $this->inspecciones->get($id_inspeccion);
+    $data['trabajadores'] = $this->trabajadores->get_by_inspeccion($id_inspeccion);
+
+
+    $this->load->view('admin/inspecciones/indexEditarInspeccion', $data);
+  }
+
+  //--------------------------------------------------------------
+  public function searchEmpleador()
+  {
+    verificarConsulAjax();
+
+    $cuit = $this->input->post('cuit');
+    $empleador = $this->empleadores->get_by_cuit($cuit);
+    if ($empleador) {
+      $dataView['empleador'] = $empleador;
+    } else {
+      $dataView['cuit'] = $cuit;
+    }
+
+    $data['view'] = $this->load->view('admin/inspecciones/frmEmpleador', $dataView, true);
+    return $this->response->ok('Revision empleador!', $data);
+  }
+
+  //--------------------------------------------------------------
+  public function saveEmpleador()
+  {
+    verificarConsulAjax();
+
+    $reglas_empleador = array(
+      array('field' => 'cuit', 'label' => 'CUIT', 'rules' => 'trim|required|numeric|exact_length[11]'),
+      array('field' => 'razon_social', 'label' => 'Razón Social', 'rules' => 'trim|required|max_length[150]'),
+      array('field' => 'responsable_nombre', 'label' => 'Responsable a cargo', 'rules' => 'trim|required|max_length[100]'),
+      array('field' => 'telefono', 'label' => 'Teléfono', 'rules' => 'trim|required|max_length[20]'),
+      array('field' => 'domicilio', 'label' => 'Domicilio', 'rules' => 'trim|required|max_length[150]'),
+      // Campos opcionales
+      // array('field' => 'localidad', 'label' => 'Localidad', 'rules' => 'trim|max_length[100]'),
+      // array('field' => 'provincia', 'label' => 'Provincia', 'rules' => 'trim|max_length[100]'),
+      // array('field' => 'actividad', 'label' => 'Actividad', 'rules' => 'trim|max_length[100]')
+    );
+    $this->form_validation->set_rules($reglas_empleador);
+
+    if ($this->form_validation->run()) :
+      $data_post = $this->input->post();
+
+      // Datos para la tabla empleadores
+      $empleador = array(
+        'cuit'               => $data_post['cuit'],
+        'razon_social'       => $data_post['razon_social'],
+        'responsable_nombre' => $data_post['responsable_nombre'],
+        'telefono'           => $data_post['telefono'],
+        'domicilio'          => $data_post['domicilio'],
+        'localidad'          => $data_post['localidad'],
+        'provincia'          => $data_post['provincia'],
+        'actividad'          => $data_post['actividad']
+      );
+
+      $id_empleador = $data_post['id_empleador'];
+      if ($id_empleador) {
+        // Actualiza registro de empleador
+        $this->empleadores->actualizar($id_empleador, $empleador);
+        $msj = "Empleador actualizado correctamente";
+      } else {
+        // Guarda registro de empleador
+        $empleador['fecha_alta'] = fechaHoraHoy('Y-m-d');
+        $id_empleador = $this->empleadores->crear($empleador);
+        $msj = "Empleado registrado correctamente";
+      }
+
+      $data['isFormEmpleadorInspeccion'] = 'true';
+      $data['empleador'] = $this->empleadores->get($id_empleador);
+      return $this->response->ok($msj, $data);
+    endif;
+
+    return $this->response->error('Ooops.. controle!', $this->form_validation->error_array());
+  } // fin de metodo saveEmpleador
 
   //--------------------------------------------------------------
   public function searchAfiliacion()
@@ -68,16 +155,6 @@ class Inspecciones_controller extends CI_Controller
     $data['view'] = $this->load->view('admin/inspecciones/frmAfiliacionTrabajador', $dataView, true);
     return $this->response->ok('Revision!', $data);
   }
-
-  //--------------------------------------------------------------
-  // public function frmNuevaAfiliacion($inspeccion_id)
-  // {
-  //   verificarConsulAjax();
-
-  //   $data['inspeccion_id'] = $inspeccion_id;
-
-  //   $this->load->view('admin/inspecciones/frmNuevaAfiliacion', $data);
-  // }
 
   //--------------------------------------------------------------
   public function saveAfiliacionTrabajador()
@@ -178,21 +255,7 @@ class Inspecciones_controller extends CI_Controller
     endif;
 
     return $this->response->error('Ooops.. controle!', $this->form_validation->error_array());
-  } // fin de metodo crear
-
-  //--------------------------------------------------------------
-  public function frmEditar($id_inspeccion)
-  {
-    $data['title'] = 'Inspecciones';
-    $data['act'] = 'edi_insp';
-    $data['desplegado'] = 'exp';
-
-    $data['inspeccion'] = $this->inspecciones->get($id_inspeccion);
-    $data['trabajadores'] = $this->trabajadores->get_by_inspeccion($id_inspeccion);
-
-
-    $this->load->view('admin/inspecciones/indexEditarInspeccion', $data);
-  }
+  } // fin de metodo saveAfiliacionTrabajador
 
   //--------------------------------------------------------------
   public function frmVer($id_expediente)

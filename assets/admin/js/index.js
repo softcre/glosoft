@@ -123,6 +123,9 @@ function altaUpdate(e) {
 					formatoTabla("tbl" + data.data.selector);
 				}
 
+				if (data.data.isFormEmpleadorInspeccion != undefined) {
+					setEmpleadorData(data.data.empleador);
+				}
 				mostrarToast("success", data.title, data.msj);
 
 				if (data.data.url != undefined) {

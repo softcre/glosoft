@@ -118,6 +118,8 @@ $route[EXPEDIENTES_PATH . '/eliminar/(:num)']  = 'admin/Expedientes_controller/e
 
 // INSPECCIONES (Actas)
 $route[INSPECCIONES_PATH]  = 'admin/Inspecciones_controller';
+$route[INSPECCIONES_PATH . '/searchEmpleador']  = 'admin/Inspecciones_controller/searchEmpleador';
+$route[INSPECCIONES_PATH . '/saveEmpleador']  = 'admin/Inspecciones_controller/saveEmpleador';
 $route[INSPECCIONES_PATH . '/searchAfiliacion']  = 'admin/Inspecciones_controller/searchAfiliacion';
 $route[INSPECCIONES_PATH . '/saveAfiliacionTrabajador']  = 'admin/Inspecciones_controller/saveAfiliacionTrabajador';
 $route[INSPECCIONES_PATH . '/edicion/(:num)']  = 'admin/Inspecciones_controller/frmEditar/$1';
