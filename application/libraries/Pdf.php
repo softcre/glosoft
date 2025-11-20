@@ -39,6 +39,20 @@ class Pdf
         //$this->dompdf->stream("ficha_medica.pdf", array("Attachment" => false));
         $this->dompdf->stream("'$nombre'_UATRE.pdf", array("Attachment" => false));
     }
+    //se usa para acta de afiliación
+    public function load_view_acta_afiliacion($view, $data = array())
+    {
+        $html = $this->CI->load->view($view, $data, TRUE);
+        $this->dompdf->loadHtml($html);
+        $nombre = $data['nombre_acta'];
+        // (Optional) Setup the PDF paper size, orientation, etc.
+        $this->dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $this->dompdf->render();
+        //$this->dompdf->stream("ficha_medica.pdf", array("Attachment" => false));
+        $this->dompdf->stream("'$nombre'_UATRE.pdf", array("Attachment" => false));
+    }
     //se usa para ticket de creacion de club
     public function load_view_club_ticket($view, $data = array())
     {
