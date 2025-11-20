@@ -33,12 +33,23 @@ class Trabajadores_encontrados_model extends CI_Model
     // Obtener trabajadores por ID de inspección
     public function get_by_inspeccion($id_inspeccion)
     {
-        $this->db->select('t.id_trabajador_encontrado, t.inspeccion_id, t.afiliacion_id, t.estado_al_inspeccionar, a.*');
+        $this->db->select('t.id_trabajador_encontrado, t.inspeccion_id, t.afiliacion_id, t.cargo, t.fecha_ingreso, t.remuneracion, t.alojado_en_predio, t.estado_al_inspeccionar, a.*');
         $this->db->from($this->table . ' t');
         $this->db->join($this->tableAfiliaciones . ' a', 't.afiliacion_id = a.id_afiliacion', 'left');
         $this->db->where('t.inspeccion_id', $id_inspeccion);
         $this->db->order_by('a.apellido', 'ASC');
         return $this->db->get()->result();
+    }
+
+    public function get_by_inspeccion_afiliacion($id_inspeccion, $id_afiliacion)
+    {
+        $this->db->select('t.id_trabajador_encontrado, t.inspeccion_id, t.afiliacion_id, t.cargo, t.fecha_ingreso, t.remuneracion, t.alojado_en_predio, t.estado_al_inspeccionar, a.*');
+        $this->db->from($this->table . ' t');
+        $this->db->join($this->tableAfiliaciones . ' a', 't.afiliacion_id = a.id_afiliacion', 'left');
+        $this->db->where('t.inspeccion_id', $id_inspeccion);
+        $this->db->where('t.afiliacion_id', $id_afiliacion);
+        $this->db->order_by('a.apellido', 'ASC');
+        return $this->db->get()->row();
     }
 
     // --------------------------------------------------------------

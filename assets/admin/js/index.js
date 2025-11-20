@@ -47,6 +47,12 @@ $(".modal").on("show.bs.modal", function (event) {
 	// $(this) es el modal padre que se está abriendo (ej. #small, #large, #xl)
 	const $modalPadre = $(this);
 
+	if ($modalPadre.data("content-loaded") === true) {
+		// Si ya está cargado, elimina la marca para futuras aperturas y sal de la función.
+		$modalPadre.removeData("content-loaded");
+		return;
+	}
+
 	// Obtiene el ID del modal padre (ej. 'small', 'large', 'xl')
 	const modalId = $modalPadre.attr("id");
 

@@ -57,7 +57,7 @@
       id="collapseThree"
       class="accordion-collapse collapse show">
       <div class="accordion-body">
-        <?php $this->load->view('admin/inspecciones/_tblEmpleados');?>
+        <?php $this->load->view('admin/inspecciones/_formularioTrabajadores');?>
       </div>
     </div>
   </div>
