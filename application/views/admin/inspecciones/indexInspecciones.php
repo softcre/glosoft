@@ -7,15 +7,6 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      <button
-        class="btn btn-success mb-3"
-        data-bs-toggle="modal"
-        data-bs-target="#small"
-        data-url="<?= base_url(EXPEDIENTES_PATH . '/frmNuevo') ?>"
-        title="Nuevo inspeccion">
-        <i class="bi bi-binoculars-fill me-1"></i> Crear Inspeccion
-      </button>
-
       <div class="card card-success border-success">
         <div class="card-header">
           <h3 class="card-title">Listado de Inspeccions</h3>
