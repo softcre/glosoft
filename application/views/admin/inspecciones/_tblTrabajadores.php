@@ -32,6 +32,9 @@
               <button type="button" class="btn btn-danger" title="Eliminar" data-url="<?= base_url(EXPEDIENTES_PATH . '/eliminar/' . $trabajador->id_trabajador_encontrado) ?>" data-name="<?= $trabajador->id_trabajador_encontrado; ?>" onclick="eliminar(this)">
                 <i class="bi bi-trash-fill"></i>
               </button> -->
+              <a class="btn btn-outline-danger btn-sm" href="<?= base_url(AFILIACIONES_PATH . '/pdf_ver/' . $trabajador->afiliacion_id); ?>" target="_blank" title="Acta en PDF">
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+              </a>
             </div>
           </td>
         </tr>
