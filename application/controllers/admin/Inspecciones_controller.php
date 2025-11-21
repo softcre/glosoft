@@ -39,8 +39,8 @@ class Inspecciones_controller extends CI_Controller
     $data['act'] = 'acta';
     $data['desplegado'] = 'exp';
 
-    $data['inspecciones'] = $this->inspecciones->get_all();
-
+    $id_inspector = $_SESSION['usuario_tipo_id'];
+    $data['inspecciones'] = $this->inspecciones->get_by_inspector($id_inspector);
 
     $this->load->view('admin/inspecciones/indexInspecciones', $data);
   }

@@ -38,6 +38,21 @@ class Inspecciones_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_by_inspector($id_inspector)
+    {
+        //$this->db->select('i.*, e.nombre_estado, e.descripcion as estado_descripcion, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
+        $this->db->select('i.*, exp.id_expediente, exp.inspector_id, exp.estado_id, e.nombre_estado');
+        $this->db->from($this->table . ' i');
+        $this->db->join($this->tableExpedientes . ' exp', 'exp.inspeccion_id = i.id_inspeccion');
+        $this->db->join($this->tableEstados . ' e', 'e.id_estado = exp.estado_id', 'left');
+        //$this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
+        // $this->db->where('i.deleted_at', null);
+        $this->db->where('exp.inspector_id', $id_inspector);
+        $this->db->where('exp.deleted_at', null);
+        $this->db->order_by('i.created_at', 'DESC');
+        return $this->db->get()->result();
+    }
+
     //--------------------------------------------------------------
     // Get single inspection by ID
     public function get($id_inspeccion)
