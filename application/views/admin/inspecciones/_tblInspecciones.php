@@ -20,7 +20,7 @@
           </td>
           <td>
             <div class="btn-group btn-group-sm" role="group">
-              <button type="button" class="btn btn-info" title="Ver inspeccion" data-bs-toggle="modal" data-bs-target="#small" data-url="<?= base_url(INSPECCIONES_PATH . '/frmVer/' . $inspeccion->id_inspeccion) ?>">
+              <button type="button" class="btn btn-info" title="Ver inspeccion" data-bs-toggle="modal" data-bs-target="#extra-large" data-url="<?= base_url(INSPECCIONES_PATH . '/frmVer/' . $inspeccion->id_inspeccion . '/' . $inspeccion->id_expediente) ?>">
                 <i class="bi bi-eye"></i>
               </button>
               <?php if ($inspeccion->nombre_estado == 'INSPECCION') : ?>

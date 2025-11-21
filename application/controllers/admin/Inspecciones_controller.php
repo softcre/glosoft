@@ -62,6 +62,20 @@ class Inspecciones_controller extends CI_Controller
   }
 
   //--------------------------------------------------------------
+  public function frmVer($id_inspeccion, $id_expediente)
+  {
+    verificarConsulAjax();
+
+    $data['id_expediente'] = $id_expediente;
+    $inspeccion = $this->inspecciones->get($id_inspeccion);
+    $data['inspeccion'] = $inspeccion;
+    $data['empleador'] = $this->empleadores->get($inspeccion->empleador_id);
+    $data['trabajadores'] = $this->trabajadores->get_by_inspeccion($id_inspeccion);
+
+    $this->load->view('admin/inspecciones/frmVerInspeccion', $data);
+  }
+
+  //--------------------------------------------------------------
   public function searchEmpleador()
   {
     verificarConsulAjax();
@@ -259,16 +273,6 @@ class Inspecciones_controller extends CI_Controller
 
     return $this->response->error('Ooops.. controle!', $this->form_validation->error_array());
   } // fin de metodo saveAfiliacionTrabajador
-
-  //--------------------------------------------------------------
-  public function frmVer($id_expediente)
-  {
-    verificarConsulAjax();
-
-    $data['expediente'] = $this->inspecciones->get($id_expediente);
-
-    $this->load->view('admin/inspecciones/frmVerInspeccion', $data);
-  }
 
   //--------------------------------------------------------------
   public function actualizar()
