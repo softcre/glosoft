@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * @property Afiliaciones_model $afiliaciones Optional description
  * @property Empleadores_model $empleadores Optional description
+ * @property Expedientes_model $expedientes Optional description
  * @property Inspecciones_model $inspecciones Optional description
  * @property Trabajadores_encontrados_model $trabajadores Optional description
  * @property Usuarios_model $inspectores Optional description
@@ -24,6 +25,7 @@ class Inspecciones_controller extends CI_Controller
     $this->load->model(array(
       AFILIACIONES_MODEL => 'afiliaciones',
       EMPLEADORES_MODEL => 'empleadores',
+      EXPEDIENTES_MODEL => 'expedientes',
       INSPECCIONES_MODEL => 'inspecciones',
       TRABAJADORES_ENCONTRADOS_MODEL => 'trabajadores',
       USUARIOS_MODEL => 'inspectores'
@@ -45,12 +47,13 @@ class Inspecciones_controller extends CI_Controller
 
 
   //--------------------------------------------------------------
-  public function frmEditar($id_inspeccion)
+  public function frmEditar($id_inspeccion, $id_expediente)
   {
     $data['title'] = 'Inspecciones';
     $data['act'] = 'edi_insp';
     $data['desplegado'] = 'exp';
 
+    $data['id_expediente'] = $id_expediente;
     $data['inspeccion'] = $this->inspecciones->get($id_inspeccion);
     $data['trabajadores'] = $this->trabajadores->get_by_inspeccion($id_inspeccion);
 
@@ -268,68 +271,73 @@ class Inspecciones_controller extends CI_Controller
   }
 
   //--------------------------------------------------------------
-  public function crear()
-  {
-    verificarConsulAjax();
-
-    $this->form_validation->set_rules('ubicacion', 'Ubicación', 'required|min_length[3]|trim');
-    $this->form_validation->set_rules('inspector_id', 'Inspector', 'required|trim');
-
-    if ($this->form_validation->run()) :
-      $expediente = [
-        'fecha_expediente' => fechaHoraHoy('Y-m-d'),
-        'ubicacion' => $this->input->post('ubicacion'),
-        'inspector_id' => $this->input->post('inspector_id')
-      ];
-
-      $expendiente_id = $this->inspecciones->crear($expediente); // se inserta en bd
-
-      if ($expendiente_id) {
-        //crea la inspeccion
-        $inspeccion = [
-          'ubicacion' => $this->input->post('ubicacion')
-        ];
-        $this->inspecciones->crear($inspeccion);
-
-        $data['selector'] = 'Inspecciones';
-        $data['view'] = $this->getInspecciones();
-
-        return $this->response->ok('Inspeccion creado!', $data);
-      } else {
-
-        return $this->response->error('Ooops.. error!', 'No se pudo crear el expediente. Intente más tarde!');
-      }
-    endif;
-
-    return $this->response->error('Ooops.. controle!', $this->form_validation->error_array());
-  } // fin de metodo crear
-  //--------------------------------------------------------------
-
-  //--------------------------------------------------------------
   public function actualizar()
   {
     verificarConsulAjax();
 
-    $this->form_validation->set_rules('ubicacion', 'Ubicación', 'required|min_length[3]|trim');
-    $this->form_validation->set_rules('inspector_id', 'Inspector', 'required|trim');
+    $reglas_inspeccion = array(
+      array('field' => 'empleador_id', 'label' => 'ID del Empleador', 'rules' => 'required|integer|greater_than[0]', 'errors' => array('required' => 'Debe asociar un Empleador válido para completar la verificación.')),
+      array('field' => 'establecimiento_nombre', 'label' => 'Nombre del establecimiento', 'rules' => 'trim|required|max_length[150]'),
+      array('field' => 'actividad_principal', 'label' => 'Actividad principal', 'rules' => 'trim|required|max_length[150]'),
+      array('field' => 'ubicacion', 'label' => 'Ubicación', 'rules' => 'trim|required|max_length[200]'),
+      array('field' => 'superficie_ha', 'label' => 'Superficie (ha)', 'rules' => 'trim|required|numeric|greater_than_equal_to[0]'),
+      array('field' => 'validacion_trabajadores', 'label' => 'Trabajadores', 'rules' => 'callback_validar_trabajadores_cargados', 'errors' => array('validar_trabajadores_cargados' => 'Debe haber al menos un trabajador registrado en el Establecimiento.')),
+      array('field' => 'cantidad_personal_perm', 'label' => 'Cantidad personal permanentes', 'rules' => 'trim|required|integer|greater_than_equal_to[0]'),
+      array('field' => 'cantidad_personal_trans', 'label' => 'Cantidad personal transitorios', 'rules' => 'trim|required|integer|greater_than_equal_to[0]'),
+    );
 
-    if ($this->form_validation->run()) :
-      $id_expediente = $this->input->post('id_expediente');
-      $expediente = [
-        'ubicacion' => $this->input->post('ubicacion'),
-        'inspector_id' => $this->input->post('inspector_id')
-      ];
+    // Obtener los datos del formulario
+    $data_post = $this->input->post();
 
-      $resp = $this->inspecciones->actualizar($id_expediente, $expediente); // se actualiza en bd
+    // Identifico botón presionado
+    $es_guardado_verificador = FALSE;
+    if ($data_post['submit_action'] == 'btnGuardarVerificar') {
+      $es_guardado_verificador = TRUE;
+    }
+
+    // $es_guardado_borrador = isset($data_post['btnGuardarBorrador']);
+    // $es_guardado_verificador = isset($data_post['btnGuardarVerificar']);
+    $validacion_exitosa = TRUE;
+
+    // Si se presiona 'Guardar Verificador', se ejecuta la validación.
+    if ($es_guardado_verificador) {
+      $validacion_exitosa = FALSE;
+      $this->form_validation->set_rules($reglas_inspeccion);
+
+      if ($this->form_validation->run() === TRUE) {
+        $validacion_exitosa = TRUE;
+      }
+    }
+
+    if ($validacion_exitosa) :
+      $id_inspeccion = $data_post['id_inspeccion'];
+      $inspeccion = array(
+        'empleador_id'           => ($data_post['empleador_id']) ? $data_post['empleador_id'] : null,
+        'fecha_inspeccion'       => fechaHoraHoy('Y-m-d'),
+        'establecimiento_nombre' => $data_post['establecimiento_nombre'],
+        'actividad_principal'    => $data_post['actividad_principal'],
+        'ubicacion'              => $data_post['ubicacion'],
+        'superficie_ha'          => $data_post['superficie_ha'],
+        'cantidad_personal_perm' => $data_post['cantidad_personal_perm'],
+        'cantidad_personal_trans' => $data_post['cantidad_personal_trans'],
+        'observaciones'          => $data_post['observaciones']
+      );
+
+      $resp = $this->inspecciones->actualizar($id_inspeccion, $inspeccion); // se actualiza en bd
 
       if ($resp) {
-        $data['selector'] = 'Inspecciones';
-        $data['view'] = $this->getInspecciones();
+        if ($es_guardado_verificador) {
+          // Actualizacion de expediente
+          $expediente['estado_id'] = 2; // 2=>VERIFICACION
+          $this->expedientes->actualizar($data_post['id_expediente'], $expediente); // 2=>VERIFICACION
+        }
 
-        return $this->response->ok('Inspeccion actualizado!', $data);
+        $data['url'] = base_url(INSPECCIONES_PATH);
+
+        return $this->response->ok('Inspeccion actualizada!', $data);
       } else {
 
-        return $this->response->error('Ooops.. error!', 'No se pudo modificar el expediente. Intente más tarde!');
+        return $this->response->error('Ooops.. error!', 'No se pudo actualizar la inspección. Intente más tarde!');
       }
     endif;
 
@@ -390,5 +398,23 @@ class Inspecciones_controller extends CI_Controller
     }
 
     return TRUE;
+  }
+
+  /**
+   * Verifica si hay al menos un trabajador cargado para el Establecimiento actual.
+   * @return bool
+   */
+  public function validar_trabajadores_cargados($str)
+  {
+    $id_inspeccion = $this->input->post('id_inspeccion');
+
+    $cantidad_trabajadores = $this->trabajadores->get_by_inspeccion($id_inspeccion);
+
+    if (count($cantidad_trabajadores) >= 1) {
+      return TRUE; // Hay al menos uno
+    } else {
+      // No hay trabajadores, se muestra message de error de set_rules
+      return FALSE;
+    }
   }
 }
