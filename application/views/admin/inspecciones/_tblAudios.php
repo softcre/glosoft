@@ -9,15 +9,16 @@
 <table id="tblAudios" class="table table-sm table-hover align-middle">
     <thead>
         <tr class=" table-success  text-center"> 
-            <th scope="col" class="text-center">Archivo</th>
-          <!--   <th>Duración</th> -->
-            <th scope="col" class="text-center">Fecha</th>
-            <th scope="col" class="text-center">Acciones</th>
+          <th scope="col" class="text-center">Titulo</th>
+          <th scope="col" class="text-center">Archivo</th>
+          <th scope="col" class="text-center">Fecha</th>
+          <th scope="col" class="text-center">Acciones</th>
         </tr>
     </thead>
     <tbody class="align-middle text-center">
         <?php foreach ($audios as $a): ?>
         <tr>
+            <td><?= $a->descripcion ?></td>
             <td><?= $a->titulo ?></td>
          
             <td><?= $a->created_at ?></td>

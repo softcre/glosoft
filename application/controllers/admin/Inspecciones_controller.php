@@ -431,9 +431,11 @@ class Inspecciones_controller extends CI_Controller
 public function guardarAudio()
 {
     verificarConsulAjax();
+    
 
     $inspeccion_id = $this->input->post("inspeccion_id");
     $audio_base64  = $this->input->post("audio");
+    $titulo  = $this->input->post("titulo");
 
     if (!$inspeccion_id || !$audio_base64) {
         return $this->response->error("Faltan datos requeridos", []);
@@ -451,6 +453,7 @@ public function guardarAudio()
         "inspeccion_id" => $inspeccion_id,
         "titulo"     => $result["file"],
         "archivo"     => $result["path"],
+        "descripcion"     => $titulo,
         "created_at"    => date("Y-m-d H:i:s")
     ];
 
