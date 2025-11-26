@@ -21,13 +21,14 @@ class Inspecciones_controller extends CI_Controller
   {
     parent::__construct();
     verificarSesion();
-
+    $this->load->library('Audio');
     $this->load->model(array(
       AFILIACIONES_MODEL => 'afiliaciones',
       EMPLEADORES_MODEL => 'empleadores',
       EXPEDIENTES_MODEL => 'expedientes',
       INSPECCIONES_MODEL => 'inspecciones',
       TRABAJADORES_ENCONTRADOS_MODEL => 'trabajadores',
+      AUDIOS_MODEL => 'audios',
       USUARIOS_MODEL => 'inspectores'
     ));
   }
@@ -55,8 +56,10 @@ class Inspecciones_controller extends CI_Controller
     $data['desplegado'] = 'exp';
 
     $data['id_expediente'] = $id_expediente;
+    $data['inspeccion_id'] = $id_inspeccion;
     $data['inspeccion'] = $this->inspecciones->get($id_inspeccion);
     $data['trabajadores'] = $this->trabajadores->get_by_inspeccion($id_inspeccion);
+    $data['audios'] = $this->audios->get_by_inspeccion($id_inspeccion);
 
 
     $this->load->view('admin/inspecciones/indexEditarInspeccion', $data);
@@ -422,4 +425,106 @@ class Inspecciones_controller extends CI_Controller
       return FALSE;
     }
   }
+  //--------------------------------------------------------------
+// Guarda audio enviado como base64
+//--------------------------------------------------------------
+public function guardarAudio()
+{
+    verificarConsulAjax();
+
+    $inspeccion_id = $this->input->post("inspeccion_id");
+    $audio_base64  = $this->input->post("audio");
+
+    if (!$inspeccion_id || !$audio_base64) {
+        return $this->response->error("Faltan datos requeridos", []);
+    }
+
+    // Delegamos el guardado a la librería Audio
+    $result = $this->audio->save_base64($audio_base64, $inspeccion_id);
+
+    if (!$result["success"]) {
+        return $this->response->error("Error al guardar el archivo", $result["message"]);
+    }
+
+    // Registramos en base de datos
+    $data_insert = [
+        "inspeccion_id" => $inspeccion_id,
+        "titulo"     => $result["file"],
+        "archivo"     => $result["path"],
+        "created_at"    => date("Y-m-d H:i:s")
+    ];
+
+    $this->audios->crear($data_insert);
+
+    return $this->response->ok("Audio guardado", []);
+}
+
+
+
+//--------------------------------------------------------------
+// Retorna HTML con el listado de audios pertenecientes a la inspección
+//--------------------------------------------------------------
+public function getAudios($inspeccion_id)
+{
+    verificarConsulAjax();
+
+    $data["audios"] = $this->audios->get_by_inspeccion($inspeccion_id);
+    $this->load->view("admin/inspecciones/_tblAudios", $data);
+}
+
+
+
+//--------------------------------------------------------------
+// Permite descargar un audio
+//--------------------------------------------------------------
+public function descargarAudio($id_audio)
+{
+    $audio = $this->audios->get($id_audio);
+    if (!$audio) show_404();
+
+    $path = FCPATH . $audio->archivo;
+
+    if (!file_exists($path)) {
+        echo "Archivo no encontrado";
+        return;
+    }
+
+    $this->load->helper('download');
+    force_download($path, null);
+}
+
+
+
+//--------------------------------------------------------------
+// Elimina un audio
+//--------------------------------------------------------------
+public function eliminarAudio()
+{
+    verificarConsulAjax();
+
+    $id_audio = $this->input->post("id_audio");
+    $audio = $this->audios->get($id_audio);
+
+    if (!$audio) {
+        return $this->response->error("El audio no existe", []);
+    }
+
+    $full = FCPATH . $audio->file_path;
+    if (file_exists($full)) unlink($full);
+
+    $this->audios->delete($id_audio);
+
+    return $this->response->ok("Audio eliminado", []);
+}
+
+//-----------lista de audios de la inspeccion
+
+  public function listarAudios($id_inspeccion)
+  {
+
+      $data['audios'] = $this->audios->getByInspeccion($id_inspeccion);
+      $this->load->view('admin/inspecciones/_tblAudios', $data);
+  }
+  
+
 }
