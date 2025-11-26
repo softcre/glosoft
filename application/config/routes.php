@@ -127,10 +127,11 @@ $route[INSPECCIONES_PATH . '/frmVer/(:num)/(:num)']  = 'admin/Inspecciones_contr
 // $route[INSPECCIONES_PATH . '/crear']  = 'admin/Inspecciones_controller/crear';
 $route[INSPECCIONES_PATH . '/actualizar']  = 'admin/Inspecciones_controller/actualizar';
 $route[INSPECCIONES_PATH . '/eliminar/(:num)']  = 'admin/Inspecciones_controller/eliminar/$1';
-$route[INSPECCIONES_PATH . '/uploadAudio']  = 'admin/Inspecciones_controller/uploadAudio';
+//$route[INSPECCIONES_PATH . '/uploadAudio']  = 'admin/Inspecciones_controller/uploadAudio';
 $route[INSPECCIONES_PATH . '/guardarAudio']  = 'admin/Inspecciones_controller/guardarAudio';
 $route[INSPECCIONES_PATH . '/listarAudios/(:num)']  = 'admin/Inspecciones_controller/listarAudios/$1';
 $route[INSPECCIONES_PATH . '/getAudios/(:num)']  = 'admin/Inspecciones_controller/getAudios/$1';
+$route[INSPECCIONES_PATH . '/eliminarAudio/(:num)']  = 'admin/Inspecciones_controller/eliminarAudio/$1';
 
 $route[INSPECCIONES_PATH . '/pdf_ver/(:num)'] = 'Pdf_inspeccion_controller/pdf_ver/$1';
 $route[AFILIACIONES_PATH . '/pdf_ver/(:num)'] = 'Pdf_afiliacion_controller/pdf_ver/$1';

@@ -228,6 +228,13 @@ function uploadRecording() {
     });
   }
 
+  //-------------------ELIMINA UN AUDIO-------------------
+function eliminarAudio(ele) {
+	const title = "Eliminar";
+	const mensaje =
+		"El audio  N° " + ele.dataset.name + " se eliminará...";
+	bajaRegistro(ele, ele.dataset.url, title, mensaje);
+}
 
 /* Load audio records table */
 function loadTblAudios() {

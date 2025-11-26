@@ -19,7 +19,7 @@
         <?php foreach ($audios as $a): ?>
         <tr>
             <td><?= $a->titulo ?></td>
-         <!--    <td><?= $a->duration ?> s</td> -->
+         
             <td><?= $a->created_at ?></td>
 
             <td class="text-center">
@@ -27,18 +27,21 @@
                 <!-- Open audio in browser tab -->
                 <a class="btn btn-primary btn-sm"
                    target="_blank"
-                   href="<?= base_url('uploads/audios/' . $a->titulo) ?>">
-                    Reproducir
+                   href="<?= base_url('assets/uploads/audios/' . $a->titulo) ?>"  title='Reproducir'>
+                    <i class="bi bi-play-circle"></i>
+                   
                 </a>
 
                 <!-- Delete button -->
-                <button class="btn btn-danger btn-sm"
+                <!-- <button class="btn btn-danger btn-sm"
                         data-url="<?= base_url('inspecciones/deleteAudio/' . $a->id_audio) ?>"
                         data-name="<?= $a->archivo ?>"
                         onclick="eliminar(this)">
                     Eliminar
-                </button>
-
+                </button> -->
+              <button type="button" class="btn btn-danger btn-sm" title="Eliminar" data-url="<?= base_url(INSPECCIONES_PATH . '/eliminarAudio/' . $a->id_audio) ?>" data-name="<?= $a->id_audio; ?>" onclick="eliminarAudio(this)">
+                <i class="bi bi-trash-fill"></i>
+              </button>
             </td>
         </tr>
         <?php endforeach; ?>

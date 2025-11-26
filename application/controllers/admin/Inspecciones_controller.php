@@ -498,24 +498,18 @@ public function descargarAudio($id_audio)
 //--------------------------------------------------------------
 // Elimina un audio
 //--------------------------------------------------------------
-public function eliminarAudio()
-{
+  public function eliminarAudio($id_audio)
+  {
     verificarConsulAjax();
 
-    $id_audio = $this->input->post("id_audio");
-    $audio = $this->audios->get($id_audio);
+    $resp = $this->audios->actualizar($id_audio, ['deleted_at' => date('Y-m-d')]);
 
-    if (!$audio) {
-        return $this->response->error("El audio no existe", []);
+    if ($resp) {
+      return $this->response->ok('Audio eliminado!');
     }
 
-    $full = FCPATH . $audio->file_path;
-    if (file_exists($full)) unlink($full);
-
-    $this->audios->delete($id_audio);
-
-    return $this->response->ok("Audio eliminado", []);
-}
+    return $this->response->error('Ooops.. error!', 'No se pudo eliminar el Audio. Intente más tarde!');
+  }
 
 //-----------lista de audios de la inspeccion
 
