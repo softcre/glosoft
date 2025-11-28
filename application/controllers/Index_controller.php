@@ -83,9 +83,9 @@ class Index_controller extends CI_Controller {
         if ($user->usuario_tipo_id == 2) {//ADMIN
           $data['url'] = base_url(DASHBOARD_PATH);
         } 
-        if ($user->usuario_tipo_id == 3) {
+        if ($user->usuario_tipo_id == 3) { // INSPECCTOR
           //$data['url'] = base_url(DASHBOARD_PATH);
-          $data['url'] = base_url(DASHBOARD_PATH);
+          $data['url'] = base_url(INSPECCIONES_PATH);
         } 
         if ($user->usuario_tipo_id == 4) {
           //$data['url'] = base_url(DASHBOARD_MEDICO_PATH);
