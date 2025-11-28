@@ -1,5 +1,5 @@
 <div class="table-responsive">
-  <table id="tblInspecciones" class="table table-sm table-hover">
+  <table id="tblInspecciones<?= $tbl ?>" class="table table-sm table-hover">
     <thead class="table-success">
       <tr>
         <th scope="col" class="text-center">N° acta</th>
@@ -11,6 +11,18 @@
     </thead>
     <tbody class="align-middle text-center">
       <?php foreach ($inspecciones as $inspeccion): ?>
+        <?php
+          $estado = $inspeccion->nombre_estado;
+          // TAB POR INSPECCIONAR
+          if ($filtro == 'por_hacer' && $estado !== 'INSPECCION') {
+              continue;
+          }
+
+          // TAB INSPECCIONADAS
+          if ($filtro == 'hechas' && $estado === 'INSPECCION') {
+              continue;
+          }
+        ?>
         <tr>
           <td><?= $inspeccion->id_inspeccion; ?></td>
           <td><?= $inspeccion->ubicacion; ?></td>

@@ -1,5 +1,6 @@
 window.onload = function () {
-	formatoTabla("tblInspecciones")
+	formatoTabla("tblInspecciones1")
+	formatoTabla("tblInspecciones2")
   //formatoTabla("tblAudios");
 };
 
