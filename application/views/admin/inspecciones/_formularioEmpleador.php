@@ -22,7 +22,7 @@ PD: sacar "!" de los isset una vez que el get traiga datos del empleador
           <div class="d-none">
             <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
           </div>
-          <span><i class="bi bi-search me-1"></i></span>
+          <span><i class="bi bi-person-plus-fill me-1"></i></span>
         </button>
       </div>
     </div>

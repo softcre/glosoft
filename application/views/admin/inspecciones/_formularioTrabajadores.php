@@ -13,7 +13,7 @@
             <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
             Buscando...
           </div>
-          <span><i class="bi bi-search me-1"></i>Buscar</span>
+          <span><i class="bi bi-person-plus-fill me-1"></i>Agregar</span>
         </button>
       </div>
     </div>
