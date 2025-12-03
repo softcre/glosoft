@@ -9,11 +9,11 @@
 <div class="table-responsive">
     <table id="tblDocumentos" class="table table-sm table-hover align-middle">
         <thead>
-            <tr class="text-center bg-secondary text-light">
-                <th class="border-bottom border-primary">Tipo</th>
-                <th class="border-bottom border-primary">Archivo</th>
-                <th class="border-bottom border-primary">Fecha</th>
-                <th class="border-bottom border-primary" style="width:100px;">Acciones</th>
+            <tr class="table-success  text-center">
+                <th scope="col" class="text-center">Tipo</th>
+                <th scope="col" class="text-center">Archivo</th>
+                <th scope="col" class="text-center">Fecha</th>
+                <th scope="col" class="text-center" style="width:100px;">Acciones</th>
             </tr>
         </thead>
 
