@@ -349,25 +349,50 @@ $(document).ready(function () {
   DOCUMENT UPLOAD MODULE
   ============================================================ */
 
-  const docContainer = document.getElementById("collapseDocs");
-  if (docContainer) initDocumentModule();
+  /* ------------------------------------------------------------
+    LOAD DOCUMENT TABLE (GLOBAL FUNCTION)
+    ------------------------------------------------------------ */
+  function loadTblDocumentos() {
+      const divTabla = document.getElementById("div_tblDocumentos");
+      if (!divTabla) {
+          console.error("Document module: div_tblDocumentos not found");
+          return;
+      }
+
+      const url = divTabla.getAttribute("data-url");
+      if (!url) {
+          console.error("Document module: Missing data-url attribute");
+          return;
+      }
+
+      $.post(url, {}, function (view) {
+          $("#div_tblDocumentos").html(view);
+          formatoTabla("tblDocumentos");
+      }).fail(function(xhr, status, error) {
+          console.error("Error loading documents table:", status, error);
+          $("#div_tblDocumentos").html('<div class="alert alert-danger">Error al cargar los documentos. Por favor, recargue la página.</div>');
+      });
+  }
 
   function initDocumentModule() {
+      const docContainer = document.getElementById("collapseDocs");
+      if (!docContainer) return;
 
       /* ------------------------------------------------------------
         ELEMENTS
         ------------------------------------------------------------ */
-      //const uploadUrl = docContainer.getAttribute('data-doc-upload-url');
-      const uploadUrl = document
-                              .querySelector('#collapseDocs')
-                              .getAttribute('data-doc-upload-url');
+      const uploadUrl = docContainer.getAttribute('data-doc-upload-url');
       const listUrl   = docContainer.getAttribute('data-doc-list-url');
 
       const docTipo   = document.getElementById("docTipo");
       const docFile   = document.getElementById("docFile");
       const btnUpload = document.getElementById("btnUploadDoc");
-
       const divTabla  = document.getElementById("div_tblDocumentos");
+
+      if (!docTipo || !docFile || !btnUpload || !divTabla) {
+          console.error("Document module: Missing required elements");
+          return;
+      }
 
       /* ------------------------------------------------------------
         INITIAL STATE
@@ -412,15 +437,17 @@ $(document).ready(function () {
               return;
           }
 
-          const inspeccion_id = document.getElementById("inspeccion_id").value;
+          const inspeccion_id = document.getElementById("inspeccion_id");
+          if (!inspeccion_id || !inspeccion_id.value) {
+              mostrarToast("error", "Error", "No se encontró el ID de inspección.");
+              return;
+          }
 
           // PACK FILE IN FORMDATA
           let formData = new FormData();
-          //formData.append("tipo", tipo);
-          formData.append("titulo", tipo);
-          //formData.append("archivo", file);
+          formData.append("tipo_doc", tipo);
           formData.append("documento", file);
-          formData.append("inspeccion_id", inspeccion_id);
+          formData.append("inspeccion_id", inspeccion_id.value);
 
           $.ajax({
               url: uploadUrl,
@@ -439,10 +466,13 @@ $(document).ready(function () {
                       clearForm();
                       loadTblDocumentos();
                   } else {
-                      mostrarToast("error", "Error", data.message);
+                      mostrarToast("error", "Error", data.message || "Error al guardar el documento.");
                   }
               },
-              error: ajaxErrors,
+              error: function(xhr, status, error) {
+                  ajaxErrors(xhr, status, error);
+                  validateForm();
+              },
               complete: function () {
                   validateForm();
               }
@@ -465,38 +495,61 @@ $(document).ready(function () {
       }
 
 
-      /* ------------------------------------------------------------
-        LOAD DOCUMENT TABLE
-        ------------------------------------------------------------ */
-      function loadTblDocumentos() {
-          const url = divTabla.getAttribute("data-url");
+  }
 
-          $.post(url, {}, function (view) {
-              $("#div_tblDocumentos").html(view);
-              formatoTabla("tblDocumentos");
-          });
+  /* ------------------------------------------------------------
+    DELETE DOCUMENT (GLOBAL FUNCTION)
+    ------------------------------------------------------------ */
+  window.eliminarDocumento = function(ele) {
+      const id   = ele.dataset.name;
+      const url  = ele.dataset.url;
+
+      if (!url || !id) {
+          mostrarToast("error", "Error", "Faltan datos para eliminar el documento.");
+          return;
       }
 
+      const title   = "Eliminar documento";
+      const mensaje = "El documento N° " + id + " se eliminará...";
 
-      /* ------------------------------------------------------------
-        DELETE DOCUMENT
-        ------------------------------------------------------------ */
-      window.eliminarDocumento = function(ele) {
-          const id   = ele.dataset.name;
-          const url  = ele.dataset.url;
+      Swal.fire({
+          title: "¿" + title + "?",
+          text: mensaje,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#2c9faf",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Sí!",
+          cancelButtonText: "Cancelar",
+      }).then((result) => {
+          if (result.value) {
+              $.post(
+                  url,
+                  function (data) {
+                      if (data.status === "ok") {
+                          mostrarToast("success", data.title, data.msj);
+                          // Reload the entire table instead of just fading out
+                          loadTblDocumentos();
+                      } else {
+                          mostrarErrors(data.title, data.errors);
+                      }
+                  },
+                  "json"
+              ).fail(ajaxErrors);
+          }
+      });
+  };
 
-          const title   = "Eliminar documento";
-          const mensaje = "El documento N° " + id + " se eliminará...";
-
-          bajaRegistro(ele, url, title, mensaje, null, function() {
-              loadTblDocumentos();
-          });
-      };
-
-
-      /* ------------------------------------------------------------
-        AUTO-LOAD TABLE ON PAGE LOAD
-        ------------------------------------------------------------ */
-      loadTblDocumentos();
-  }
+  // Initialize document module when DOM is ready
+  $(document).ready(function () {
+      // Load documents table if the div exists
+      if (document.getElementById("div_tblDocumentos")) {
+          loadTblDocumentos();
+      }
+      
+      // Initialize document module if the container exists
+      if (document.getElementById("collapseDocs")) {
+          initDocumentModule();
+      }
+  });
 

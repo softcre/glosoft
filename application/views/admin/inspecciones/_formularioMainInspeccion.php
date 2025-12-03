@@ -190,7 +190,7 @@
     <div id="collapseDocs"
          class="accordion-collapse collapse show"
          data-doc-upload-url="<?= base_url(INSPECCIONES_PATH . '/guardarDocumento') ?>"
-data-doc-list-url="<?= base_url(INSPECCIONES_PATH . '/listarDocumentos/' . $inspeccion_id) ?>"
+data-doc-list-url="<?= base_url(INSPECCIONES_PATH . '/listarDocumentos/' . $inspeccion_id) ?>">
 
 
          

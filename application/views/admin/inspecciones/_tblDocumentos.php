@@ -7,27 +7,27 @@
 <?php else : ?>
 
 <div class="table-responsive">
-    <table  id="tblDocumentos" class="table table-sm table-hover align-middle">
+    <table id="tblDocumentos" class="table table-sm table-hover align-middle">
         <thead>
             <tr class="text-center bg-secondary text-light">
                 <th class="border-bottom border-primary">Tipo</th>
                 <th class="border-bottom border-primary">Archivo</th>
-            <th class="border-bottom border-primary">Fecha</th>
-                <th class="border-bottom border-primary" style="width:90px;">Acciones</th>
+                <th class="border-bottom border-primary">Fecha</th>
+                <th class="border-bottom border-primary" style="width:100px;">Acciones</th>
             </tr>
         </thead>
 
         <tbody>
 
         <?php foreach ($documentos as $doc): ?>
-            <tr class="text-center">
+            <tr class="text-center" id="docRow_<?= $doc->id_documento ?>">
 
                 <!-- Tipo -->
-                <td><?= esc($doc->tipo) ?></td>
+                <td><?= htmlspecialchars($doc->tipo, ENT_QUOTES, 'UTF-8') ?></td>
 
                 <!-- Archivo -->
                 <td class="text-start">
-                    <?= esc($doc->nombre_archivo) ?>
+                    <?= htmlspecialchars($doc->archivo, ENT_QUOTES, 'UTF-8') ?>
                 </td>
 
                 <!-- Fecha -->
@@ -37,11 +37,10 @@
 
                 <!-- ACCIONES -->
                 <td>
-
                     <div class="btn-group btn-group-sm" role="group">
 
                         <!-- DOWNLOAD -->
-                        <a href="<?= base_url('uploads/documentos_inspecciones/' . $doc->archivo) ?>"
+                        <a href="<?= base_url('assets/uploads/documentos_inspecciones/' . $doc->archivo) ?>"
                            class="btn btn-success"
                            title="Descargar"
                            target="_blank">
@@ -51,13 +50,15 @@
                         <!-- DELETE -->
                         <button type="button"
                                 class="btn btn-danger btnDeleteDoc"
-                                data-id="<?= $doc->id_documento ?>"
+                                data-url="<?= base_url(INSPECCIONES_PATH . '/eliminarDocumento/' . $doc->id_documento) ?>"
+                                data-name="<?= $doc->id_documento ?>"
+                                data-nombre="<?= htmlspecialchars($doc->archivo, ENT_QUOTES, 'UTF-8') ?>"
+                                onclick="eliminarDocumento(this)"
                                 title="Eliminar documento">
                             <i class="bi bi-trash3"></i>
                         </button>
 
                     </div>
-
                 </td>
 
             </tr>
