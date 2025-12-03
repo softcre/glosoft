@@ -132,6 +132,11 @@ $route[INSPECCIONES_PATH . '/guardarAudio']  = 'admin/Inspecciones_controller/gu
 $route[INSPECCIONES_PATH . '/listarAudios/(:num)']  = 'admin/Inspecciones_controller/listarAudios/$1';
 $route[INSPECCIONES_PATH . '/getAudios/(:num)']  = 'admin/Inspecciones_controller/getAudios/$1';
 $route[INSPECCIONES_PATH . '/eliminarAudio/(:num)']  = 'admin/Inspecciones_controller/eliminarAudio/$1';
+//docs
+$route[INSPECCIONES_PATH . '/guardarDocumento']  = 'admin/Inspecciones_controller/guardarDocumento';
+$route[INSPECCIONES_PATH . '/listarDocumentos/(:num)']  = 'admin/Inspecciones_controller/listarDocumentos/$1';
+$route[INSPECCIONES_PATH . '/getDocumentos/(:num)']  = 'admin/Inspecciones_controller/getDocumentos/$1';
+$route[INSPECCIONES_PATH . '/eliminarDocumento/(:num)']  = 'admin/Inspecciones_controller/eliminarDocumento/$1';
 
 $route[INSPECCIONES_PATH . '/pdf_ver/(:num)'] = 'Pdf_inspeccion_controller/pdf_ver/$1';
 $route[AFILIACIONES_PATH . '/pdf_ver/(:num)'] = 'Pdf_afiliacion_controller/pdf_ver/$1';

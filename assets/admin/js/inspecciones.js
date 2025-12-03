@@ -343,3 +343,160 @@ $(document).ready(function () {
         loadTblAudios();
     }
 });
+
+  //documentos
+/* ============================================================
+  DOCUMENT UPLOAD MODULE
+  ============================================================ */
+
+  const docContainer = document.getElementById("collapseDocs");
+  if (docContainer) initDocumentModule();
+
+  function initDocumentModule() {
+
+      /* ------------------------------------------------------------
+        ELEMENTS
+        ------------------------------------------------------------ */
+      //const uploadUrl = docContainer.getAttribute('data-doc-upload-url');
+      const uploadUrl = document
+                              .querySelector('#collapseDocs')
+                              .getAttribute('data-doc-upload-url');
+      const listUrl   = docContainer.getAttribute('data-doc-list-url');
+
+      const docTipo   = document.getElementById("docTipo");
+      const docFile   = document.getElementById("docFile");
+      const btnUpload = document.getElementById("btnUploadDoc");
+
+      const divTabla  = document.getElementById("div_tblDocumentos");
+
+      /* ------------------------------------------------------------
+        INITIAL STATE
+        ------------------------------------------------------------ */
+      btnUpload.disabled = true;
+
+
+      /* ------------------------------------------------------------
+        VALIDATION OF INPUTS
+        ------------------------------------------------------------ */
+      function validateForm() {
+          const tipoOK = docTipo.value.trim() !== "";
+          const fileOK = docFile.files.length > 0;
+
+          btnUpload.disabled = !(tipoOK && fileOK);
+
+          docTipo.classList.remove("is-invalid");
+          docFile.classList.remove("is-invalid");
+      }
+
+      docTipo.addEventListener("change", validateForm);
+      docFile.addEventListener("change", validateForm);
+
+
+      /* ------------------------------------------------------------
+        UPLOAD DOCUMENT
+        ------------------------------------------------------------ */
+      btnUpload.addEventListener("click", function () {
+
+          const tipo = docTipo.value.trim();
+          const file = docFile.files[0];
+
+          if (!tipo) {
+              docTipo.classList.add("is-invalid");
+              mostrarToast("error", "Falta tipo", "Debe seleccionar un tipo de documento.");
+              return;
+          }
+
+          if (!file) {
+              docFile.classList.add("is-invalid");
+              mostrarToast("error", "Archivo faltante", "Debe seleccionar un archivo.");
+              return;
+          }
+
+          const inspeccion_id = document.getElementById("inspeccion_id").value;
+
+          // PACK FILE IN FORMDATA
+          let formData = new FormData();
+          //formData.append("tipo", tipo);
+          formData.append("titulo", tipo);
+          //formData.append("archivo", file);
+          formData.append("documento", file);
+          formData.append("inspeccion_id", inspeccion_id);
+
+          $.ajax({
+              url: uploadUrl,
+              method: "POST",
+              data: formData,
+              contentType: false,
+              processData: false,
+              beforeSend: function () {
+                  btnUpload.disabled = true;
+              },
+              success: function (resp) {
+                  let data = JSON.parse(resp);
+
+                  if (data.status === "ok") {
+                      mostrarToast("success", "Documento guardado", "El archivo se registró correctamente.");
+                      clearForm();
+                      loadTblDocumentos();
+                  } else {
+                      mostrarToast("error", "Error", data.message);
+                  }
+              },
+              error: ajaxErrors,
+              complete: function () {
+                  validateForm();
+              }
+          });
+
+      });
+
+
+      /* ------------------------------------------------------------
+        CLEAR FORM
+        ------------------------------------------------------------ */
+      function clearForm() {
+          docTipo.value = "";
+          docFile.value = "";
+
+          docTipo.classList.remove("is-invalid");
+          docFile.classList.remove("is-invalid");
+
+          btnUpload.disabled = true;
+      }
+
+
+      /* ------------------------------------------------------------
+        LOAD DOCUMENT TABLE
+        ------------------------------------------------------------ */
+      function loadTblDocumentos() {
+          const url = divTabla.getAttribute("data-url");
+
+          $.post(url, {}, function (view) {
+              $("#div_tblDocumentos").html(view);
+              formatoTabla("tblDocumentos");
+          });
+      }
+
+
+      /* ------------------------------------------------------------
+        DELETE DOCUMENT
+        ------------------------------------------------------------ */
+      window.eliminarDocumento = function(ele) {
+          const id   = ele.dataset.name;
+          const url  = ele.dataset.url;
+
+          const title   = "Eliminar documento";
+          const mensaje = "El documento N° " + id + " se eliminará...";
+
+          bajaRegistro(ele, url, title, mensaje, null, function() {
+              loadTblDocumentos();
+          });
+      };
+
+
+      /* ------------------------------------------------------------
+        AUTO-LOAD TABLE ON PAGE LOAD
+        ------------------------------------------------------------ */
+      loadTblDocumentos();
+  }
+

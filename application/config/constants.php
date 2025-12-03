@@ -125,6 +125,7 @@ define('INSPECCIONES_MODEL', ADMIN_PATH . '/Inspecciones_model');
 define('EXPEDIENTES_MODEL', ADMIN_PATH . '/Expedientes_model');
 define('TRABAJADORES_ENCONTRADOS_MODEL', ADMIN_PATH . '/Trabajadores_encontrados_model');
 define('AUDIOS_MODEL', ADMIN_PATH . '/Audios_model');
+define('DOCUMENTOS_MODEL', ADMIN_PATH . '/Documentos_model');
 
 // IMAGEN DEFAULTS
 defined('IMG_DEFAULT_USUARIOS') or define('IMG_DEFAULT_USUARIOS', 'nofoto.png');
