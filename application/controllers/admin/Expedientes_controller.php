@@ -172,12 +172,12 @@ class Expedientes_controller extends CI_Controller
     
     // Return the full tabs structure
     $html = '<!-- Nav tabs -->';
-    $html .= '<ul class="nav nav-tabs" id="expedientesTabs" role="tablist">';
+    $html .= '<ul class="nav nav-tabs mb-3" id="expedientesTabs" role="tablist" style="border-bottom: 2px solid #dee2e6;">';
     $html .= '<li class="nav-item" role="presentation">';
-    $html .= '<button class="nav-link active" id="en-progreso-tab" data-bs-toggle="tab" data-bs-target="#en-progreso" type="button" role="tab" aria-controls="en-progreso" aria-selected="true">Expedientes en Progreso</button>';
+    $html .= '<button class="nav-link active" id="en-progreso-tab" data-bs-toggle="tab" data-bs-target="#en-progreso" type="button" role="tab" aria-controls="en-progreso" aria-selected="true" style="background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; border-bottom: none; font-weight: 500;">Expedientes en Progreso</button>';
     $html .= '</li>';
     $html .= '<li class="nav-item" role="presentation">';
-    $html .= '<button class="nav-link" id="cerrados-tab" data-bs-toggle="tab" data-bs-target="#cerrados" type="button" role="tab" aria-controls="cerrados" aria-selected="false">Expedientes Cerrados</button>';
+    $html .= '<button class="nav-link" id="cerrados-tab" data-bs-toggle="tab" data-bs-target="#cerrados" type="button" role="tab" aria-controls="cerrados" aria-selected="false" style="background-color: #f8f9fa; color: #495057; border: 1px solid #dee2e6; border-bottom: none;">Expedientes Cerrados</button>';
     $html .= '</li>';
     $html .= '</ul>';
     
