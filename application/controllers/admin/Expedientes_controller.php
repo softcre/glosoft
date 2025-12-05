@@ -33,8 +33,8 @@ class Expedientes_controller extends CI_Controller
     $data['act'] = 'expe';
     $data['desplegado'] = 'exp';
 
-    $data['expedientes'] = $this->expedientes->get_all();
-
+    $data['expedientes_en_progreso'] = $this->expedientes->get_en_progreso();
+    $data['expedientes_cerrados'] = $this->expedientes->get_cerrados();
 
     $this->load->view('admin/expedientes/indexExpedientes', $data);
   }
@@ -167,7 +167,39 @@ class Expedientes_controller extends CI_Controller
   //--------------------------------------------------------------
   private function getExpedientes()
   {
-    $data['expedientes'] = $this->expedientes->get_all();
-    return $this->load->view('admin/expedientes/_tblExpedientes', $data, TRUE);
+    $data['expedientes_en_progreso'] = $this->expedientes->get_en_progreso();
+    $data['expedientes_cerrados'] = $this->expedientes->get_cerrados();
+    
+    // Return the full tabs structure
+    $html = '<!-- Nav tabs -->';
+    $html .= '<ul class="nav nav-tabs" id="expedientesTabs" role="tablist">';
+    $html .= '<li class="nav-item" role="presentation">';
+    $html .= '<button class="nav-link active" id="en-progreso-tab" data-bs-toggle="tab" data-bs-target="#en-progreso" type="button" role="tab" aria-controls="en-progreso" aria-selected="true">Expedientes en Progreso</button>';
+    $html .= '</li>';
+    $html .= '<li class="nav-item" role="presentation">';
+    $html .= '<button class="nav-link" id="cerrados-tab" data-bs-toggle="tab" data-bs-target="#cerrados" type="button" role="tab" aria-controls="cerrados" aria-selected="false">Expedientes Cerrados</button>';
+    $html .= '</li>';
+    $html .= '</ul>';
+    
+    $html .= '<!-- Tab panes -->';
+    $html .= '<div class="tab-content" id="expedientesTabContent">';
+    
+    // Tab 1: En Progreso
+    $html .= '<div class="tab-pane fade show active" id="en-progreso" role="tabpanel" aria-labelledby="en-progreso-tab">';
+    $tab_data['expedientes'] = $data['expedientes_en_progreso'];
+    $tab_data['table_id'] = 'tblExpedientesEnProgreso';
+    $html .= $this->load->view('admin/expedientes/_tblExpedientes', $tab_data, TRUE);
+    $html .= '</div>';
+    
+    // Tab 2: Cerrados
+    $html .= '<div class="tab-pane fade" id="cerrados" role="tabpanel" aria-labelledby="cerrados-tab">';
+    $tab_data['expedientes'] = $data['expedientes_cerrados'];
+    $tab_data['table_id'] = 'tblExpedientesCerrados';
+    $html .= $this->load->view('admin/expedientes/_tblExpedientes', $tab_data, TRUE);
+    $html .= '</div>';
+    
+    $html .= '</div>';
+    
+    return $html;
   }
 }

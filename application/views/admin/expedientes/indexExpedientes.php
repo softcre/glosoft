@@ -22,7 +22,37 @@
         </div>
         <!-- /.card-header -->
         <div id="expedientes-main" class="card-body">
-          <?php $this->load->view('admin/expedientes/_tblExpedientes'); ?>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" id="expedientesTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="en-progreso-tab" data-bs-toggle="tab" data-bs-target="#en-progreso" type="button" role="tab" aria-controls="en-progreso" aria-selected="true">
+                Expedientes en Progreso
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="cerrados-tab" data-bs-toggle="tab" data-bs-target="#cerrados" type="button" role="tab" aria-controls="cerrados" aria-selected="false">
+                Expedientes Cerrados
+              </button>
+            </li>
+          </ul>
+          
+          <!-- Tab panes -->
+          <div class="tab-content" id="expedientesTabContent">
+            <div class="tab-pane fade show active" id="en-progreso" role="tabpanel" aria-labelledby="en-progreso-tab">
+              <?php 
+                $data['expedientes'] = $expedientes_en_progreso;
+                $data['table_id'] = 'tblExpedientesEnProgreso';
+                $this->load->view('admin/expedientes/_tblExpedientes', $data); 
+              ?>
+            </div>
+            <div class="tab-pane fade" id="cerrados" role="tabpanel" aria-labelledby="cerrados-tab">
+              <?php 
+                $data['expedientes'] = $expedientes_cerrados;
+                $data['table_id'] = 'tblExpedientesCerrados';
+                $this->load->view('admin/expedientes/_tblExpedientes', $data); 
+              ?>
+            </div>
+          </div>
         </div>
         <!-- /.card-body -->
       </div>
