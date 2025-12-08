@@ -182,4 +182,44 @@ class Expedientes_model extends CI_Model
         $this->db->order_by('e.created_at', 'DESC');
         return $this->db->get()->result();
     }
+
+    //--------------------------------------------------------------
+    // Get expedientes en progreso (excluding CIERRE status)
+    public function get_en_progreso()
+    {
+        $this->db->select('
+            e.*,
+            es.nombre_estado,
+            es.descripcion as estado_descripcion,
+            u.nombre as inspector_nombre,
+            u.apellido as inspector_apellido
+        ');
+        $this->db->from($this->table . ' e');
+        $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
+        $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->where('e.deleted_at', null);
+        $this->db->where('UPPER(es.nombre_estado) !=', 'CIERRE');
+        $this->db->order_by('e.created_at', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    //--------------------------------------------------------------
+    // Get expedientes cerrados (only CIERRE status)
+    public function get_cerrados()
+    {
+        $this->db->select('
+            e.*,
+            es.nombre_estado,
+            es.descripcion as estado_descripcion,
+            u.nombre as inspector_nombre,
+            u.apellido as inspector_apellido
+        ');
+        $this->db->from($this->table . ' e');
+        $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
+        $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->where('e.deleted_at', null);
+        $this->db->where('UPPER(es.nombre_estado)', 'CIERRE');
+        $this->db->order_by('e.created_at', 'DESC');
+        return $this->db->get()->result();
+    }
 }
