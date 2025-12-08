@@ -13,6 +13,7 @@
         </div>
         <!-- /.card-header -->
         <div id="inspecciones-main" class="card-body">
+          <?php if (permisoInspector()) : ?>
           <ul class="nav nav-tabs" id="inspeccionesTab" role="tablist">
             <li class="nav-item" role="presentation">
               <button class="nav-link active" id="por-inspeccionar-tab" data-bs-toggle="tab" data-bs-target="#por-inspeccionar" type="button" role="tab">
@@ -31,9 +32,12 @@
             </div>
 
             <div class="tab-pane fade" id="inspeccionadas" role="tabpanel">
+              <?php endif; ?>
               <?php $this->load->view('admin/inspecciones/_tblInspecciones', array('filtro' => 'hechas', 'tbl' => '2')); ?>
+              <?php if (permisoInspector()) : ?>
             </div>
           </div>
+          <?php endif;?>
         </div>
         <!-- /.card-body -->
       </div>

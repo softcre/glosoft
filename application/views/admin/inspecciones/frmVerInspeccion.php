@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-6">
         <h5 class="modal-title" id="modalInspeccionLabel">
-          Detalle de Inspección #<?= $inspeccion->id_inspeccion;?>
+          Detalle de Inspección #<?= $inspeccion->id_inspeccion; ?>
         </h5>
       </div>
 
@@ -21,6 +21,11 @@
 </div>
 
 <div class="modal-body">
+  <?php if (!permisoInspector() && $total_personal_sin_afiliar > 0): ?>
+    <div class="alert alert-danger">
+      Esta inspección contiene <?= $total_personal_sin_afiliar; ?> trabajadores sin afiliar !!!
+    </div>
+  <?php endif; ?>
   <div class="accordion" id="accordionInspeccion">
 
     <div class="accordion-item">
@@ -222,6 +227,11 @@
       </div>
     </div>
   </div>
+  <?php if (!permisoInspector()): ?>
+    <div class="mt-2 text-end">
+      <small>Inspector a cargo: <b><?= concatenar($inspeccion->inspector_apellido, $inspeccion->inspector_nombre); ?></b></small>
+    </div>
+  <?php endif; ?>
 </div>
 
 <div class="modal-footer bg-light mt-0 py-1">
@@ -229,11 +239,31 @@
     <i class="bi bi-x-circle me-1"></i>Cerrar
   </button>
 
-  <!-- <button type="submit" id="btnFormEmpleador" form="form_Empleador" class="btn btn-success" name="button">
-    <div class="d-none">
-      <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
-      Guadando...
-    </div>
-    <span><i class="bi bi-floppy2-fill me-1"></i>Guardar</span>
-  </button> -->
+  <?php if (permisoVerificador() && $inspeccion->nombre_estado == 'VERIFICACION') : ?>
+    <?php if ($total_personal_sin_afiliar > 0) : ?>
+      <form id="form_changeEstado" name="Estado" method="post" action="<?= base_url(INSPECCIONES_PATH . '/changeEstado'); ?>" onsubmit="altaUpdate(event)">
+        <input type="hidden" name="id_expediente" value="<?= $id_expediente; ?>">
+        <input type="hidden" name="estado_inpeccion" value="3">
+        <button type="submit" id="btnFormEstado" class="btn btn-success" name="button">
+          <div class="d-none">
+            <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
+            Pasando a liquidación...
+          </div>
+          <span><i class="bi bi-floppy2-fill me-1"></i>Pasar a Liquidación</span>
+        </button>
+      </form>
+    <?php else: ?>
+      <form id="form_changeEstado" name="Estado" method="post" action="<?= base_url(INSPECCIONES_PATH . '/changeEstado'); ?>" onsubmit="altaUpdate(event)">
+        <input type="hidden" name="id_expediente" value="<?= $id_expediente; ?>">
+        <input type="hidden" name="estado_inpeccion" value="4">
+        <button type="submit" id="btnFormEstado" class="btn btn-success" name="button">
+          <div class="d-none">
+            <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
+            Finalizando inspección...
+          </div>
+          <span><i class="bi bi-floppy2-fill me-1"></i>Finalizar inspección</span>
+        </button>
+      </form>
+    <?php endif; ?>
+  <?php endif; ?>
 </div>

@@ -41,6 +41,15 @@ class Trabajadores_encontrados_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function get_total_sin_afiliar_by_inspeccion($id_inspeccion)
+    {
+        $this->db->select('COUNT(*) total_sin_afiliar');
+        $this->db->from($this->table . ' t');
+        $this->db->where('t.inspeccion_id', $id_inspeccion);
+        $this->db->where('t.estado_al_inspeccionar', 'NO_AFILIADO');
+        return $this->db->get()->row();
+    }
+
     public function get_by_inspeccion_afiliacion($id_inspeccion, $id_afiliacion)
     {
         $this->db->select('t.id_trabajador_encontrado, t.inspeccion_id, t.afiliacion_id, t.cargo, t.fecha_ingreso, t.remuneracion, t.alojado_en_predio, t.estado_al_inspeccionar, a.*');

@@ -27,9 +27,10 @@ class Inspecciones_model extends CI_Model
     public function get_all()
     {
         //$this->db->select('i.*, e.nombre_estado, e.descripcion as estado_descripcion, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
-        $this->db->select('i.*, exp.id_expediente, exp.inspector_id, exp.estado_id, e.nombre_estado');
+        $this->db->select('i.*, exp.id_expediente, exp.inspector_id, exp.estado_id, e.nombre_estado, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
         $this->db->from($this->table . ' i');
         $this->db->join($this->tableExpedientes . ' exp', 'exp.inspeccion_id = i.id_inspeccion');
+        $this->db->join($this->tableUsuarios . ' u', 'u.id_usuario = exp.inspector_id');
         $this->db->join($this->tableEstados . ' e', 'e.id_estado = exp.estado_id', 'left');
         //$this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
         // $this->db->where('i.deleted_at', null);
@@ -58,9 +59,12 @@ class Inspecciones_model extends CI_Model
     public function get($id_inspeccion)
     {
         //$this->db->select('i.*, e.nombre_estado, e.descripcion as estado_descripcion, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
-        $this->db->select('i.*, e.razon_social, e.cuit, e.domicilio, e.responsable_nombre');
+        $this->db->select('i.*, e.razon_social, e.cuit, e.domicilio, e.responsable_nombre, exp.estado_id, est.nombre_estado, u.nombre as inspector_nombre, u.apellido as inspector_apellido');
         $this->db->from($this->table . ' i');
+        $this->db->join($this->tableExpedientes . ' exp', 'exp.inspeccion_id = i.id_inspeccion');
+        $this->db->join($this->tableUsuarios . ' u', 'u.id_usuario = exp.inspector_id');
         $this->db->join($this->tableEmpleadores . ' e', 'e.id_empleador = i.empleador_id', 'left');
+        $this->db->join($this->tableEstados . ' est', 'est.id_estado = exp.estado_id', 'left');
         //$this->db->join($this->tableEstados . ' e', 'i.estado_id = e.id_estado', 'left');
         //$this->db->join($this->tableUsuarios . ' u', 'i.inspector_id = u.id_usuario', 'left');
         $this->db->where('i.id_inspeccion', $id_inspeccion);

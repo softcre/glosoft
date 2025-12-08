@@ -3,6 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * @property Afiliaciones_model $afiliaciones Optional description
+ * @property Audios_model $audios Optional description
+ * @property Documentos_model $documentos Optional description
  * @property Empleadores_model $empleadores Optional description
  * @property Expedientes_model $expedientes Optional description
  * @property Inspecciones_model $inspecciones Optional description
@@ -42,9 +44,12 @@ class Inspecciones_controller extends CI_Controller
     $data['act'] = 'acta';
     $data['desplegado'] = 'exp';
 
-    //$id_inspector = $_SESSION['usuario_tipo_id'];
-    $id_inspector = $_SESSION['id'];
-    $data['inspecciones'] = $this->inspecciones->get_by_inspector($id_inspector);
+    if (permisoInspector()) {
+      $id_inspector = $_SESSION['id'];
+      $data['inspecciones'] = $this->inspecciones->get_by_inspector($id_inspector);
+    } else {
+      $data['inspecciones'] = $this->inspecciones->get_all();
+    }
 
     $this->load->view('admin/inspecciones/indexInspecciones', $data);
   }
@@ -63,7 +68,7 @@ class Inspecciones_controller extends CI_Controller
     $data['trabajadores'] = $this->trabajadores->get_by_inspeccion($id_inspeccion);
     $data['audios'] = $this->audios->get_by_inspeccion($id_inspeccion);
     $data['documentos'] = $this->documentos->get_by_inspeccion($id_inspeccion);
-    
+
 
 
     $this->load->view('admin/inspecciones/indexEditarInspeccion', $data);
@@ -79,8 +84,30 @@ class Inspecciones_controller extends CI_Controller
     $data['inspeccion'] = $inspeccion;
     $data['empleador'] = $this->empleadores->get($inspeccion->empleador_id);
     $data['trabajadores'] = $this->trabajadores->get_by_inspeccion($id_inspeccion);
+    $resultado = $this->trabajadores->get_total_sin_afiliar_by_inspeccion($id_inspeccion);
+    $data['total_personal_sin_afiliar'] = $resultado->total_sin_afiliar;
 
     $this->load->view('admin/inspecciones/frmVerInspeccion', $data);
+  }
+
+  //--------------------------------------------------------------
+  public function changeEstado()
+  {
+    verificarConsulAjax();
+
+    $id_expediente = $this->input->post('id_expediente');
+    $expediente = $this->expedientes->get($id_expediente);
+    if ($expediente) {
+      $estado_inpeccion = $this->input->post('estado_inpeccion');
+      $this->expedientes->actualizar($id_expediente, array('estado_id' => $estado_inpeccion));
+      $expedienteActualiado = $this->expedientes->get($id_expediente);
+
+      $data['selector'] = 'Inspecciones';
+      $data['view'] = $this->getInspecciones();
+      return $this->response->ok("Inpección pasó a estado " . $expedienteActualiado->nombre_estado, $data);
+    } else {
+      return $this->response->error('Ooops.. error!', "Error al obtener los datos de la inspección");
+    }
   }
 
   //--------------------------------------------------------------
@@ -380,6 +407,8 @@ class Inspecciones_controller extends CI_Controller
   private function getInspecciones()
   {
     $data['inspecciones'] = $this->inspecciones->get_all();
+    $data['filtro'] = 'hechas';
+    $data['tbl'] = '2';
     return $this->load->view('admin/inspecciones/_tblInspecciones', $data, TRUE);
   }
 
@@ -430,81 +459,81 @@ class Inspecciones_controller extends CI_Controller
     }
   }
   //--------------------------------------------------------------
-// Guarda audio enviado como base64
-//--------------------------------------------------------------
-public function guardarAudio()
-{
+  // Guarda audio enviado como base64
+  //--------------------------------------------------------------
+  public function guardarAudio()
+  {
     verificarConsulAjax();
-    
+
 
     $inspeccion_id = $this->input->post("inspeccion_id");
     $audio_base64  = $this->input->post("audio");
     $titulo  = $this->input->post("titulo");
 
     if (!$inspeccion_id || !$audio_base64) {
-        return $this->response->error("Faltan datos requeridos", []);
+      return $this->response->error("Faltan datos requeridos", []);
     }
 
     // Delegamos el guardado a la librería Audio
     $result = $this->audio->save_base64($audio_base64, $inspeccion_id);
 
     if (!$result["success"]) {
-        return $this->response->error("Error al guardar el archivo", $result["message"]);
+      return $this->response->error("Error al guardar el archivo", $result["message"]);
     }
 
     // Registramos en base de datos
     $data_insert = [
-        "inspeccion_id" => $inspeccion_id,
-        "titulo"     => $result["file"],
-        "archivo"     => $result["path"],
-        "descripcion"     => $titulo,
-        "created_at"    => date("Y-m-d H:i:s")
+      "inspeccion_id" => $inspeccion_id,
+      "titulo"     => $result["file"],
+      "archivo"     => $result["path"],
+      "descripcion"     => $titulo,
+      "created_at"    => date("Y-m-d H:i:s")
     ];
 
     $this->audios->crear($data_insert);
 
     return $this->response->ok("Audio guardado", []);
-}
+  }
 
 
 
-//--------------------------------------------------------------
-// Retorna HTML con el listado de audios pertenecientes a la inspección
-//--------------------------------------------------------------
-public function getAudios($inspeccion_id)
-{
+  //--------------------------------------------------------------
+  // Retorna HTML con el listado de audios pertenecientes a la inspección
+  //--------------------------------------------------------------
+  public function getAudios($inspeccion_id)
+  {
     verificarConsulAjax();
 
     $data["audios"] = $this->audios->get_by_inspeccion($inspeccion_id);
     $this->load->view("admin/inspecciones/_tblAudios", $data);
-}
+  }
 
 
 
-//--------------------------------------------------------------
-// Permite descargar un audio
-//--------------------------------------------------------------
-public function descargarAudio($id_audio)
-{
+  //--------------------------------------------------------------
+  // Permite descargar un audio
+  //--------------------------------------------------------------
+  public function descargarAudio($id_audio)
+  {
     $audio = $this->audios->get($id_audio);
     if (!$audio) show_404();
 
     $path = FCPATH . $audio->archivo;
 
     if (!file_exists($path)) {
-        echo "Archivo no encontrado";
-        return;
+      echo "Archivo no encontrado";
+      return;
     }
 
     $this->load->helper('download');
     force_download($path, null);
-}
+  }
 
 
 
-//--------------------------------------------------------------
-// Elimina un audio
-//--------------------------------------------------------------
+  //--------------------------------------------------------------
+  // Elimina un audio
+  //--------------------------------------------------------------
   public function eliminarAudio($id_audio)
   {
     verificarConsulAjax();
@@ -518,56 +547,56 @@ public function descargarAudio($id_audio)
     return $this->response->error('Ooops.. error!', 'No se pudo eliminar el Audio. Intente más tarde!');
   }
 
-//-----------lista de audios de la inspeccion
+  //-----------lista de audios de la inspeccion
 
   public function listarAudios($id_inspeccion)
   {
 
-      $data['audios'] = $this->audios->getByInspeccion($id_inspeccion);
-      $this->load->view('admin/inspecciones/_tblAudios', $data);
+    $data['audios'] = $this->audios->getByInspeccion($id_inspeccion);
+    $this->load->view('admin/inspecciones/_tblAudios', $data);
   }
-  
+
   /* documentos */
 
   //--------------------------------------------------------------
   // GUARDAR DOCUMENTO
   //--------------------------------------------------------------
- public function guardarDocumento()
+  public function guardarDocumento()
   {
-      verificarConsulAjax();
+    verificarConsulAjax();
 
-      $inspeccion_id = $this->input->post("inspeccion_id");
-      $tipo_doc      = $this->input->post("tipo_doc");
+    $inspeccion_id = $this->input->post("inspeccion_id");
+    $tipo_doc      = $this->input->post("tipo_doc");
 
-      // Archivo viene por input type="file"
-      if (!$inspeccion_id || !$tipo_doc || empty($_FILES["documento"]["name"])) {
-          return $this->response->error("Faltan datos requeridos", []);
-      }
+    // Archivo viene por input type="file"
+    if (!$inspeccion_id || !$tipo_doc || empty($_FILES["documento"]["name"])) {
+      return $this->response->error("Faltan datos requeridos", []);
+    }
 
-      // Cargar librería Docs
-      //$this->load->library("Docs_lib");
+    // Cargar librería Docs
+    //$this->load->library("Docs_lib");
 
-      // Guardado físico del archivo
-      $filename = $this->document->subirDocumento(
-          "documento",               // input file name
-          "documentos_inspecciones"  // folder
-      );
+    // Guardado físico del archivo
+    $filename = $this->document->subirDocumento(
+      "documento",               // input file name
+      "documentos_inspecciones"  // folder
+    );
 
-      if (!$filename) {
-          return $this->response->error("Error al guardar el archivo", []);
-      }
+    if (!$filename) {
+      return $this->response->error("Error al guardar el archivo", []);
+    }
 
-      // Registrar en base de datos
-      $data_insert = [
-          "inspeccion_id" => $inspeccion_id,
-          "tipo"          => $tipo_doc,
-          "archivo"       => $filename,
-          "created_at"    => date("Y-m-d H:i:s")
-      ];
+    // Registrar en base de datos
+    $data_insert = [
+      "inspeccion_id" => $inspeccion_id,
+      "tipo"          => $tipo_doc,
+      "archivo"       => $filename,
+      "created_at"    => date("Y-m-d H:i:s")
+    ];
 
-      $this->documentos->crear($data_insert);
+    $this->documentos->crear($data_insert);
 
-      return $this->response->ok("Documento guardado", []);
+    return $this->response->ok("Documento guardado", []);
   }
 
 
@@ -578,19 +607,19 @@ public function descargarAudio($id_audio)
   //--------------------------------------------------------------
   public function listarDocumentos($inspeccion_id)
   {
-      verificarConsulAjax();
+    verificarConsulAjax();
 
-      $documentos = $this->documentos->get_by_inspeccion($inspeccion_id);
+    $documentos = $this->documentos->get_by_inspeccion($inspeccion_id);
 
-      $data['view'] = $this->load->view(
-          INSPECCIONES_PATH . '/_tblDocumentos',
-          ['documentos' => $documentos],
-          true
-      );
+    $data['view'] = $this->load->view(
+      INSPECCIONES_PATH . '/_tblDocumentos',
+      ['documentos' => $documentos],
+      true
+    );
 
-      return $this->response->ok("OK", $data);
+    return $this->response->ok("OK", $data);
   }
-  
+
 
 
 
@@ -599,15 +628,15 @@ public function descargarAudio($id_audio)
   //--------------------------------------------------------------
   public function getDocumentos($inspeccion_id)
   {
-      verificarConsulAjax();  
+    verificarConsulAjax();
 
-      $data["documentos"] = $this->documentos->get_by_inspeccion($inspeccion_id);
+    $data["documentos"] = $this->documentos->get_by_inspeccion($inspeccion_id);
 
-      // Return HTML partial
-      $this->load->view('admin/inspecciones/_tblDocumentos', $data);
+    // Return HTML partial
+    $this->load->view('admin/inspecciones/_tblDocumentos', $data);
   }
 
-  
+
 
 
   //--------------------------------------------------------------
@@ -615,22 +644,22 @@ public function descargarAudio($id_audio)
   //--------------------------------------------------------------
   public function eliminarDocumento($id_documento)
   {
-      verificarConsulAjax();
+    verificarConsulAjax();
 
-      // Marca borrado suave igual que audios
-      $resp = $this->documentos->actualizar(
-          $id_documento,
-          ['deleted_at' => date('Y-m-d')]
-      );
+    // Marca borrado suave igual que audios
+    $resp = $this->documentos->actualizar(
+      $id_documento,
+      ['deleted_at' => date('Y-m-d')]
+    );
 
-      if ($resp) {
-          return $this->response->ok('Documento eliminado!');
-      }
+    if ($resp) {
+      return $this->response->ok('Documento eliminado!');
+    }
 
-      return $this->response->error(
-          'Ooops.. error!',
-          'No se pudo eliminar el documento. Intente más tarde!'
-      );
+    return $this->response->error(
+      'Ooops.. error!',
+      'No se pudo eliminar el documento. Intente más tarde!'
+    );
   }
 
 
@@ -640,14 +669,11 @@ public function descargarAudio($id_audio)
   //--------------------------------------------------------------
   private function getDocumentosList($inspeccion_id)
   {
-      return $this->db
-          ->where('inspeccion_id', $inspeccion_id)
-          ->where('deleted_at IS NULL', null, false)
-          ->order_by('created_at', 'DESC')
-          ->get('documentos_inspeccion')
-          ->result();
+    return $this->db
+      ->where('inspeccion_id', $inspeccion_id)
+      ->where('deleted_at IS NULL', null, false)
+      ->order_by('created_at', 'DESC')
+      ->get('documentos_inspeccion')
+      ->result();
   }
-
-
-
 }

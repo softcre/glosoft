@@ -3,6 +3,9 @@
     <thead class="table-success">
       <tr>
         <th scope="col" class="text-center">N° acta</th>
+        <?php if (!permisoInspector()): ?>
+          <th scope="col" class="text-center">Inspector</th>
+        <?php endif; ?>
         <th scope="col" class="text-center">Ubicación</th>
         <th scope="col" class="text-center">Fecha</th>
         <th scope="col" class="text-center">Estado</th>
@@ -12,19 +15,22 @@
     <tbody class="align-middle text-center">
       <?php foreach ($inspecciones as $inspeccion): ?>
         <?php
-          $estado = $inspeccion->nombre_estado;
-          // TAB POR INSPECCIONAR
-          if ($filtro == 'por_hacer' && $estado !== 'INSPECCION') {
-              continue;
-          }
+        $estado = $inspeccion->nombre_estado;
+        // TAB POR INSPECCIONAR
+        if ($filtro == 'por_hacer' && $estado !== 'INSPECCION') {
+          continue;
+        }
 
-          // TAB INSPECCIONADAS
-          if ($filtro == 'hechas' && $estado === 'INSPECCION') {
-              continue;
-          }
+        // TAB INSPECCIONADAS
+        if ($filtro == 'hechas' && $estado === 'INSPECCION') {
+          continue;
+        }
         ?>
         <tr>
           <td><?= $inspeccion->id_inspeccion; ?></td>
+          <?php if (!permisoInspector()): ?>
+            <td><?= concatenar($inspeccion->inspector_apellido, $inspeccion->inspector_nombre); ?></td>
+          <?php endif; ?>
           <td><?= $inspeccion->ubicacion; ?></td>
           <td><?= formatearFecha($inspeccion->fecha_inspeccion); ?></td>
           <td>

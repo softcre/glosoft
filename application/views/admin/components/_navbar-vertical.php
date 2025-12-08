@@ -65,7 +65,7 @@
                 </a>
               </li>
             <?php endif; ?>
-            <?php if (permisoInspector()): ?>
+            <?php if (permisoInspector() || permisoVerificador()): ?>
               <li class="nav-item">
                 <a href="<?= base_url(INSPECCIONES_PATH); ?>" class="nav-link <?= ($act == 'acta') ? 'active' : ''; ?>">
                   <i class="bi bi-binoculars-fill me-2"></i> Inspecciones
