@@ -118,7 +118,7 @@ function eliminar(ele) {
 
 //-------------------CARGA LOCALIDADES POR PROVINCIA-------------------
 // Function to load localidades
-function cargarLocalidades(provinciaId) {
+function cargarLocalidades(provinciaId, preserveSelection = false) {
 	const localidadSelect = $('#localidad');
 	
 	if (!provinciaId || provinciaId === '') {
@@ -127,10 +127,14 @@ function cargarLocalidades(provinciaId) {
 		return;
 	}
 	
+	// Save the currently selected localidad_id BEFORE any changes (for edit mode)
+	// This must be done before disabling or clearing the dropdown
+	const currentLocalidadId = preserveSelection && localidadSelect.length ? localidadSelect.val() : null;
+	
 	// Enable localidad dropdown
 	localidadSelect.prop('disabled', false);
 	
-	// Show loading state
+	// Show loading state (this clears the selected value, so we saved it above)
 	localidadSelect.html('<option value="">Cargando...</option>');
 	
 	// Construct URL - try multiple approaches
@@ -187,6 +191,14 @@ function cargarLocalidades(provinciaId) {
 									.text(localidad.nombre)
 							);
 						});
+						
+						// Restore the previously selected localidad_id if we're preserving selection (edit mode)
+						if (preserveSelection && currentLocalidadId) {
+							// Check if the saved localidad_id exists in the loaded options
+							if (localidadSelect.find('option[value="' + currentLocalidadId + '"]').length > 0) {
+								localidadSelect.val(currentLocalidadId);
+							}
+						}
 					} else {
 						localidadSelect.html('<option value="">No hay localidades disponibles</option>');
 					}
@@ -208,15 +220,28 @@ function cargarLocalidades(provinciaId) {
 // Use event delegation to handle dynamically loaded modal content
 $(document).on('change', '#provincia', function() {
 	const provinciaId = $(this).val();
-	cargarLocalidades(provinciaId);
+	// When user manually changes provincia, don't preserve selection (clear it)
+	cargarLocalidades(provinciaId, false);
 });
 
 // Also handle when modal is shown to ensure handler is ready
 $(document).on('shown.bs.modal', '.modal', function() {
-	// Check if provincia is already selected (for edit mode)
-	const provinciaSelect = $(this).find('#provincia');
-	if (provinciaSelect.length && provinciaSelect.val()) {
-		// If provincia is already selected, load localidades
-		cargarLocalidades(provinciaSelect.val());
-	}
+	// Small delay to ensure modal content is fully loaded
+	setTimeout(function() {
+		// Check if provincia is already selected (for edit mode)
+		const provinciaSelect = $(this).find('#provincia');
+		const localidadSelect = $(this).find('#localidad');
+		
+		if (provinciaSelect.length && provinciaSelect.val()) {
+			// Check if there's already a selected localidad value (edit mode)
+			// This happens when PHP has already populated the dropdown with the selected value
+			// We need to save this BEFORE loading new options
+			const currentLocalidadValue = localidadSelect.length && localidadSelect.val() ? localidadSelect.val() : null;
+			const hasSelectedLocalidad = currentLocalidadValue && currentLocalidadValue !== '';
+			
+			// Always load localidades if provincia is selected (they might need refreshing)
+			// But preserve the selection if we're in edit mode
+			cargarLocalidades(provinciaSelect.val(), hasSelectedLocalidad);
+		}
+	}.bind(this), 50);
 });

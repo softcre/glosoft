@@ -16,7 +16,7 @@
       <?php foreach ($expedientes as $expediente): ?>
         <tr>
           <td><?= $expediente->id_expediente; ?></td>
-          <td><?= $expediente->ubicacion; ?></td>
+          <td><?= formatearUbicacion($expediente->ubicacion); ?></td>
           <td><?= isset($expediente->provincia_nombre) ? $expediente->provincia_nombre : '-'; ?></td>
           <td><?= isset($expediente->localidad_nombre) ? $expediente->localidad_nombre : '-'; ?></td>
           <td><?= formatearFecha($expediente->fecha_expediente); ?></td>

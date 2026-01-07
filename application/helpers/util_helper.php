@@ -500,3 +500,41 @@ function textoTipoUsuario($tipo)
             return strtoupper($tipo);
     }
 }
+
+/**
+ * Formatea la ubicación como un enlace clickeable si es una URL, o como texto plano si no lo es
+ * 
+ * @param string $ubicacion La ubicación a formatear (puede ser una URL o texto plano)
+ * @param int $maxLength Longitud máxima del texto a mostrar (por defecto 50)
+ * @return string HTML formateado con enlace o texto plano
+ */
+function formatearUbicacion($ubicacion, $maxLength = 50)
+{
+    if (empty($ubicacion)) {
+        return '-';
+    }
+    
+    // Verificar si es una URL (http:// o https://)
+    $isUrl = filter_var($ubicacion, FILTER_VALIDATE_URL) !== false || 
+             preg_match('/^https?:\/\//i', $ubicacion);
+    
+    if ($isUrl) {
+        // Truncar URL si es muy larga para mostrar
+        $displayText = strlen($ubicacion) > $maxLength 
+            ? substr($ubicacion, 0, $maxLength) . '...' 
+            : $ubicacion;
+        
+        // Crear enlace con icono
+        return '<a href="' . htmlspecialchars($ubicacion, ENT_QUOTES, 'UTF-8') . '" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="text-primary text-decoration-none"
+                   title="' . htmlspecialchars($ubicacion, ENT_QUOTES, 'UTF-8') . '">
+                   <i class="bi bi-geo-alt-fill me-1"></i>' . htmlspecialchars($displayText, ENT_QUOTES, 'UTF-8') . '
+                   <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.75em;"></i>
+                </a>';
+    } else {
+        // Si no es URL, mostrar como texto normal
+        return htmlspecialchars($ubicacion, ENT_QUOTES, 'UTF-8');
+    }
+}

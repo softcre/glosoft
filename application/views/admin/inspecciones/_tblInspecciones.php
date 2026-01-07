@@ -31,7 +31,7 @@
           <?php if (!permisoInspector()): ?>
             <td><?= concatenar($inspeccion->inspector_apellido, $inspeccion->inspector_nombre); ?></td>
           <?php endif; ?>
-          <td><?= $inspeccion->ubicacion; ?></td>
+          <td><?= formatearUbicacion($inspeccion->ubicacion); ?></td>
           <td><?= formatearFecha($inspeccion->fecha_inspeccion); ?></td>
           <td>
             <span class="badge <?= colorEstadoInspeccion($inspeccion->nombre_estado); ?>"><?= $inspeccion->nombre_estado; ?></span>
