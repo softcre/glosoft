@@ -503,12 +503,13 @@ function textoTipoUsuario($tipo)
 
 /**
  * Formatea la ubicación como un enlace clickeable si es una URL, o como texto plano si no lo es
+ * Si es URL, muestra solo iconos para ahorrar espacio en la tabla
  * 
  * @param string $ubicacion La ubicación a formatear (puede ser una URL o texto plano)
- * @param int $maxLength Longitud máxima del texto a mostrar (por defecto 50)
+ * @param bool $iconOnly Si es true y es URL, muestra solo iconos sin texto (por defecto true)
  * @return string HTML formateado con enlace o texto plano
  */
-function formatearUbicacion($ubicacion, $maxLength = 50)
+function formatearUbicacion($ubicacion, $iconOnly = true)
 {
     if (empty($ubicacion)) {
         return '-';
@@ -519,19 +520,14 @@ function formatearUbicacion($ubicacion, $maxLength = 50)
              preg_match('/^https?:\/\//i', $ubicacion);
     
     if ($isUrl) {
-        // Truncar URL si es muy larga para mostrar
-        $displayText = strlen($ubicacion) > $maxLength 
-            ? substr($ubicacion, 0, $maxLength) . '...' 
-            : $ubicacion;
-        
-        // Crear enlace con icono
+        // Crear enlace con solo iconos para ahorrar espacio
         return '<a href="' . htmlspecialchars($ubicacion, ENT_QUOTES, 'UTF-8') . '" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   class="text-primary text-decoration-none"
-                   title="' . htmlspecialchars($ubicacion, ENT_QUOTES, 'UTF-8') . '">
-                   <i class="bi bi-geo-alt-fill me-1"></i>' . htmlspecialchars($displayText, ENT_QUOTES, 'UTF-8') . '
-                   <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.75em;"></i>
+                   class="text-primary text-decoration-none d-inline-flex align-items-center"
+                   title="' . htmlspecialchars($ubicacion, ENT_QUOTES, 'UTF-8') . '"
+                   style="font-size: 1.2em;">
+                   <i class="bi bi-geo-alt-fill" style="font-size: 1.1em;"></i>
                 </a>';
     } else {
         // Si no es URL, mostrar como texto normal
