@@ -45,6 +45,7 @@ class Expedientes_controller extends CI_Controller
     verificarConsulAjax();
 
     $data['inspectores'] = $this->inspectores->get_all_inspectores();
+    $data['provincias'] = $this->expedientes->get_provincias();
 
     $this->load->view('admin/expedientes/frmNuevoExpediente', $data);
   }
@@ -56,7 +57,12 @@ class Expedientes_controller extends CI_Controller
 
     $data['expediente'] = $this->expedientes->get($id_expediente);
     $data['inspectores'] = $this->inspectores->get_all_inspectores();
-
+    $data['provincias'] = $this->expedientes->get_provincias();
+    
+    // Load localidades if provincia is selected
+    if ($data['expediente']->provincia_id) {
+      $data['localidades'] = $this->expedientes->get_localidades_by_provincia($data['expediente']->provincia_id);
+    }
 
     $this->load->view('admin/expedientes/frmEditarExpediente', $data);
   }
@@ -93,7 +99,9 @@ class Expedientes_controller extends CI_Controller
         'inspeccion_id' => $inspeccion_id,
         'fecha_expediente' => fechaHoraHoy('Y-m-d'),
         'ubicacion' => $this->input->post('ubicacion'),
-        'inspector_id' => $this->input->post('inspector_id')
+        'inspector_id' => $this->input->post('inspector_id'),
+        'provincia_id' => $this->input->post('provincia_id') ? $this->input->post('provincia_id') : NULL,
+        'localidad_id' => $this->input->post('localidad_id') ? $this->input->post('localidad_id') : NULL
       ];
 
       $expendiente_id = $this->expedientes->crear($expediente); // se inserta en bd
@@ -125,7 +133,9 @@ class Expedientes_controller extends CI_Controller
       $id_expediente = $this->input->post('id_expediente');
       $expediente = [
         'ubicacion' => $this->input->post('ubicacion'),
-        'inspector_id' => $this->input->post('inspector_id')
+        'inspector_id' => $this->input->post('inspector_id'),
+        'provincia_id' => $this->input->post('provincia_id') ? $this->input->post('provincia_id') : NULL,
+        'localidad_id' => $this->input->post('localidad_id') ? $this->input->post('localidad_id') : NULL
       ];
 
       $resp = $this->expedientes->actualizar($id_expediente, $expediente); // se actualiza en bd
@@ -156,6 +166,22 @@ class Expedientes_controller extends CI_Controller
     }
 
     return $this->response->error('Ooops.. error!', 'No se pudo eliminar el expediente. Intente más tarde!');
+  }
+
+  //--------------------------------------------------------------
+  public function getLocalidades()
+  {
+    verificarConsulAjax();
+
+    $provincia_id = $this->input->post('provincia_id');
+    
+    if (!$provincia_id) {
+      return $this->response->error('Error', 'Provincia no especificada');
+    }
+
+    $localidades = $this->expedientes->get_localidades_by_provincia($provincia_id);
+    
+    return $this->response->ok('Localidades cargadas', ['localidades' => $localidades]);
   }
 
   /**

@@ -115,6 +115,7 @@ $route[EXPEDIENTES_PATH . '/frmVer/(:num)']  = 'admin/Expedientes_controller/frm
 $route[EXPEDIENTES_PATH . '/crear']  = 'admin/Expedientes_controller/crear';
 $route[EXPEDIENTES_PATH . '/actualizar']  = 'admin/Expedientes_controller/actualizar';
 $route[EXPEDIENTES_PATH . '/eliminar/(:num)']  = 'admin/Expedientes_controller/eliminar/$1';
+$route[EXPEDIENTES_PATH . '/getLocalidades']  = 'admin/Expedientes_controller/getLocalidades';
 
 // INSPECCIONES (Actas)
 $route[INSPECCIONES_PATH]  = 'admin/Inspecciones_controller';

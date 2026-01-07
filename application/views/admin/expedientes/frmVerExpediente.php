@@ -14,6 +14,12 @@
     <dt class="col-sm-4 fw-bold text-muted">Ubicación:</dt>
     <dd class="col-sm-8 text-end"><?= $expediente->ubicacion; ?></dd>
 
+    <dt class="col-sm-4 fw-bold text-muted">Provincia:</dt>
+    <dd class="col-sm-8 text-end"><?= isset($expediente->provincia_nombre) && $expediente->provincia_nombre ? $expediente->provincia_nombre : '-'; ?></dd>
+
+    <dt class="col-sm-4 fw-bold text-muted">Localidad:</dt>
+    <dd class="col-sm-8 text-end"><?= isset($expediente->localidad_nombre) && $expediente->localidad_nombre ? $expediente->localidad_nombre : '-'; ?></dd>
+
     <dt class="col-sm-4 fw-bold text-muted">Inspector a Cargo:</dt>
     <dd class="col-sm-8 text-end"><?= concatenar($expediente->inspector_apellido, $expediente->inspector_nombre); ?></dd>
   </dl>

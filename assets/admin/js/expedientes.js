@@ -115,3 +115,108 @@ function eliminar(ele) {
 	const mensaje = "El expediente N° " + ele.dataset.name + " se eliminará...";
 	bajaRegistro(ele, ele.dataset.url, title, mensaje);
 }
+
+//-------------------CARGA LOCALIDADES POR PROVINCIA-------------------
+// Function to load localidades
+function cargarLocalidades(provinciaId) {
+	const localidadSelect = $('#localidad');
+	
+	if (!provinciaId || provinciaId === '') {
+		localidadSelect.html('<option value="">Seleccione una localidad</option>');
+		localidadSelect.prop('disabled', true);
+		return;
+	}
+	
+	// Enable localidad dropdown
+	localidadSelect.prop('disabled', false);
+	
+	// Show loading state
+	localidadSelect.html('<option value="">Cargando...</option>');
+	
+	// Construct URL - try multiple approaches
+	let url = null;
+	
+	// Method 1: Extract from form action URL
+	const form = localidadSelect.closest('form');
+	if (form.length && form.attr('action')) {
+		const actionUrl = form.attr('action');
+		// Extract base path (e.g., /glosoft/admin/expedientes/crear -> /glosoft/admin/expedientes/getLocalidades)
+		url = actionUrl.replace(/\/crear$/, '').replace(/\/actualizar$/, '') + '/getLocalidades';
+	}
+	
+	// Method 2: Use BASE_URL constant if available
+	if (!url && typeof BASE_URL !== 'undefined') {
+		// Remove trailing slash if present
+		const base = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
+		url = base + '/admin/expedientes/getLocalidades';
+	}
+	
+	// Method 3: Construct from current page URL
+	if (!url) {
+		const currentPath = window.location.pathname;
+		// If we're on the expedientes index page, use relative path
+		if (currentPath.includes('/expedientes')) {
+			const basePath = currentPath.substring(0, currentPath.lastIndexOf('/expedientes') + '/expedientes'.length);
+			url = window.location.origin + basePath + '/getLocalidades';
+		} else {
+			// Fallback: try to construct admin/expedientes path
+			url = window.location.origin + '/admin/expedientes/getLocalidades';
+		}
+	}
+	
+	// AJAX call to get localidades
+	$.ajax({
+		url: url,
+		method: 'POST',
+		data: {
+			provincia_id: provinciaId
+		},
+		success: function(resp) {
+			try {
+				let data = typeof resp === 'string' ? JSON.parse(resp) : resp;
+				
+				if (data.status === 'ok' && data.data && data.data.localidades) {
+					// Populate localidad dropdown
+					localidadSelect.html('<option value="">Seleccione una localidad</option>');
+					
+					if (data.data.localidades.length > 0) {
+						$.each(data.data.localidades, function(index, localidad) {
+							localidadSelect.append(
+								$('<option></option>')
+									.attr('value', localidad.id_localidad)
+									.text(localidad.nombre)
+							);
+						});
+					} else {
+						localidadSelect.html('<option value="">No hay localidades disponibles</option>');
+					}
+				} else {
+					localidadSelect.html('<option value="">No hay localidades disponibles</option>');
+				}
+			} catch (e) {
+				console.error('Error parsing response:', e, resp);
+				localidadSelect.html('<option value="">Error al cargar localidades</option>');
+			}
+		},
+		error: function(xhr, status, error) {
+			console.error('Error loading localidades:', error, xhr);
+			localidadSelect.html('<option value="">Error al cargar localidades</option>');
+		}
+	});
+}
+
+// Use event delegation to handle dynamically loaded modal content
+$(document).on('change', '#provincia', function() {
+	const provinciaId = $(this).val();
+	cargarLocalidades(provinciaId);
+});
+
+// Also handle when modal is shown to ensure handler is ready
+$(document).on('shown.bs.modal', '.modal', function() {
+	// Check if provincia is already selected (for edit mode)
+	const provinciaSelect = $(this).find('#provincia');
+	if (provinciaSelect.length && provinciaSelect.val()) {
+		// If provincia is already selected, load localidades
+		cargarLocalidades(provinciaSelect.val());
+	}
+});

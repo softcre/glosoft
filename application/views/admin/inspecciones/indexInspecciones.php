@@ -9,7 +9,7 @@
     <div class="container-fluid">
       <div class="card card-success border-success">
         <div class="card-header">
-          <h3 class="card-title">Listado de Inspeccions</h3>
+          <h3 class="card-title">Listado de Inspecciones</h3>
         </div>
         <!-- /.card-header -->
         <div id="inspecciones-main" class="card-body">

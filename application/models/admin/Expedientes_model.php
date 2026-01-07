@@ -6,6 +6,8 @@ class Expedientes_model extends CI_Model
     private $table;
     private $tableEstados;
     private $tableUsuarios;
+    private $tableProvincias;
+    private $tableLocalidades;
 
     //--------------------------------------------------------------
     public function __construct()
@@ -16,6 +18,8 @@ class Expedientes_model extends CI_Model
         $this->table = 'expedientes';
         $this->tableEstados = 'expedientes_estados';
         $this->tableUsuarios = 'usuarios';
+        $this->tableProvincias = 'provincias';
+        $this->tableLocalidades = 'localidades';
     }
 
     //--------------------------------------------------------------
@@ -27,11 +31,15 @@ class Expedientes_model extends CI_Model
             es.nombre_estado,
             es.descripcion as estado_descripcion,
             u.nombre as inspector_nombre,
-            u.apellido as inspector_apellido
+            u.apellido as inspector_apellido,
+            p.nombre as provincia_nombre,
+            l.nombre as localidad_nombre
         ');
         $this->db->from($this->table . ' e');
         $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->join($this->tableProvincias . ' p', 'e.provincia_id = p.id_provincia', 'left');
+        $this->db->join($this->tableLocalidades . ' l', 'e.localidad_id = l.id_localidad', 'left');
         $this->db->where('e.deleted_at', null);
         $this->db->order_by('e.created_at', 'DESC');
         return $this->db->get()->result();
@@ -46,11 +54,15 @@ class Expedientes_model extends CI_Model
             es.nombre_estado,
             es.descripcion as estado_descripcion,
             u.nombre as inspector_nombre,
-            u.apellido as inspector_apellido
+            u.apellido as inspector_apellido,
+            p.nombre as provincia_nombre,
+            l.nombre as localidad_nombre
         ');
         $this->db->from($this->table . ' e');
         $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->join($this->tableProvincias . ' p', 'e.provincia_id = p.id_provincia', 'left');
+        $this->db->join($this->tableLocalidades . ' l', 'e.localidad_id = l.id_localidad', 'left');
         $this->db->where('e.id_expediente', $id_expediente);
         $this->db->where('e.deleted_at', null);
         return $this->db->get()->row();
@@ -64,11 +76,15 @@ class Expedientes_model extends CI_Model
             e.*,
             es.nombre_estado,
             u.nombre as inspector_nombre,
-            u.apellido as inspector_apellido
+            u.apellido as inspector_apellido,
+            p.nombre as provincia_nombre,
+            l.nombre as localidad_nombre
         ');
         $this->db->from($this->table . ' e');
         $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->join($this->tableProvincias . ' p', 'e.provincia_id = p.id_provincia', 'left');
+        $this->db->join($this->tableLocalidades . ' l', 'e.localidad_id = l.id_localidad', 'left');
         $this->db->where('e.inspector_id', $inspector_id);
         $this->db->where('e.deleted_at', null);
         $this->db->order_by('e.created_at', 'DESC');
@@ -83,11 +99,15 @@ class Expedientes_model extends CI_Model
             e.*,
             es.nombre_estado,
             u.nombre as inspector_nombre,
-            u.apellido as inspector_apellido
+            u.apellido as inspector_apellido,
+            p.nombre as provincia_nombre,
+            l.nombre as localidad_nombre
         ');
         $this->db->from($this->table . ' e');
         $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->join($this->tableProvincias . ' p', 'e.provincia_id = p.id_provincia', 'left');
+        $this->db->join($this->tableLocalidades . ' l', 'e.localidad_id = l.id_localidad', 'left');
         $this->db->where('e.estado_id', $estado_id);
         $this->db->where('e.deleted_at', null);
         $this->db->order_by('e.created_at', 'DESC');
@@ -169,11 +189,15 @@ class Expedientes_model extends CI_Model
             e.*,
             es.nombre_estado,
             u.nombre as inspector_nombre,
-            u.apellido as inspector_apellido
+            u.apellido as inspector_apellido,
+            p.nombre as provincia_nombre,
+            l.nombre as localidad_nombre
         ');
         $this->db->from($this->table . ' e');
         $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->join($this->tableProvincias . ' p', 'e.provincia_id = p.id_provincia', 'left');
+        $this->db->join($this->tableLocalidades . ' l', 'e.localidad_id = l.id_localidad', 'left');
         $this->db->group_start();
         $this->db->like('e.ubicacion', $keyword);
         $this->db->or_like('e.observaciones', $keyword);
@@ -192,11 +216,15 @@ class Expedientes_model extends CI_Model
             es.nombre_estado,
             es.descripcion as estado_descripcion,
             u.nombre as inspector_nombre,
-            u.apellido as inspector_apellido
+            u.apellido as inspector_apellido,
+            p.nombre as provincia_nombre,
+            l.nombre as localidad_nombre
         ');
         $this->db->from($this->table . ' e');
         $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->join($this->tableProvincias . ' p', 'e.provincia_id = p.id_provincia', 'left');
+        $this->db->join($this->tableLocalidades . ' l', 'e.localidad_id = l.id_localidad', 'left');
         $this->db->where('e.deleted_at', null);
         $this->db->where('UPPER(es.nombre_estado) !=', 'CIERRE');
         $this->db->order_by('e.created_at', 'DESC');
@@ -212,14 +240,39 @@ class Expedientes_model extends CI_Model
             es.nombre_estado,
             es.descripcion as estado_descripcion,
             u.nombre as inspector_nombre,
-            u.apellido as inspector_apellido
+            u.apellido as inspector_apellido,
+            p.nombre as provincia_nombre,
+            l.nombre as localidad_nombre
         ');
         $this->db->from($this->table . ' e');
         $this->db->join($this->tableEstados . ' es', 'e.estado_id = es.id_estado', 'left');
         $this->db->join($this->tableUsuarios . ' u', 'e.inspector_id = u.id_usuario', 'left');
+        $this->db->join($this->tableProvincias . ' p', 'e.provincia_id = p.id_provincia', 'left');
+        $this->db->join($this->tableLocalidades . ' l', 'e.localidad_id = l.id_localidad', 'left');
         $this->db->where('e.deleted_at', null);
         $this->db->where('UPPER(es.nombre_estado)', 'CIERRE');
         $this->db->order_by('e.created_at', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    //--------------------------------------------------------------
+    // Get all provincias
+    public function get_provincias()
+    {
+        $this->db->select('id_provincia, nombre');
+        $this->db->from($this->tableProvincias);
+        $this->db->order_by('nombre', 'ASC');
+        return $this->db->get()->result();
+    }
+
+    //--------------------------------------------------------------
+    // Get localidades by provincia_id
+    public function get_localidades_by_provincia($provincia_id)
+    {
+        $this->db->select('id_localidad, nombre');
+        $this->db->from($this->tableLocalidades);
+        $this->db->where('provincia_id', $provincia_id);
+        $this->db->order_by('nombre', 'ASC');
         return $this->db->get()->result();
     }
 }

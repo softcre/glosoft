@@ -4,6 +4,8 @@
       <tr>
         <th scope="col" class="text-center">N° Expediente</th>
         <th scope="col" class="text-center">Ubicación</th>
+        <th scope="col" class="text-center">Provincia</th>
+        <th scope="col" class="text-center">Localidad</th>
         <th scope="col" class="text-center">Fecha</th>
         <th scope="col" class="text-center">Inspector asignado</th>
         <th scope="col" class="text-center">Estado</th>
@@ -15,6 +17,8 @@
         <tr>
           <td><?= $expediente->id_expediente; ?></td>
           <td><?= $expediente->ubicacion; ?></td>
+          <td><?= isset($expediente->provincia_nombre) ? $expediente->provincia_nombre : '-'; ?></td>
+          <td><?= isset($expediente->localidad_nombre) ? $expediente->localidad_nombre : '-'; ?></td>
           <td><?= formatearFecha($expediente->fecha_expediente); ?></td>
           <td><?= concatenar($expediente->inspector_apellido, $expediente->inspector_nombre); ?></td>
           <td>
