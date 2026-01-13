@@ -20,7 +20,7 @@
               garantizar una respuesta inmediata y efectiva.
             </div>
 
-            <form id="form_denuncia" method="post" enctype="multipart/form-data">
+            <form id="form_denuncia" name="form_denuncia" action="<?= base_url(DENUNCIA_PATH . '/crear') ?>" method="post" enctype="multipart/form-data">
 
               <h6 class="text-muted text-uppercase mt-2 mb-2">Datos personales</h6>
 
@@ -102,8 +102,12 @@
               </div>
 
               <div class="d-grid mt-3">
-                <button type="submit" class="btn btn-warning">
-                  <i class="bi bi-send me-2"></i> Enviar denuncia
+                <button type="submit" id="btnFormform_denuncia" class="btn btn-warning" name="button">
+                  <div class="d-none">
+                    <span class="spinner-grow spinner-grow-sm mr-1" role="status" aria-hidden="true"></span>
+                    Enviando...
+                  </div>
+                  <span><i class="bi bi-send me-2"></i> Enviar denuncia</span>
                 </button>
               </div>
 
@@ -175,6 +179,47 @@
     $(document).on('change', '#provincia', function() {
       const provinciaId = $(this).val();
       cargarLocalidades(provinciaId);
+    });
+
+    // Handle form submission
+    $('#form_denuncia').on('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const btnName = 'btnForm' + this.name;
+      const btn = document.getElementById(btnName);
+
+      $.ajax({
+        url: this.action,
+        method: 'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        beforeSend: function() {
+          btn.disabled = true;
+          btn.children[0].classList.remove('d-none');
+          btn.children[1].classList.add('d-none');
+        },
+        success: function(resp) {
+          let data = typeof resp === 'string' ? JSON.parse(resp) : resp;
+
+          if (data.status === 'ok') {
+            mostrarToast('success', data.title, data.msj);
+
+            if (data.data.url != undefined) {
+              setTimeout(() => (location.href = data.data.url), 1500);
+            }
+          } else {
+            mostrarErrors(data.title, data.errors);
+          }
+        },
+        error: ajaxErrors,
+        complete: function() {
+          btn.disabled = false;
+          btn.children[0].classList.add('d-none');
+          btn.children[1].classList.remove('d-none');
+        }
+      });
     });
   </script>
 </body>
