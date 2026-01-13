@@ -65,6 +65,9 @@ $route[ADMIN_PATH . '/logout']['post'] = 'Index_controller/logout';
 $route['google/login'] = 'index_controller/googleLogin';
 $route['google/callback'] = 'index_controller/googleCallback';
 
+// DENUNCIA
+$route[DENUNCIA_PATH] = 'admin/Denuncia_controller';
+$route[DENUNCIA_PATH . '/getLocalidades'] = 'admin/Denuncia_controller/getLocalidades';
 
 // DASHBOARD
 $route[DASHBOARD_PATH]  = 'admin/Dashboard_controller';

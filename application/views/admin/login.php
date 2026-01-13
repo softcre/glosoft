@@ -1,6 +1,20 @@
 <?php $this->load->view('admin/components/_head', ['log' => false]); ?>
 
 <body class="login-page bg-body-secondary">
+  <!-- Header with Denuncia link -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="<?= base_url(ADMIN_PATH) ?>">
+        <img src="<?= base_url(APP_IMG . '/logo-glosoft.png') ?>" alt="Logo" class="me-2" style="width: 32px; height: 32px;">
+        <span class="fw-semibold"><?= APP_NAME; ?></span>
+      </a>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="<?= base_url(DENUNCIA_PATH) ?>">
+          <i class="bi bi-exclamation-triangle me-1"></i> Denuncias
+        </a>
+      </div>
+    </div>
+  </nav>
   <div class="login-box">
     <div class="card card-outline card-success">
       <div class="card-header py-1">

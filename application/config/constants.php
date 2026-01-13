@@ -111,6 +111,7 @@ define('INSPECTORES_PATH', ADMIN_PATH . '/inspectores');
 define('VERIFICADORES_PATH', ADMIN_PATH . '/verificadores');
 define('LIQUIDADORES_PATH', ADMIN_PATH . '/liquidadores');
 define('USERS_ELIMINADOS_PATH', ADMIN_PATH . '/userseliminados');
+define('DENUNCIA_PATH', ADMIN_PATH . '/denuncia');
 
 // LOGIN
 define('LOGIN_PATH', ADMIN_PATH . '/login');
