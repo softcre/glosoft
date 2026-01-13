@@ -93,6 +93,7 @@
               <div class="mb-2">
                 <label class="form-label small text-muted">Adjuntar archivo</label>
                 <input type="file" name="archivo" class="form-control">
+                <small class="text-muted">Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, PNG, GIF, TXT, CSV, ZIP, RAR, PPT, PPTX</small>
               </div>
 
               <div class="form-floating mb-3">

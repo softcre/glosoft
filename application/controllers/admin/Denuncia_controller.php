@@ -57,9 +57,10 @@ class Denuncia_controller extends CI_Controller
 					'archivo',
 					'denuncias'
 				);
-				if ($filename) {
-					$archivo = 'assets/uploads/denuncias/' . $filename;
+				if (!$filename) {
+					return $this->response->error('Error de archivo', 'El tipo de archivo seleccionado no está permitido. Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, PNG, GIF, TXT, CSV, ZIP, RAR, PPT, PPTX.');
 				}
+				$archivo = 'assets/uploads/denuncias/' . $filename;
 			}
 
 			$denuncia = [
