@@ -229,7 +229,7 @@ class Inspecciones_controller extends CI_Controller
       array('field' => 'nombre', 'label' => 'Nombre', 'rules' => 'trim|required|max_length[100]'),
       array('field' => 'tipo_doc', 'label' => 'Tipo de documento', 'rules' => 'required|in_list[DNI,PAS,LC,LE]'),
       array('field' => 'nro_doc', 'label' => 'Número de documento', 'rules' => 'trim|required|integer|max_length[15]|is_unique[afiliaciones.nro_doc]'),
-      array('field' => 'cuil', 'label' => 'CUIL', 'rules' => 'trim|regex_match[/^[0-9]{2}-[0-9]{8}-[0-9]{1}$/]|max_length[14]'),
+      array('field' => 'cuil', 'label' => 'CUIL', 'rules' => 'trim|max_length[14]'),
       array('field' => 'fecha_nacimiento', 'label' => 'Fecha de Nacimiento', 'rules' => 'required|callback_validar_fecha'),
       array('field' => 'actividad', 'label' => 'Actividad', 'rules' => 'trim|required|max_length[100]'),
       array('field' => 'nacionalidad', 'label' => 'Nacionalidad', 'rules' => 'trim|max_length[100]')

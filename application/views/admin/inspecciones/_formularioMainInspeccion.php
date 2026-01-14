@@ -1,3 +1,112 @@
+<div class="d-flex flex-column" style="height: 70vh; overflow: hidden;">
+
+  <div class="bg-white border-bottom flex-shrink-0">
+    <ul class="nav nav-tabs px-3" id="form-tabs" style="border-bottom: none;">
+      <li class="nav-item"><a class="nav-link active" href="#section-empleador">Empleador</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section-establecimiento">Establecimiento</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section-personal">Personal</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section-audio">Audio</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section-documento">Documento</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section-observacion">Observaciones</a></li>
+    </ul>
+  </div>
+
+  <div id="content-scroll-area" class="flex-grow-1 p-4" style="overflow-y: auto; position: relative;">
+
+    <section id="section-empleador" class="content-section mb-3 border-bottom pb-3">
+      <?php $this->load->view('admin/inspecciones/_formularioEmpleador'); ?>
+    </section>
+
+    <section id="section-establecimiento" class="content-section mb-3 border-bottom pb-3">
+      <?php $this->load->view('admin/inspecciones/_formularioEstablecimiento'); ?>
+    </section>
+
+    <section id="section-personal" class="content-section mb-3 border-bottom pb-3">
+      <?php $this->load->view('admin/inspecciones/_formularioTrabajadores'); ?>
+    </section>
+
+    <section id="section-audio" class="content-section mb-3 border-bottom pb-3">
+      <?php $this->load->view('admin/inspecciones/_formularioAudio'); ?>
+    </section>
+
+    <section id="section-documento" class="content-section mb-3 border-bottom pb-3">
+      <?php $this->load->view('admin/inspecciones/_formularioDocumento'); ?>
+    </section>
+
+    <section id="section-observacion" class="content-section mb-3 border-bottom pb-3">
+      <?php $this->load->view('admin/inspecciones/_formularioObservaciones'); ?>
+    </section>
+
+    <div style="min-height: 30vh;"></div>
+  </div>
+</div>
+
+<script>
+  // Inicialización manual para asegurar el funcionamiento en contenedores con scroll propio
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   var scrollSpyContent = document.getElementById('content-scroll-area');
+  //   var spy = new bootstrap.ScrollSpy(scrollSpyContent, {
+  //     target: '#form-tabs', 
+  //   // 4. El offset ayuda a que la pestaña cambie un poco antes de tocar el borde
+  //   offset: 50
+  //   });
+  // });
+  //   var scrollElement = document.getElementById('content-scroll-area');
+  // scrollElement.addEventListener('activate.bs.scrollspy', function (e) {
+  //   console.log('Sección activa:', e.relatedTarget.getAttribute('href'));
+  //   // Aquí podrías disparar la carga de datos si la sección está vacía
+  // });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('content-scroll-area');
+    const tabs = document.querySelectorAll('#form-tabs .nav-link');
+    const MARGEN_SUPERIOR = 15;
+    // Inicializar ScrollSpy primero
+    // const scrollSpyInstance = new bootstrap.ScrollSpy(container, {
+    //     target: '#form-tabs',
+    //     offset: MARGEN_SUPERIOR + 5 // Un offset pequeño para mayor precisión
+    // });
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // 1. Obtener el ID del destino (#section-...)
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          // 1. Quitamos la clase active de todos y la ponemos en el que clickeamos
+          // Esto evita que el movimiento del scroll cambie la pestaña mientras viajamos
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+
+          // 2. Calculamos posición
+          const targetTop = targetElement.offsetTop - MARGEN_SUPERIOR;
+
+          // 3. Movemos el scroll
+          container.scrollTo({
+            top: targetTop,
+            behavior: 'smooth'
+          });
+
+          // 4. "Refrescar" ScrollSpy después de que termine la animación (aprox 500ms)
+          setTimeout(() => {
+            scrollSpyInstance.refresh();
+          }, 600);
+        }
+      });
+    });
+
+    // // 5. ScrollSpy dinámico para cuando el usuario usa la rueda del mouse
+    // new bootstrap.ScrollSpy(container, {
+    //     target: '#form-tabs',
+    //     offset: MARGEN_SUPERIOR + 10,
+    //     smoothScroll: true
+    // });
+  });
+</script>
+<!--
 <div class="accordion" id="accordionExample">
   <div class="accordion-item">
     <h2 class="accordion-header">
@@ -15,7 +124,8 @@
       id="collapseOne"
       class="accordion-collapse collapse show">
       <div class="accordion-body">
-        <?php $this->load->view('admin/inspecciones/_formularioEmpleador'); ?>
+        <?php //$this->load->view('admin/inspecciones/_formularioEmpleador'); 
+        ?>
       </div>
     </div>
   </div>
@@ -36,7 +146,8 @@
       id="collapseTwo"
       class="accordion-collapse collapse show">
       <div class="accordion-body">
-        <?php $this->load->view('admin/inspecciones/_formularioEstablecimiento'); ?>
+        <?php //$this->load->view('admin/inspecciones/_formularioEstablecimiento'); 
+        ?>
       </div>
     </div>
   </div>
@@ -57,12 +168,11 @@
       id="collapseThree"
       class="accordion-collapse collapse show">
       <div class="accordion-body">
-        <?php $this->load->view('admin/inspecciones/_formularioTrabajadores');?>
+        <?php //$this->load->view('admin/inspecciones/_formularioTrabajadores');
+        ?>
       </div>
     </div>
   </div>
-
-<!-- audio -->
 
  <div class="accordion-item">
     <h2 class="accordion-header" id="headingAudio">
@@ -83,12 +193,10 @@
 
         <div class="accordion-body">
 
-            <!-- Title + Buttons Horizontal Layout -->
             <div class="card shadow-sm mb-3 p-3" style="max-width:620px;">
 
                 <div class="d-flex align-items-end justify-content-between gap-3">
 
-                    <!-- Title Field (left) -->
                     <div class="flex-grow-1">
 
                         <label for="audioTitulo"
@@ -109,10 +217,8 @@
 
                     </div>
 
-                    <!-- Buttons (right) -->
                     <div class="d-flex flex-column gap-2">
 
-                        <!-- Record / Stop -->
                         <div class="btn-group" role="group">
                             <button type="button"
                                     class="btn btn-danger"
@@ -130,7 +236,6 @@
                             </button>
                         </div>
 
-                        <!-- Upload / Clear -->
                         <div class="btn-group" role="group">
                             <button type="button"
                                     class="btn btn-primary"
@@ -154,14 +259,12 @@
                 </div>
             </div>
 
-            <!-- Audio Preview -->
             <audio id="audioPreview"
                    controls
                    class="w-100 d-none mb-3"></audio>
 
             <input type="hidden" id="audioBlobData">
 
-            <!-- Table contents -->
             <div id="div_tblAudios"
                  class="mt-4"
                  data-url="<?= base_url(INSPECCIONES_PATH . '/getAudios/' . $inspeccion_id); ?>">
@@ -171,10 +274,6 @@
     </div>
 </div>
 
-
-  <!-- fin audio -->
-  
-  <!-- documentos -->
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingDocs">
         <button class="accordion-button"
@@ -198,7 +297,6 @@ data-doc-list-url="<?= base_url(INSPECCIONES_PATH . '/listarDocumentos/' . $insp
 
             <div class="card p-3 shadow-sm mb-3" style="max-width:620px;">
 
-                <!-- CATEGORY SELECT -->
                 <label class="form-label small text-muted">
                     Tipo de documento <span class="text-danger">*</span>
                 </label>
@@ -215,13 +313,11 @@ data-doc-list-url="<?= base_url(INSPECCIONES_PATH . '/listarDocumentos/' . $insp
                     <option value="Contrato de trabajo">Contrato de trabajo</option>
                 </select>
 
-                <!-- FILE INPUT -->
                 <div class="mt-2">
                     <label class="form-label small text-muted">Archivo</label>
                     <input type="file" id="docFile" class="form-control form-control-sm" required>
                 </div>
 
-                <!-- UPLOAD BUTTON -->
                 <div class="text-end mt-3">
                     <button class="btn btn-primary btn-sm" id="btnUploadDoc">
                         <i class="bi bi-cloud-upload"></i> Subir documento
@@ -229,8 +325,6 @@ data-doc-list-url="<?= base_url(INSPECCIONES_PATH . '/listarDocumentos/' . $insp
                 </div>
 
             </div>
-
-            <!-- DOCUMENTS TABLE -->
             <div id="div_tblDocumentos"
                 class="mt-4"
                 data-url="<?= base_url(INSPECCIONES_PATH . '/getDocumentos/' . $inspeccion_id) ?>">
@@ -241,7 +335,6 @@ data-doc-list-url="<?= base_url(INSPECCIONES_PATH . '/listarDocumentos/' . $insp
     </div>
 </div>
 
-  <!--fin  documentos -->
 
 
   <div class="accordion-item">
@@ -260,8 +353,34 @@ data-doc-list-url="<?= base_url(INSPECCIONES_PATH . '/listarDocumentos/' . $insp
       id="collapseFour"
       class="accordion-collapse collapse show">
       <div class="accordion-body">
-        <?php $this->load->view('admin/inspecciones/_formularioObservaciones');?>
+        <?php //$this->load->view('admin/inspecciones/_formularioObservaciones');
+        ?>
       </div>
     </div>
   </div>
 </div>
+-->
+<script>
+  // document.querySelectorAll('#form-tabs .nav-link').forEach(link => {
+  //     link.addEventListener('click', function() {
+  //         // Cambiar estado visual de las pestañas
+  //         document.querySelectorAll('#form-tabs .nav-link').forEach(l => l.classList.remove('active'));
+  //         this.classList.add('active');
+
+  //         // Obtener el elemento destino
+  //         const targetId = this.getAttribute('data-target');
+  //         const targetElement = document.getElementById(targetId);
+  //         const scrollContainer = document.getElementById('content-scroll-area');
+
+  //         if (targetElement && scrollContainer) {
+  //             // Calculamos la posición del elemento relativa al contenedor de scroll
+  //             const targetPosition = targetElement.offsetTop - scrollContainer.offsetTop;
+
+  //             scrollContainer.scrollTo({
+  //                 top: targetPosition,
+  //                 behavior: 'smooth'
+  //             });
+  //         }
+  //     });
+  // });
+</script>
