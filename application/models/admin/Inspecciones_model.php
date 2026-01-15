@@ -96,6 +96,23 @@ class Inspecciones_model extends CI_Model
 
     //--------------------------------------------------------------
     // Update inspection
+    public function actualizar_contadores($id_inspeccion, $columna_sumar, $columna_restar = NULL)
+    {
+        // Si hay una columna para sumar
+        if ($columna_sumar) {
+            $this->db->set($columna_sumar, "$columna_sumar + 1", FALSE);
+        }
+
+        // Si hay una columna para restar (en caso de cambio de SI a NO o viceversa)
+        if ($columna_restar) {
+            $this->db->set($columna_restar, "$columna_restar - 1", FALSE);
+        }
+
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        return $this->db->update($this->table);
+    }
+
+    // Update inspection
     public function actualizar($id_inspeccion, $data)
     {
         $this->db->where('id_inspeccion', $id_inspeccion);
@@ -144,7 +161,7 @@ class Inspecciones_model extends CI_Model
 
     //--------------------------------------------------------------
     // List available statuses
-   /*  public function get_estados()
+    /*  public function get_estados()
     {
         return $this->db
             ->select('id_estado, nombre_estado, descripcion')

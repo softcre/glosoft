@@ -120,6 +120,15 @@ if (isset($trabajador) && $trabajador->estado_al_inspeccionar == 'AFILIADO') {
               <option value="0" <?= ($valor_guardado == '0') ? 'selected' : ''; ?>>NO</option>
             </select>
           </div>
+
+          <div class="col-md-4 mb-2">
+            <label for="permanente" class="form-label mb-0" title="Obligatorio">Personal Permanente <span class="text-danger" title="Obligatorio">*</span></label>
+            <select class="form-select" id="permanente" name="permanente">
+              <?php $valor_guardado = isset($trabajador) ? $trabajador->permanente : null; ?>
+              <option value="SI" <?= ($valor_guardado == 'SI') ? 'selected' : ''; ?>>SI</option>
+              <option value="NO" <?= ($valor_guardado == 'NO') ? 'selected' : ''; ?>>NO</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>

@@ -254,6 +254,7 @@ class Inspecciones_controller extends CI_Controller
         'cargo'             => $data_post['cargo'],
         'remuneracion'      => $data_post['remuneracion'],
         'alojado_en_predio' => $data_post['alojado_en_predio'],
+        'permanente'        => $data_post['permanente'],
         'inspeccion_id'     => $data_post['inspeccion_id']
       );
 
@@ -280,6 +281,9 @@ class Inspecciones_controller extends CI_Controller
         $trabajador['estado_al_inspeccionar'] = 'NO_AFILIADO';
         // Guarda registro de trabajador_encontrado
         $this->trabajadores->crear($trabajador);
+
+        $columna = ($trabajador['permanente'] == 'SI') ? 'cantidad_personal_perm' : 'cantidad_personal_trans';
+        $this->inspecciones->actualizar_contadores($data_post['inspeccion_id'], $columna);
         $msj = "Afiliación realizada correctamente";
       } else {
         // Actualizar datos de empleo del afiliado existente
@@ -288,6 +292,19 @@ class Inspecciones_controller extends CI_Controller
         }
 
         if ($data_post['trabajador_encontrado_id']) {
+          // 1. Obtener datos actuales para comparar
+          $antiguo = $this->trabajadores->get($data_post['trabajador_encontrado_id']);
+          $nuevo_estado = $trabajador['permanente']; // 'SI' o 'NO'
+          // 2. Solo si el estado cambió, actualizamos la tabla de inspección
+          if ($antiguo->permanente !== $nuevo_estado) {
+            if ($nuevo_estado == 'SI') {
+              // Cambió de NO a SI: Sumo a perm, resto a trans
+              $this->inspecciones->actualizar_contadores($data_post['inspeccion_id'], 'cantidad_personal_perm', 'cantidad_personal_trans');
+            } else {
+              // Cambió de SI a NO: Sumo a trans, resto a perm
+              $this->inspecciones->actualizar_contadores($data_post['inspeccion_id'], 'cantidad_personal_trans', 'cantidad_personal_perm');
+            }
+          }
           // Actualiza registro de trabajador_encontrado
           $this->trabajadores->actualizar($data_post['trabajador_encontrado_id'], $trabajador);
           $msj = "Datos del trabajador actualizados";
@@ -296,6 +313,9 @@ class Inspecciones_controller extends CI_Controller
           $trabajador['afiliacion_id'] = $afiliacion_existente->id_afiliacion;
           $trabajador['estado_al_inspeccionar'] = 'AFILIADO';
           $this->trabajadores->crear($trabajador);
+
+          $columna = ($trabajador['permanente'] == 'SI') ? 'cantidad_personal_perm' : 'cantidad_personal_trans';
+          $this->inspecciones->actualizar_contadores($data_post['inspeccion_id'], $columna);
           $msj = "Datos del trabajador registrados";
         }
       }
@@ -321,8 +341,8 @@ class Inspecciones_controller extends CI_Controller
       array('field' => 'ubicacion', 'label' => 'Ubicación', 'rules' => 'trim|required|max_length[200]'),
       array('field' => 'superficie_ha', 'label' => 'Superficie (ha)', 'rules' => 'trim|required|numeric|greater_than_equal_to[0]'),
       array('field' => 'validacion_trabajadores', 'label' => 'Trabajadores', 'rules' => 'callback_validar_trabajadores_cargados', 'errors' => array('validar_trabajadores_cargados' => 'Debe haber al menos un trabajador registrado en el Establecimiento.')),
-      array('field' => 'cantidad_personal_perm', 'label' => 'Cantidad personal permanentes', 'rules' => 'trim|required|integer|greater_than_equal_to[0]'),
-      array('field' => 'cantidad_personal_trans', 'label' => 'Cantidad personal transitorios', 'rules' => 'trim|required|integer|greater_than_equal_to[0]'),
+      // array('field' => 'cantidad_personal_perm', 'label' => 'Cantidad personal permanentes', 'rules' => 'trim|required|integer|greater_than_equal_to[0]'),
+      // array('field' => 'cantidad_personal_trans', 'label' => 'Cantidad personal transitorios', 'rules' => 'trim|required|integer|greater_than_equal_to[0]'),
     );
 
     // Obtener los datos del formulario
@@ -357,8 +377,8 @@ class Inspecciones_controller extends CI_Controller
         'actividad_principal'    => $data_post['actividad_principal'],
         'ubicacion'              => $data_post['ubicacion'],
         'superficie_ha'          => $data_post['superficie_ha'],
-        'cantidad_personal_perm' => $data_post['cantidad_personal_perm'],
-        'cantidad_personal_trans' => $data_post['cantidad_personal_trans'],
+        // 'cantidad_personal_perm' => $data_post['cantidad_personal_perm'],
+        // 'cantidad_personal_trans' => $data_post['cantidad_personal_trans'],
         'observaciones'          => $data_post['observaciones']
       );
 
@@ -416,6 +436,7 @@ class Inspecciones_controller extends CI_Controller
   private function getTrabajadores($inspeccion_id)
   {
     $data['trabajadores'] = $this->trabajadores->get_by_inspeccion($inspeccion_id);
+    $data['inspeccion'] = $this->inspecciones->get($inspeccion_id);
     return $this->load->view('admin/inspecciones/_tblTrabajadores', $data, TRUE);
   }
 

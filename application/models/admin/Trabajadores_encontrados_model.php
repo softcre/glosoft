@@ -52,7 +52,7 @@ class Trabajadores_encontrados_model extends CI_Model
 
     public function get_by_inspeccion_afiliacion($id_inspeccion, $id_afiliacion)
     {
-        $this->db->select('t.id_trabajador_encontrado, t.inspeccion_id, t.afiliacion_id, t.cargo, t.fecha_ingreso, t.remuneracion, t.alojado_en_predio, t.estado_al_inspeccionar, a.*');
+        $this->db->select('t.id_trabajador_encontrado, t.inspeccion_id, t.afiliacion_id, t.cargo, t.fecha_ingreso, t.remuneracion, t.alojado_en_predio, t.permanente, t.estado_al_inspeccionar, a.*');
         $this->db->from($this->table . ' t');
         $this->db->join($this->tableAfiliaciones . ' a', 't.afiliacion_id = a.id_afiliacion', 'left');
         $this->db->where('t.inspeccion_id', $id_inspeccion);
@@ -65,10 +65,8 @@ class Trabajadores_encontrados_model extends CI_Model
     // Obtener un trabajador por ID
     public function get($id_trabajador_encontrado)
     {
-        $this->db->select('t.*, i.fecha_inspeccion, i.lugar, a.numero_acta, a.fecha_acta');
+        $this->db->select('t.*');
         $this->db->from($this->table . ' t');
-        $this->db->join($this->tableInspecciones . ' i', 't.inspeccion_id = i.id_inspeccion', 'left');
-        $this->db->join($this->tableAfiliaciones . ' a', 't.afiliacion_id = a.id_afiliacion', 'left');
         $this->db->where('t.id_trabajador_encontrado', $id_trabajador_encontrado);
         return $this->db->get()->row();
     }

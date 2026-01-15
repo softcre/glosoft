@@ -1,4 +1,3 @@
-
 <div class="table-responsive">
   <table id="tblTrabajadores" class="table table-sm table-hover">
     <thead class="table-success">
@@ -41,4 +40,17 @@
       <?php endforeach; ?>
     </tbody>
   </table>
+</div>
+
+<hr>
+<div class="row">
+  <div class="col-md-6 mb-2">
+    <label for="cantidad_personal_perm" class="form-label mb-0">Cantidad personal permanentes</label>
+    <input type="number" class="form-control" id="cantidad_personal_perm" name="cantidad_personal_perm" placeholder="Ingrese total de permanentes" value="<?= isset($inspeccion) ? $inspeccion->cantidad_personal_perm : ''; ?>" disabled>
+  </div>
+
+  <div class="col-md-6 mb-2">
+    <label for="cantidad_personal_trans" class="form-label mb-0">Cantidad personal transitorios</label>
+    <input type="number" class="form-control" id="cantidad_personal_trans" name="cantidad_personal_trans" placeholder="Ingrese total de transitorios" value="<?= isset($inspeccion) ? $inspeccion->cantidad_personal_trans : ''; ?>" disabled>
+  </div>
 </div>

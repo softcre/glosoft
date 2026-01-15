@@ -61,11 +61,11 @@
     const container = document.getElementById('content-scroll-area');
     const tabs = document.querySelectorAll('#form-tabs .nav-link');
     const MARGEN_SUPERIOR = 15;
-    // Inicializar ScrollSpy primero
-    // const scrollSpyInstance = new bootstrap.ScrollSpy(container, {
-    //     target: '#form-tabs',
-    //     offset: MARGEN_SUPERIOR + 5 // Un offset pequeño para mayor precisión
-    // });
+    //Inicializar ScrollSpy primero
+    const scrollSpyInstance = new bootstrap.ScrollSpy(container, {
+        target: '#form-tabs',
+        offset: MARGEN_SUPERIOR + 5 // Un offset pequeño para mayor precisión
+    });
 
     tabs.forEach(tab => {
       tab.addEventListener('click', function(e) {

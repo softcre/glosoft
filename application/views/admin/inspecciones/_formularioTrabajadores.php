@@ -27,18 +27,5 @@
     <div id="trabajadores-main">
       <?php $this->load->view('admin/inspecciones/_tblTrabajadores'); ?>
     </div>
-
-    <hr>
-    <div class="row">
-      <div class="col-md-6 mb-2">
-        <label for="cantidad_personal_perm" class="form-label mb-0">Cantidad personal permanentes</label>
-        <input type="number" class="form-control" id="cantidad_personal_perm" name="cantidad_personal_perm" placeholder="Ingrese total de permanentes" value="<?= isset($inspeccion) ? $inspeccion->cantidad_personal_perm : ''; ?>">
-      </div>
-
-      <div class="col-md-6 mb-2">
-        <label for="cantidad_personal_trans" class="form-label mb-0">Cantidad personal transitorios</label>
-        <input type="number" class="form-control" id="cantidad_personal_trans" name="cantidad_personal_trans" placeholder="Ingrese total de transitorios" value="<?= isset($inspeccion) ? $inspeccion->cantidad_personal_trans : ''; ?>">
-      </div>
-    </div>
   </div>
 </div>
