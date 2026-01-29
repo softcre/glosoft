@@ -389,9 +389,11 @@ class Inspecciones_controller extends CI_Controller
           // Actualizacion de expediente
           $expediente['estado_id'] = 2; // 2=>VERIFICACION
           $this->expedientes->actualizar($data_post['id_expediente'], $expediente); // 2=>VERIFICACION
+          $data['url'] = base_url(INSPECCIONES_PATH);
+        } else {
+          $this->load->library('user_agent');
+          $data['url'] = $this->agent->referrer();
         }
-
-        $data['url'] = base_url(INSPECCIONES_PATH);
 
         return $this->response->ok('Inspeccion actualizada!', $data);
       } else {
