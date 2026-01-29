@@ -32,7 +32,7 @@
         <div class="card-header bg-primary text-white">
           <h3 class="card-title mb-0">Listado de Verificadores</h3>
         </div>
-        <div id="inspectores-main" class="card-body">
+        <div id="verificadores-main" class="card-body">
           <?php $this->load->view(VERIFICADORES_PATH . '/_tblVerificadores'); ?>
         </div>
       </div>

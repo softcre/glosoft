@@ -199,7 +199,7 @@ class Verificador_controller extends CI_Controller
       if ($resp) {
         //$id_director_salvado = $this->db->insert_id();
        // $data['url'] = base_url(MEDICOS_ADMIN_PATH);
-       $data['selector'] = 'verificadores';
+       $data['selector'] = 'Verificadores';
        $data['view'] = $this->getVerificadores();
 
         return $this->response->ok('Verificador actualizado!', $data);

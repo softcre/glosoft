@@ -81,7 +81,7 @@ class Index_controller extends CI_Controller {
 				$this->session->set_userdata($dataUser); // cargo los datos del usuario que ingresó
         
         if ($user->usuario_tipo_id == 2) {//ADMIN
-          $data['url'] = base_url(DASHBOARD_PATH);
+          $data['url'] = base_url(EXPEDIENTES_PATH);
         } 
         if ($user->usuario_tipo_id == 3) { // INSPECCTOR
           //$data['url'] = base_url(DASHBOARD_PATH);

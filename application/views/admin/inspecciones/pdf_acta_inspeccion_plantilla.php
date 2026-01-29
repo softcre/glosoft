@@ -60,7 +60,7 @@
   <tr><td class="section-title" colspan="2">DATOS DEL EMPLEADOR</td></tr>
   <tr>
     <td><strong>Razón Social / Nombre:</strong><br><?= $inspeccion->establecimiento_nombre; ?></td>
-    <td><strong>C.U.I.L / C.U.I.T (si existiera):</strong><br><?= $inspeccion->empleador_id; ?></td>
+    <td><strong>C.U.I.L / C.U.I.T (si existiera):</strong><br><?= $inspeccion->cuit; ?></td>
   </tr>
 </table>
 
